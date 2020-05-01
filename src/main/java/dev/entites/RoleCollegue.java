@@ -1,6 +1,8 @@
-package dev.domain;
+package dev.entites;
 
 import javax.persistence.*;
+
+import dev.entites.utiles.Role;
 
 @Entity
 public class RoleCollegue {
@@ -15,6 +17,7 @@ public class RoleCollegue {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+    
 
     public RoleCollegue() {
     }

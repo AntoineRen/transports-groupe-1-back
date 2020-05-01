@@ -1,11 +1,11 @@
 package dev.controller.vm;
 
-import dev.domain.Collegue;
-import dev.domain.Role;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import dev.entites.Collegue;
+import dev.entites.utiles.Role;
 
 /**
  * Structure modèlisant un collègue servant à communiquer avec l'extérieur (WEB API).

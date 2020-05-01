@@ -100,6 +100,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // en cas de succès un OK est envoyé (à la place d'une redirection vers /login)
                 .logoutSuccessHandler((req, resp, auth) -> resp.setStatus(HttpServletResponse.SC_OK))
                 // suppression du cookie d'authentification
-                .deleteCookies(TOKEN_COOKIE);
+                .deleteCookies(TOKEN_COOKIE).and().headers().frameOptions().disable();
     }
 }
