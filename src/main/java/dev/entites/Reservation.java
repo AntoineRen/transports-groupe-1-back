@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.sun.xml.bind.v2.TODO;
 
@@ -33,6 +34,8 @@ public class Reservation {
 	private List<Collegue> listPassagers;
 	@Enumerated(EnumType.STRING)
 	private StatutReservation statut;
+	@ManyToOne
+	private Vehicule vehicule;
 
 	/**
 	 * Constructeur
@@ -154,14 +157,18 @@ public class Reservation {
 		this.listPassagers = listPassagers;
 	}
 
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the statut
 	 */
 	public StatutReservation getStatut() {
 		return statut;
 	}
 
-	/**Setter
+	/**
+	 * Setter
+	 * 
 	 * @param statut the statut to set
 	 */
 	public void setStatut(StatutReservation statut) {

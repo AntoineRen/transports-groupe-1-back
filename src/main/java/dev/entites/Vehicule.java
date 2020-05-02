@@ -37,12 +37,19 @@ public class Vehicule {
 	private Boolean proprietaireSociete;
 	@OneToMany
 	private List<Reservation> listReservations;
-	/**Constructeur
+
+
+
+	/**
+	 * Constructeur
 	 * 
 	 */
 	public Vehicule() {
 	}
-	/**Constructeur
+
+	/**
+	 * Constructeur
+	 * 
 	 * @param id
 	 * @param immatriculation
 	 * @param marque
@@ -66,115 +73,167 @@ public class Vehicule {
 		this.proprietaireSociete = proprietaireSociete;
 		this.listReservations = listReservations;
 	}
-	/** Getter
+
+	/**
+	 * Getter
+	 * 
 	 * @return the id
 	 */
 	public Long getId() {
 		return id;
 	}
-	/** Getter
+
+	/**
+	 * Getter
+	 * 
 	 * @return the immatriculation
 	 */
 	public String getImmatriculation() {
 		return immatriculation;
 	}
-	/** Getter
+
+	/**
+	 * Getter
+	 * 
 	 * @return the marque
 	 */
 	public String getMarque() {
 		return marque;
 	}
-	/** Getter
+
+	/**
+	 * Getter
+	 * 
 	 * @return the modele
 	 */
 	public String getModele() {
 		return modele;
 	}
-	/** Getter
+
+	/**
+	 * Getter
+	 * 
 	 * @return the categorie
 	 */
 	public Categorie getCategorie() {
 		return categorie;
 	}
-	/** Getter
+
+	/**
+	 * Getter
+	 * 
 	 * @return the nbPlace
 	 */
 	public Integer getNbPlace() {
 		return nbPlace;
 	}
-	/** Getter
+
+	/**
+	 * Getter
+	 * 
 	 * @return the statut
 	 */
 	public StatutVehicule getStatut() {
 		return statut;
 	}
-	/** Getter
+
+	/**
+	 * Getter
+	 * 
 	 * @return the proprietaireSociete
 	 */
 	public Boolean getProprietaireSociete() {
 		return proprietaireSociete;
 	}
-	/** Getter
+
+	/**
+	 * Getter
+	 * 
 	 * @return the listReservations
 	 */
 	public List<Reservation> getListReservations() {
 		return listReservations;
 	}
-	/**Setter
+
+	/**
+	 * Setter
+	 * 
 	 * @param id the id to set
 	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
-	/**Setter
+
+	/**
+	 * Setter
+	 * 
 	 * @param immatriculation the immatriculation to set
 	 */
 	public void setImmatriculation(String immatriculation) {
 		this.immatriculation = immatriculation;
 	}
-	/**Setter
+
+	/**
+	 * Setter
+	 * 
 	 * @param marque the marque to set
 	 */
 	public void setMarque(String marque) {
 		this.marque = marque;
 	}
-	/**Setter
+
+	/**
+	 * Setter
+	 * 
 	 * @param modele the modele to set
 	 */
 	public void setModele(String modele) {
 		this.modele = modele;
 	}
-	/**Setter
+
+	/**
+	 * Setter
+	 * 
 	 * @param categorie the categorie to set
 	 */
 	public void setCategorie(Categorie categorie) {
 		this.categorie = categorie;
 	}
-	/**Setter
+
+	/**
+	 * Setter
+	 * 
 	 * @param nbPlace the nbPlace to set
 	 */
 	public void setNbPlace(Integer nbPlace) {
 		this.nbPlace = nbPlace;
 	}
-	/**Setter
+
+	/**
+	 * Setter
+	 * 
 	 * @param statut the statut to set
 	 */
 	public void setStatut(StatutVehicule statut) {
 		this.statut = statut;
 	}
-	/**Setter
+
+	/**
+	 * Setter
+	 * 
 	 * @param proprietaireSociete the proprietaireSociete to set
 	 */
 	public void setProprietaireSociete(Boolean proprietaireSociete) {
 		this.proprietaireSociete = proprietaireSociete;
 	}
-	/**Setter
+
+	/**
+	 * Setter
+	 * 
 	 * @param listReservations the listReservations to set
 	 */
 	public void setListReservations(List<Reservation> listReservations) {
 		this.listReservations = listReservations;
 	}
-	
-	
-	
+
 }
