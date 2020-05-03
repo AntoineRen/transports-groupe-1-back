@@ -1,5 +1,6 @@
 package dev.entites;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -8,8 +9,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import dev.entites.utiles.Categorie;
@@ -37,8 +36,6 @@ public class Vehicule {
 	private Boolean proprietaireSociete;
 	@OneToMany
 	private List<Reservation> listReservations;
-
-
 
 	/**
 	 * Constructeur
@@ -72,6 +69,31 @@ public class Vehicule {
 		this.statut = statut;
 		this.proprietaireSociete = proprietaireSociete;
 		this.listReservations = listReservations;
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @param immatriculation
+	 * @param marque
+	 * @param modele
+	 * @param categorie
+	 * @param nbPlace
+	 * @param statut
+	 * @param proprietaireSociete
+	 * @param listReservations
+	 */
+	public Vehicule(String immatriculation, String marque, String modele, Categorie categorie, Integer nbPlace,
+			StatutVehicule statut, Boolean proprietaireSociete) {
+		super();
+		this.immatriculation = immatriculation;
+		this.marque = marque;
+		this.modele = modele;
+		this.categorie = categorie;
+		this.nbPlace = nbPlace;
+		this.statut = statut;
+		this.proprietaireSociete = proprietaireSociete;
+		this.listReservations = new ArrayList<>();
 	}
 
 	/**

@@ -1,7 +1,15 @@
 package dev.entites;
 
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Collegue {
@@ -21,8 +29,8 @@ public class Collegue {
 	private String matricule;
 
 	private String numTelephone;
-
-	@OneToMany(mappedBy = "collegue", cascade = CascadeType.PERSIST)
+	// @OneToMany(mappedBy = "collegue", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "collegue", fetch = FetchType.LAZY)
 	private List<RoleCollegue> roles;
 
 	/**
@@ -82,6 +90,34 @@ public class Collegue {
 		this.listReservationP = listReservationP;
 		this.listReservationC = listReservationC;
 		this.listReservationRA = listReservationRA;
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @param nom
+	 * @param prenom
+	 * @param email
+	 * @param motDePasse
+	 * @param matricule
+	 * @param numTelephone
+	 * @param roles
+	 * @param listReservationP
+	 * @param listReservationC
+	 * @param listReservationRA
+	 */
+	public Collegue(String nom, String prenom, String email, String motDePasse, String matricule, String numTelephone) {
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.motDePasse = motDePasse;
+		this.matricule = matricule;
+		this.numTelephone = numTelephone;
+		this.roles = new ArrayList<>();
+		this.listReservationP = new ArrayList<>();
+		this.listReservationC = new ArrayList<>();
+		this.listReservationRA = new ArrayList<>();
 	}
 
 	/**
