@@ -1,6 +1,6 @@
 package dev.entites;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Embedded;
@@ -12,18 +12,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import com.sun.xml.bind.v2.TODO;
 
-import dev.entites.utiles.Role;
 import dev.entites.utiles.StatutReservation;
 
 @Entity
 public class Reservation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	@Embedded
 	private Itineraire itineraire;
 	@ManyToOne
@@ -57,7 +55,7 @@ public class Reservation {
 	 *                      {@link TODO} Verifier si possible d'instancier sans
 	 *                      chauffeur
 	 */
-	public Reservation(Long id, Itineraire itineraire, Collegue responsable, Collegue chauffeur,
+	public Reservation(Integer id, Itineraire itineraire, Collegue responsable, Collegue chauffeur,
 			List<Collegue> listPassagers, StatutReservation statut) {
 		this.id = id;
 		this.itineraire = itineraire;
@@ -68,11 +66,31 @@ public class Reservation {
 	}
 
 	/**
+	 * Constructor
+	 *
+	 * @param itineraire
+	 * @param responsable
+	 * @param chauffeur
+	 * @param listPassagers
+	 * @param statut
+	 * @param vehicule
+	 */
+	public Reservation(Itineraire itineraire, Collegue responsable, Collegue chauffeur, StatutReservation statut,
+			Vehicule vehicule) {
+		this.itineraire = itineraire;
+		this.responsable = responsable;
+		this.chauffeur = chauffeur;
+		this.listPassagers = new ArrayList<>();
+		this.statut = statut;
+		this.vehicule = vehicule;
+	}
+
+	/**
 	 * Getter
 	 * 
 	 * @return the id
 	 */
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -117,7 +135,7 @@ public class Reservation {
 	 * 
 	 * @param id the id to set
 	 */
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

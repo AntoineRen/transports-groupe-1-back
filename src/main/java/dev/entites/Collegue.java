@@ -16,7 +16,7 @@ public class Collegue {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long id; // TODO Long ????
 
 	private String nom;
 

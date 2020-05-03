@@ -8,4 +8,4 @@ insert into vehicule(immatriculation, marque, modele, categorie, nb_place, statu
 
 /*Reservation*/
 
-insert into reservation(date_depart, date_arrivee, lieu_depart, lieu_destination, duree_trajet, distance, responsable_id, chauffeur_id, statut, vehicule_id) values (null, null, 'Rennes', 'Nantes', '5000', '120.0', 1, null,'EN_COURS', 1)
+insert into reservation(date_depart, date_arrivee, lieu_depart, lieu_destination, duree_trajet, distance, responsable_id, chauffeur_id, statut, vehicule_id) values (null, null, 'Rennes', 'Nantes', '5000', '120.0', 1, null,'STATUT_EN_COURS', 1)

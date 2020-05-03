@@ -19,7 +19,7 @@ public class Vehicule {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 
 	private String immatriculation;
 	private String marque;
@@ -57,8 +57,8 @@ public class Vehicule {
 	 * @param proprietaireSociete
 	 * @param listReservations
 	 */
-	public Vehicule(Long id, String immatriculation, String marque, String modele, Categorie categorie, Integer nbPlace,
-			StatutVehicule statut, Boolean proprietaireSociete, List<Reservation> listReservations) {
+	public Vehicule(Integer id, String immatriculation, String marque, String modele, Categorie categorie,
+			Integer nbPlace, StatutVehicule statut, Boolean proprietaireSociete, List<Reservation> listReservations) {
 		super();
 		this.id = id;
 		this.immatriculation = immatriculation;
@@ -101,7 +101,7 @@ public class Vehicule {
 	 * 
 	 * @return the id
 	 */
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -182,7 +182,7 @@ public class Vehicule {
 	 * 
 	 * @param id the id to set
 	 */
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
