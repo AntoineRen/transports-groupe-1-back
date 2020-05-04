@@ -1,14 +1,24 @@
 package dev.entites;
 
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Collegue {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long id; // TODO Long ????
 
 	private String nom;
 
@@ -22,27 +32,9 @@ public class Collegue {
 
 	private String numTelephone;
 
-	@OneToMany(mappedBy = "collegue", cascade = CascadeType.PERSIST)
+	@JsonManagedReference
+	@OneToMany(mappedBy = "collegue", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private List<RoleCollegue> roles;
-
-	/**
-	 * listReservationP : Represente les reservations d'un collegue etant passager
-	 */
-	@ManyToMany
-	private List<Reservation> listReservationP;
-
-	/**
-	 * listReservationC : Represente les reservations d'un collegue etant chauffeur
-	 */
-	@OneToMany
-	private List<Reservation> listReservationC;
-
-	/**
-	 * listReservationRa : Represente les reservations d'un collegue etant
-	 * Responsable d'annonce
-	 */
-	@OneToMany
-	private List<Reservation> listReservationRA;
 
 	/**
 	 * Constructeur
@@ -68,8 +60,7 @@ public class Collegue {
 	 * @param listReservationRA
 	 */
 	public Collegue(Long id, String nom, String prenom, String email, String motDePasse, String matricule,
-			String numTelephone, List<RoleCollegue> roles, List<Reservation> listReservationP,
-			List<Reservation> listReservationC, List<Reservation> listReservationRA) {
+			String numTelephone, List<RoleCollegue> roles) {
 
 		this.id = id;
 		this.nom = nom;
@@ -79,9 +70,31 @@ public class Collegue {
 		this.matricule = matricule;
 		this.numTelephone = numTelephone;
 		this.roles = roles;
-		this.listReservationP = listReservationP;
-		this.listReservationC = listReservationC;
-		this.listReservationRA = listReservationRA;
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @param nom
+	 * @param prenom
+	 * @param email
+	 * @param motDePasse
+	 * @param matricule
+	 * @param numTelephone
+	 * @param roles
+	 * @param listReservationP
+	 * @param listReservationC
+	 * @param listReservationRA
+	 */
+	public Collegue(String nom, String prenom, String email, String motDePasse, String matricule, String numTelephone) {
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.motDePasse = motDePasse;
+		this.matricule = matricule;
+		this.numTelephone = numTelephone;
+		this.roles = new ArrayList<>();
 	}
 
 	/**
@@ -157,33 +170,6 @@ public class Collegue {
 	}
 
 	/**
-	 * Getter
-	 * 
-	 * @return the listReservationP
-	 */
-	public List<Reservation> getListReservationP() {
-		return listReservationP;
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return the listReservationC
-	 */
-	public List<Reservation> getListReservationC() {
-		return listReservationC;
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return the listReservationRA
-	 */
-	public List<Reservation> getListReservationRA() {
-		return listReservationRA;
-	}
-
-	/**
 	 * Setter
 	 * 
 	 * @param id the id to set
@@ -253,33 +239,6 @@ public class Collegue {
 	 */
 	public void setRoles(List<RoleCollegue> roles) {
 		this.roles = roles;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param listReservationP the listReservationP to set
-	 */
-	public void setListReservationP(List<Reservation> listReservationP) {
-		this.listReservationP = listReservationP;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param listReservationC the listReservationC to set
-	 */
-	public void setListReservationC(List<Reservation> listReservationC) {
-		this.listReservationC = listReservationC;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param listReservationRA the listReservationRA to set
-	 */
-	public void setListReservationRA(List<Reservation> listReservationRA) {
-		this.listReservationRA = listReservationRA;
 	}
 
 }
