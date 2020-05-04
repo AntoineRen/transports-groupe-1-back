@@ -36,7 +36,7 @@ public class CollegueService {
 	public Collegue postCollegue(CollegueDto collegueDto) {
 
 		Collegue collegue = new Collegue(collegueDto.getNom(), collegueDto.getPrenom(), collegueDto.getEmail(),
-				passwordEncoder.encode(collegueDto.getMotDePasse()), collegueDto.getMatricule(),
+				passwordEncoder.encode(collegueDto.getMotDePasse()),
 				collegueDto.getNumTelephone());
 
 		this.collegueRepository.save(collegue);

@@ -12,11 +12,12 @@ import org.springframework.stereotype.Service;
 import dev.entites.Collegue;
 import dev.entites.Itineraire;
 import dev.entites.Reservation;
-import dev.entites.Vehicule;
+import dev.entites.VehiculeSociete;
 import dev.entites.dto.ReservationDto;
 import dev.entites.utiles.StatutReservation;
 import dev.repository.CollegueRepository;
 import dev.repository.ReservationRepository;
+import dev.repository.VehiculeRepository;
 
 @Service
 public class ReservationService {
@@ -43,7 +44,6 @@ public class ReservationService {
 	}
 
 	@Transactional
-	@Transient
 	public Reservation postReservation(@Valid ReservationDto reservationDto) {
 
 		Reservation reservation = null;
@@ -55,7 +55,7 @@ public class ReservationService {
 		// find collegue en tant que responsable
 		Optional<Collegue> responsable = this.collegueRepository.findById(reservationDto.getResponsable_id());
 		// find vehicule
-		Optional<Vehicule> vehicule = this.vehiculeRepository.findById(reservationDto.getVehicule_id());
+		Optional<VehiculeSociete> vehicule = this.vehiculeRepository.findById(reservationDto.getVehicule_id());
 
 		// si responsable + vehicule
 		if (responsable.isPresent() && vehicule.isPresent()) {
@@ -64,7 +64,7 @@ public class ReservationService {
 					vehicule.get());
 
 		} else {
-			if (responsable.isEmpty()) {
+			if (!responsable.isPresent()) {
 				throw new RuntimeException(); // TODO creer exception responsable non trouvé
 			} else {
 				throw new RuntimeException(); // TODO creer exception vehicule non trouvé

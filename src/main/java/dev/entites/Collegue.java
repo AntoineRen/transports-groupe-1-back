@@ -14,11 +14,7 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-public class Collegue {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id; // TODO Long ????
+public class Collegue extends BaseEntite {
 
 	private String nom;
 
@@ -27,8 +23,6 @@ public class Collegue {
 	private String email;
 
 	private String motDePasse;
-
-	private String matricule;
 
 	private String numTelephone;
 
@@ -59,15 +53,13 @@ public class Collegue {
 	 * @param listReservationC
 	 * @param listReservationRA
 	 */
-	public Collegue(Long id, String nom, String prenom, String email, String motDePasse, String matricule,
+	public Collegue( String nom, String prenom, String email, String motDePasse,
 			String numTelephone, List<RoleCollegue> roles) {
-
-		this.id = id;
+		super();
 		this.nom = nom;
 		this.prenom = prenom;
 		this.email = email;
 		this.motDePasse = motDePasse;
-		this.matricule = matricule;
 		this.numTelephone = numTelephone;
 		this.roles = roles;
 	}
@@ -86,25 +78,17 @@ public class Collegue {
 	 * @param listReservationC
 	 * @param listReservationRA
 	 */
-	public Collegue(String nom, String prenom, String email, String motDePasse, String matricule, String numTelephone) {
+	public Collegue(String nom, String prenom, String email, String motDePasse, String numTelephone) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
 		this.email = email;
 		this.motDePasse = motDePasse;
-		this.matricule = matricule;
 		this.numTelephone = numTelephone;
 		this.roles = new ArrayList<>();
 	}
 
-	/**
-	 * Getter
-	 * 
-	 * @return the id
-	 */
-	public Long getId() {
-		return id;
-	}
+
 
 	/**
 	 * Getter
@@ -142,14 +126,7 @@ public class Collegue {
 		return motDePasse;
 	}
 
-	/**
-	 * Getter
-	 * 
-	 * @return the matricule
-	 */
-	public String getMatricule() {
-		return matricule;
-	}
+
 
 	/**
 	 * Getter
@@ -167,15 +144,6 @@ public class Collegue {
 	 */
 	public List<RoleCollegue> getRoles() {
 		return roles;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param id the id to set
-	 */
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	/**
@@ -212,15 +180,6 @@ public class Collegue {
 	 */
 	public void setMotDePasse(String motDePasse) {
 		this.motDePasse = motDePasse;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param matricule the matricule to set
-	 */
-	public void setMatricule(String matricule) {
-		this.matricule = matricule;
 	}
 
 	/**

@@ -7,10 +7,11 @@ import javax.validation.Valid;
 
 import org.springframework.stereotype.Service;
 
-import dev.entites.Vehicule;
-import dev.entites.dto.VehiculeDto;
+import dev.entites.VehiculeSociete;
+import dev.entites.dto.VehiculeSocieteDto;
 import dev.entites.utiles.Categorie;
-import dev.entites.utiles.StatutVehicule;
+import dev.entites.utiles.StatutVehiculeSociete;
+import dev.repository.VehiculeRepository;
 
 @Service
 public class VehiculeService {
@@ -26,19 +27,19 @@ public class VehiculeService {
 		this.vehiculeRepository = vehiculeRepository;
 	}
 
-	public List<Vehicule> getAllVehicules() {
+	public List<VehiculeSociete> getAllVehicules() {
 
 		return this.vehiculeRepository.findAll();
 	}
 
 	@Transactional
-	public Vehicule postVehicule(@Valid VehiculeDto vehiculeDto) {
+	public VehiculeSociete postVehicule(@Valid VehiculeSocieteDto vehiculeDto) {
 
 		// TODO verification doublons
 
-		Vehicule vehicule = new Vehicule(vehiculeDto.getImmatriculation(), vehiculeDto.getMarque(),
+		VehiculeSociete vehicule = new VehiculeSociete(vehiculeDto.getImmatriculation(), vehiculeDto.getMarque(),
 				vehiculeDto.getModele(), Categorie.valueOf(vehiculeDto.getCategorie()), vehiculeDto.getNbPlace(),
-				StatutVehicule.EN_SERVICE, true);
+				StatutVehiculeSociete.EN_SERVICE);
 
 		this.vehiculeRepository.save(vehicule);
 

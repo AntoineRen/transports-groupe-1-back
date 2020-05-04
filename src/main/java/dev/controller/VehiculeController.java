@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.entites.Vehicule;
-import dev.entites.dto.VehiculeDto;
+import dev.entites.VehiculeSociete;
+import dev.entites.dto.VehiculeSocieteDto;
 import dev.service.VehiculeService;
 
 @RestController
@@ -31,13 +31,13 @@ public class VehiculeController {
 	}
 
 	@GetMapping
-	public List<Vehicule> getAllVehicules() {
+	public List<VehiculeSociete> getAllVehicules() {
 
 		return this.vehiculeService.getAllVehicules();
 	}
 
 	@PostMapping
-	public Vehicule postVehicule(@RequestBody @Valid VehiculeDto vehiculeDto) {
+	public VehiculeSociete postVehicule(@RequestBody @Valid VehiculeSocieteDto vehiculeDto) {
 
 		return this.vehiculeService.postVehicule(vehiculeDto);
 	}

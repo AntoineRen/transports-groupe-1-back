@@ -2,7 +2,9 @@ package dev.entites;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -18,22 +21,21 @@ import com.sun.xml.bind.v2.TODO;
 import dev.entites.utiles.StatutReservation;
 
 @Entity
-public class Reservation {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+public class Reservation extends BaseEntite {
+
 	@Embedded
 	private Itineraire itineraire;
 	@ManyToOne
+	@JoinColumn(name = "RESPONSABLE")
 	private Collegue responsable;
 	@ManyToOne
+	@JoinColumn(name = "CHAUFFEUR")
 	private Collegue chauffeur;
-	@ManyToMany
-	private List<Collegue> listPassagers;
 	@Enumerated(EnumType.STRING)
 	private StatutReservation statut;
 	@ManyToOne
-	private Vehicule vehicule;
+	@JoinColumn(name = "VEHICULE")
+	private VehiculeSociete vehicule;
 
 	/**
 	 * Constructeur
@@ -49,19 +51,18 @@ public class Reservation {
 	 * @param id
 	 * @param itineraire
 	 * @param responsable
-	 * @param chauffeur
+	 * @param chauffeurId
 	 * @param listPassagers
 	 * 
 	 *                      {@link TODO} Verifier si possible d'instancier sans
-	 *                      chauffeur
+	 *                      chauffeurId
 	 */
-	public Reservation(Integer id, Itineraire itineraire, Collegue responsable, Collegue chauffeur,
-			List<Collegue> listPassagers, StatutReservation statut) {
-		this.id = id;
+	public Reservation(Itineraire itineraire, Collegue responsable, Collegue chauffeur, List<Collegue> listPassagers,
+			StatutReservation statut) {
+		super();
 		this.itineraire = itineraire;
 		this.responsable = responsable;
 		this.chauffeur = chauffeur;
-		this.listPassagers = listPassagers;
 		this.statut = statut;
 	}
 
@@ -70,28 +71,19 @@ public class Reservation {
 	 *
 	 * @param itineraire
 	 * @param responsable
-	 * @param chauffeur
+	 * @param chauffeurId
 	 * @param listPassagers
 	 * @param statut
-	 * @param vehicule
+	 * @param vehiculeId
 	 */
 	public Reservation(Itineraire itineraire, Collegue responsable, Collegue chauffeur, StatutReservation statut,
-			Vehicule vehicule) {
+			VehiculeSociete vehicule) {
+		super();
 		this.itineraire = itineraire;
 		this.responsable = responsable;
 		this.chauffeur = chauffeur;
-		this.listPassagers = new ArrayList<>();
 		this.statut = statut;
 		this.vehicule = vehicule;
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return the id
-	 */
-	public Integer getId() {
-		return id;
 	}
 
 	/**
@@ -115,29 +107,13 @@ public class Reservation {
 	/**
 	 * Getter
 	 * 
-	 * @return the chauffeur
+	 * @return the chauffeurId
 	 */
-	public Collegue getChauffeur() {
+	public Collegue getChauffeurId() {
 		return chauffeur;
 	}
 
-	/**
-	 * Getter
-	 * 
-	 * @return the listPassagers
-	 */
-	public List<Collegue> getListPassagers() {
-		return listPassagers;
-	}
 
-	/**
-	 * Setter
-	 * 
-	 * @param id the id to set
-	 */
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	/**
 	 * Setter
@@ -160,20 +136,12 @@ public class Reservation {
 	/**
 	 * Setter
 	 * 
-	 * @param chauffeur the chauffeur to set
+	 * @param chauffeurId the chauffeurId to set
 	 */
-	public void setChauffeur(Collegue chauffeur) {
+	public void setChauffeurId(Collegue chauffeur) {
 		this.chauffeur = chauffeur;
 	}
 
-	/**
-	 * Setter
-	 * 
-	 * @param listPassagers the listPassagers to set
-	 */
-	public void setListPassagers(List<Collegue> listPassagers) {
-		this.listPassagers = listPassagers;
-	}
 
 	/**
 	 * Getter

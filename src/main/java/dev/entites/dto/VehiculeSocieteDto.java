@@ -3,7 +3,7 @@ package dev.entites.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class VehiculeDto {
+public class VehiculeSocieteDto {
 
 	@NotBlank
 	private String immatriculation;
@@ -25,7 +25,7 @@ public class VehiculeDto {
 	 * @param categorie
 	 * @param nbPlace
 	 */
-	public VehiculeDto(@NotBlank String immatriculation, @NotBlank String marque, @NotBlank String modele,
+	public VehiculeSocieteDto(@NotBlank String immatriculation, @NotBlank String marque, @NotBlank String modele,
 			@NotBlank String categorie, @NotNull Integer nbPlace) {
 		super();
 		this.immatriculation = immatriculation;

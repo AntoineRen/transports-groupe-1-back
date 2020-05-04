@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class Itineraire {
+public class Itineraire{
 
 	private LocalDateTime dateDepart;
 	private LocalDateTime dateArrivee;

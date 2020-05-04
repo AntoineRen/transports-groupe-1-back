@@ -8,14 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import dev.entites.utiles.Categorie;
-import dev.entites.utiles.StatutVehicule;
+import dev.entites.utiles.StatutVehiculeSociete;
 
 @Entity
-public class Vehicule {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+public class VehiculeSociete extends BaseEntite {
 
 	private String immatriculation;
 	private String marque;
@@ -24,43 +20,13 @@ public class Vehicule {
 	private Categorie categorie;
 	private Integer nbPlace;
 	@Enumerated(EnumType.STRING)
-	private StatutVehicule statut;
-	/**
-	 * proprietaireSociete : Boolean pour indiquer si le vehicule appartient a la
-	 * sociéte, en opposition à vehicule personnel
-	 */
-	private Boolean estUnVehiculeDeSociete;
+	private StatutVehiculeSociete statut;
 
 	/**
 	 * Constructeur
 	 * 
 	 */
-	public Vehicule() {
-	}
-
-	/**
-	 * Constructeur
-	 * 
-	 * @param id
-	 * @param immatriculation
-	 * @param marque
-	 * @param modele
-	 * @param categorie
-	 * @param nbPlace
-	 * @param statut
-	 * @param proprietaireSociete
-	 * @param listReservations
-	 */
-	public Vehicule(Integer id, String immatriculation, String marque, String modele, Categorie categorie,
-			Integer nbPlace, StatutVehicule statut, Boolean estUnVehiculeDeSociete) {
-		this.id = id;
-		this.immatriculation = immatriculation;
-		this.marque = marque;
-		this.modele = modele;
-		this.categorie = categorie;
-		this.nbPlace = nbPlace;
-		this.statut = statut;
-		this.estUnVehiculeDeSociete = estUnVehiculeDeSociete;
+	public VehiculeSociete() {
 	}
 
 	/**
@@ -75,8 +41,8 @@ public class Vehicule {
 	 * @param proprietaireSociete
 	 * @param listReservations
 	 */
-	public Vehicule(String immatriculation, String marque, String modele, Categorie categorie, Integer nbPlace,
-			StatutVehicule statut, Boolean estUnVehiculeDeSociete) {
+	public VehiculeSociete(String immatriculation, String marque, String modele, Categorie categorie, Integer nbPlace,
+			StatutVehiculeSociete statut) {
 		super();
 		this.immatriculation = immatriculation;
 		this.marque = marque;
@@ -84,16 +50,6 @@ public class Vehicule {
 		this.categorie = categorie;
 		this.nbPlace = nbPlace;
 		this.statut = statut;
-		this.estUnVehiculeDeSociete = estUnVehiculeDeSociete;
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return the id
-	 */
-	public Integer getId() {
-		return id;
 	}
 
 	/**
@@ -146,26 +102,8 @@ public class Vehicule {
 	 * 
 	 * @return the statut
 	 */
-	public StatutVehicule getStatut() {
+	public StatutVehiculeSociete getStatut() {
 		return statut;
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return the proprietaireSociete
-	 */
-	public Boolean getEstUnVehiculeDeSociete() {
-		return estUnVehiculeDeSociete;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param id the id to set
-	 */
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	/**
@@ -218,17 +156,8 @@ public class Vehicule {
 	 * 
 	 * @param statut the statut to set
 	 */
-	public void setStatut(StatutVehicule statut) {
+	public void setStatut(StatutVehiculeSociete statut) {
 		this.statut = statut;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param proprietaireSociete the proprietaireSociete to set
-	 */
-	public void setProprietaireSociete(Boolean proprietaireSociete) {
-		this.estUnVehiculeDeSociete = proprietaireSociete;
 	}
 
 }

@@ -13,8 +13,6 @@ public class CollegueDto {
 	@NotBlank
 	private String motDePasse;
 	@NotBlank
-	private String matricule;
-	@NotBlank
 	private String numTelephone;
 
 	/**
@@ -27,13 +25,12 @@ public class CollegueDto {
 	 * @param matricule
 	 * @param numTelephone
 	 */
-	public CollegueDto(String nom, String prenom, String email, String motDePasse, String matricule,
+	public CollegueDto(String nom, String prenom, String email, String motDePasse,
 			String numTelephone) {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.email = email;
 		this.motDePasse = motDePasse;
-		this.matricule = matricule;
 		this.numTelephone = numTelephone;
 	}
 
@@ -109,23 +106,6 @@ public class CollegueDto {
 		this.motDePasse = motDePasse;
 	}
 
-	/**
-	 * Getter
-	 *
-	 * @return the matricule
-	 */
-	public String getMatricule() {
-		return matricule;
-	}
-
-	/**
-	 * Setter
-	 *
-	 * @param matricule the matricule to set
-	 */
-	public void setMatricule(String matricule) {
-		this.matricule = matricule;
-	}
 
 	/**
 	 * Getter
