@@ -1,24 +1,33 @@
 package dev.entites;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import java.util.UUID;
 
 @MappedSuperclass
 public abstract class BaseEntite {
 
-    @Id
-    private UUID uuid;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    public BaseEntite() {
-        this.uuid = UUID.randomUUID();
-    }
+	/**
+	 * Getter
+	 *
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
 
-    public UUID getUuid() {
-        return uuid;
-    }
+	/**
+	 * Setter
+	 *
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
 }

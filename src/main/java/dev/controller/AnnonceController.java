@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.entites.Annonce;
-import dev.entites.Reservation;
 import dev.entites.dto.AnnonceDto;
-import dev.entites.dto.ReservationDto;
 import dev.service.AnnonceService;
 
 @RestController
