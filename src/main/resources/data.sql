@@ -4,7 +4,7 @@ insert into collegue(nom, prenom, email, mot_de_passe, matricule, num_telephone)
 
 /*Vehicule*/
 
-insert into vehicule(immatriculation, marque, modele, categorie, nb_place, statut, proprietaire_societe) values ('AA-000-RR', 'Audi', 'A4', 'CATEGORIE_CP', 5, 'EN_SERVICE', false);
+insert into vehicule(immatriculation, marque, modele, categorie, nb_place, statut, est_un_vehicule_de_societe) values ('AA-000-RR', 'Audi', 'A4', 'CATEGORIE_CP', 5, 'EN_SERVICE', false);
 
 /*Reservation*/
 

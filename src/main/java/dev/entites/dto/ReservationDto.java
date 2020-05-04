@@ -25,8 +25,6 @@ public class ReservationDto {
 	@NotNull
 	private Long responsable_id;
 
-	private Long chauffeur_id;
-
 	@NotNull
 	private Integer vehicule_id;
 
@@ -44,8 +42,7 @@ public class ReservationDto {
 	 * @param vehicule_id
 	 */
 	public ReservationDto(LocalDateTime dateDepart, LocalDateTime dateArrivee, String lieuDepart,
-			String lieuDestination, Integer dureeTrajet, Double distance, Long responsable_id, Long chauffeur_id,
-			Integer vehicule_id) {
+			String lieuDestination, Integer dureeTrajet, Double distance, Long responsable_id, Integer vehicule_id) {
 		super();
 		this.dateDepart = dateDepart;
 		this.dateArrivee = dateArrivee;
@@ -54,7 +51,6 @@ public class ReservationDto {
 		this.dureeTrajet = dureeTrajet;
 		this.distance = distance;
 		this.responsable_id = responsable_id;
-		this.chauffeur_id = chauffeur_id;
 		this.vehicule_id = vehicule_id;
 	}
 
@@ -182,24 +178,6 @@ public class ReservationDto {
 	 */
 	public void setResponsable_id(Long responsable_id) {
 		this.responsable_id = responsable_id;
-	}
-
-	/**
-	 * Getter
-	 *
-	 * @return the chauffeur_id
-	 */
-	public Long getChauffeur_id() {
-		return chauffeur_id;
-	}
-
-	/**
-	 * Setter
-	 *
-	 * @param chauffeur_id the chauffeur_id to set
-	 */
-	public void setChauffeur_id(Long chauffeur_id) {
-		this.chauffeur_id = chauffeur_id;
 	}
 
 	/**

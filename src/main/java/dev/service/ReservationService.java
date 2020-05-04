@@ -46,8 +46,6 @@ public class ReservationService {
 	@Transient
 	public Reservation postReservation(@Valid ReservationDto reservationDto) {
 
-		Boolean avecChauffeur = reservationDto.getChauffeur_id() != null;
-
 		Reservation reservation = null;
 
 		Itineraire itineraire = new Itineraire(reservationDto.getDateDepart(), reservationDto.getDateArrivee(),
@@ -59,22 +57,8 @@ public class ReservationService {
 		// find vehicule
 		Optional<Vehicule> vehicule = this.vehiculeRepository.findById(reservationDto.getVehicule_id());
 
-		Optional<Collegue> chauffeur = null;
-
-		if (avecChauffeur) {
-			// find collegue en tant que chauffeur //TODO verifier qu'il a le role de
-			// chauffeur
-			chauffeur = this.collegueRepository.findById(reservationDto.getChauffeur_id());
-		}
-
-		// si responsable + chauffeur + vehicule
-		if (responsable.isPresent() && avecChauffeur && chauffeur.isPresent() && vehicule.isPresent()) {
-
-			reservation = new Reservation(itineraire, responsable.get(), chauffeur.get(),
-					StatutReservation.STATUT_EN_COURS, vehicule.get());
-
-			// si pas de chauffeur
-		} else if (responsable.isPresent() && !avecChauffeur && vehicule.isPresent()) {
+		// si responsable + vehicule
+		if (responsable.isPresent() && vehicule.isPresent()) {
 
 			reservation = new Reservation(itineraire, responsable.get(), null, StatutReservation.STATUT_EN_COURS,
 					vehicule.get());
@@ -82,15 +66,11 @@ public class ReservationService {
 		} else {
 			if (responsable.isEmpty()) {
 				throw new RuntimeException(); // TODO creer exception responsable non trouvé
-			} else if (avecChauffeur && chauffeur.isEmpty()) {
-				throw new RuntimeException(); // TODO creer exception chauffeur non trouvé
 			} else {
 				throw new RuntimeException(); // TODO creer exception vehicule non trouvé
 			}
 		}
 
-		// TODO voir comment update les différentes liste de réservation des collègues +
-		// celle du véhicule
 		this.reservationRepository.save(reservation);
 		return reservation;
 	}

@@ -1,15 +1,11 @@
 package dev.entites;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import dev.entites.utiles.Categorie;
 import dev.entites.utiles.StatutVehicule;
@@ -33,9 +29,7 @@ public class Vehicule {
 	 * proprietaireSociete : Boolean pour indiquer si le vehicule appartient a la
 	 * sociéte, en opposition à vehicule personnel
 	 */
-	private Boolean proprietaireSociete;
-	@OneToMany
-	private List<Reservation> listReservations;
+	private Boolean estUnVehiculeDeSociete;
 
 	/**
 	 * Constructeur
@@ -58,8 +52,7 @@ public class Vehicule {
 	 * @param listReservations
 	 */
 	public Vehicule(Integer id, String immatriculation, String marque, String modele, Categorie categorie,
-			Integer nbPlace, StatutVehicule statut, Boolean proprietaireSociete, List<Reservation> listReservations) {
-		super();
+			Integer nbPlace, StatutVehicule statut, Boolean estUnVehiculeDeSociete) {
 		this.id = id;
 		this.immatriculation = immatriculation;
 		this.marque = marque;
@@ -67,8 +60,7 @@ public class Vehicule {
 		this.categorie = categorie;
 		this.nbPlace = nbPlace;
 		this.statut = statut;
-		this.proprietaireSociete = proprietaireSociete;
-		this.listReservations = listReservations;
+		this.estUnVehiculeDeSociete = estUnVehiculeDeSociete;
 	}
 
 	/**
@@ -84,7 +76,7 @@ public class Vehicule {
 	 * @param listReservations
 	 */
 	public Vehicule(String immatriculation, String marque, String modele, Categorie categorie, Integer nbPlace,
-			StatutVehicule statut, Boolean proprietaireSociete) {
+			StatutVehicule statut, Boolean estUnVehiculeDeSociete) {
 		super();
 		this.immatriculation = immatriculation;
 		this.marque = marque;
@@ -92,8 +84,7 @@ public class Vehicule {
 		this.categorie = categorie;
 		this.nbPlace = nbPlace;
 		this.statut = statut;
-		this.proprietaireSociete = proprietaireSociete;
-		this.listReservations = new ArrayList<>();
+		this.estUnVehiculeDeSociete = estUnVehiculeDeSociete;
 	}
 
 	/**
@@ -164,17 +155,8 @@ public class Vehicule {
 	 * 
 	 * @return the proprietaireSociete
 	 */
-	public Boolean getProprietaireSociete() {
-		return proprietaireSociete;
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return the listReservations
-	 */
-	public List<Reservation> getListReservations() {
-		return listReservations;
+	public Boolean getEstUnVehiculeDeSociete() {
+		return estUnVehiculeDeSociete;
 	}
 
 	/**
@@ -246,16 +228,7 @@ public class Vehicule {
 	 * @param proprietaireSociete the proprietaireSociete to set
 	 */
 	public void setProprietaireSociete(Boolean proprietaireSociete) {
-		this.proprietaireSociete = proprietaireSociete;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param listReservations the listReservations to set
-	 */
-	public void setListReservations(List<Reservation> listReservations) {
-		this.listReservations = listReservations;
+		this.estUnVehiculeDeSociete = proprietaireSociete;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import dev.entites.Collegue;
@@ -14,14 +15,16 @@ import dev.repository.CollegueRepository;
 public class CollegueService {
 
 	private CollegueRepository collegueRepository;
+	private PasswordEncoder passwordEncoder;
 
 	/**
 	 * Constructor
 	 *
 	 * @param collegueRepository
 	 */
-	public CollegueService(CollegueRepository collegueRepository) {
+	public CollegueService(CollegueRepository collegueRepository, PasswordEncoder passwordEncoder) {
 		this.collegueRepository = collegueRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	public List<Collegue> getAllCollegues() {
@@ -33,7 +36,8 @@ public class CollegueService {
 	public Collegue postCollegue(CollegueDto collegueDto) {
 
 		Collegue collegue = new Collegue(collegueDto.getNom(), collegueDto.getPrenom(), collegueDto.getEmail(),
-				collegueDto.getMotDePasse(), collegueDto.getMatricule(), collegueDto.getNumTelephone());
+				passwordEncoder.encode(collegueDto.getMotDePasse()), collegueDto.getMatricule(),
+				collegueDto.getNumTelephone());
 
 		this.collegueRepository.save(collegue);
 
