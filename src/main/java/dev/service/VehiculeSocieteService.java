@@ -11,19 +11,19 @@ import dev.entites.VehiculeSociete;
 import dev.entites.dto.VehiculeSocieteDto;
 import dev.entites.utiles.Categorie;
 import dev.entites.utiles.StatutVehiculeSociete;
-import dev.repository.VehiculeRepository;
+import dev.repository.VehiculeSocieteRepository;
 
 @Service
-public class VehiculeService {
+public class VehiculeSocieteService {
 
-	private VehiculeRepository vehiculeRepository;
+	private VehiculeSocieteRepository vehiculeRepository;
 
 	/**
 	 * Constructor
 	 *
 	 * @param vehiculeRepository
 	 */
-	public VehiculeService(VehiculeRepository vehiculeRepository) {
+	public VehiculeSocieteService(VehiculeSocieteRepository vehiculeRepository) {
 		this.vehiculeRepository = vehiculeRepository;
 	}
 

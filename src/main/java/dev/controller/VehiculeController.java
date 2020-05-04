@@ -12,20 +12,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.entites.VehiculeSociete;
 import dev.entites.dto.VehiculeSocieteDto;
-import dev.service.VehiculeService;
+import dev.service.VehiculeSocieteService;
 
 @RestController
 @RequestMapping("vehicule")
 public class VehiculeController {
 
-	private VehiculeService vehiculeService;
+	private VehiculeSocieteService vehiculeService;
 
 	/**
 	 * Constructor
 	 *
 	 * @param vehiculeService
 	 */
-	public VehiculeController(VehiculeService vehiculeService) {
+	public VehiculeController(VehiculeSocieteService vehiculeService) {
 		super();
 		this.vehiculeService = vehiculeService;
 	}

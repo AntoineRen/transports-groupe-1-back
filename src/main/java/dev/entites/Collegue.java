@@ -6,9 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -53,8 +50,8 @@ public class Collegue extends BaseEntite {
 	 * @param listReservationC
 	 * @param listReservationRA
 	 */
-	public Collegue( String nom, String prenom, String email, String motDePasse,
-			String numTelephone, List<RoleCollegue> roles) {
+	public Collegue(String nom, String prenom, String email, String motDePasse, String numTelephone,
+			List<RoleCollegue> roles) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
@@ -87,8 +84,6 @@ public class Collegue extends BaseEntite {
 		this.numTelephone = numTelephone;
 		this.roles = new ArrayList<>();
 	}
-
-
 
 	/**
 	 * Getter
@@ -125,8 +120,6 @@ public class Collegue extends BaseEntite {
 	public String getMotDePasse() {
 		return motDePasse;
 	}
-
-
 
 	/**
 	 * Getter

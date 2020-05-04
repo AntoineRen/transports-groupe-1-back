@@ -3,7 +3,6 @@ package dev.service;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.Transient;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -17,14 +16,14 @@ import dev.entites.dto.ReservationDto;
 import dev.entites.utiles.StatutReservation;
 import dev.repository.CollegueRepository;
 import dev.repository.ReservationRepository;
-import dev.repository.VehiculeRepository;
+import dev.repository.VehiculeSocieteRepository;
 
 @Service
 public class ReservationService {
 
 	private ReservationRepository reservationRepository;
 	private CollegueRepository collegueRepository; // TODO voir si appeller un service au lieu du repo
-	private VehiculeRepository vehiculeRepository; // TODO voir si appeller un service au lieu du repo
+	private VehiculeSocieteRepository vehiculeRepository; // TODO voir si appeller un service au lieu du repo
 
 	/**
 	 * Constructor
@@ -32,7 +31,7 @@ public class ReservationService {
 	 * @param reservationRepository
 	 */
 	public ReservationService(ReservationRepository reservationRepository, CollegueRepository collegueRepository,
-			VehiculeRepository vehiculeRepository) {
+			VehiculeSocieteRepository vehiculeRepository) {
 		this.reservationRepository = reservationRepository;
 		this.collegueRepository = collegueRepository;
 		this.vehiculeRepository = vehiculeRepository;

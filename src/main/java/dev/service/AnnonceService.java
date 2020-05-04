@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import dev.entites.Annonce;
 import dev.entites.Collegue;
 import dev.entites.Itineraire;
-import dev.entites.Reservation;
 import dev.entites.dto.AnnonceDto;
 import dev.repository.AnnonceRepository;
 import dev.repository.CollegueRepository;
@@ -21,6 +20,17 @@ public class AnnonceService {
 
 	private AnnonceRepository annonceRepository;
 	private CollegueRepository collegueRepository;
+
+	/**
+	 * Constructor
+	 *
+	 * @param annonceRepository
+	 * @param collegueRepository
+	 */
+	public AnnonceService(AnnonceRepository annonceRepository, CollegueRepository collegueRepository) {
+		this.annonceRepository = annonceRepository;
+		this.collegueRepository = collegueRepository;
+	}
 
 	public List<Annonce> getAllAnnonces() {
 		return this.annonceRepository.findAll();
