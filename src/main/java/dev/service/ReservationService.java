@@ -90,11 +90,11 @@ public class ReservationService {
 
 		if (responsable.isPresent()) {
 			// recupere toutes les reservations du responsable, les filtrent pour garder les
-			// réservations actuelles, et les transforment en
-			// réservation simplifié
+			// réservations actuelles
 			return this.reservationRepository.findAllByResponsable(responsable.get()).stream()
 					.filter(resa -> resa.getItineraire().getDateArrivee().isAfter(LocalDateTime.now())
 							|| resa.getItineraire().getDateArrivee().isEqual(LocalDateTime.now()))
+					.sorted((a, b) -> a.getItineraire().getDateDepart().compareTo((b.getItineraire().getDateDepart())))
 					.collect(Collectors.toList());
 		} else {
 			throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
@@ -108,10 +108,10 @@ public class ReservationService {
 
 		if (responsable.isPresent()) {
 			// recupere toutes les reservations du responsable, les filtrent pour garder les
-			// réservations passées, et les transforment en
-			// réservation simplifié
+			// réservations passées
 			return this.reservationRepository.findAllByResponsable(responsable.get()).stream()
 					.filter(resa -> resa.getItineraire().getDateArrivee().isBefore(LocalDateTime.now()))
+					.sorted((a, b) -> a.getItineraire().getDateDepart().compareTo((b.getItineraire().getDateDepart())))
 					.collect(Collectors.toList());
 		} else {
 			throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);

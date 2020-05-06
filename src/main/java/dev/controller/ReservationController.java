@@ -6,12 +6,12 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.entites.Reservation;
@@ -55,7 +55,9 @@ public class ReservationController {
 	 * @return Reservation
 	 */
 	@GetMapping("current")
-	public List<Reservation> getReservationByEmailEnCours(@RequestParam String email) {
+	public List<Reservation> getReservationByEmailEnCours() {
+
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
 		return this.reservationService.getReservationByEmailEnCours(email);
 	}
@@ -69,7 +71,9 @@ public class ReservationController {
 	 * @return Reservation
 	 */
 	@GetMapping("histo")
-	public List<Reservation> getReservationByEmailHisto(@RequestParam String email) {
+	public List<Reservation> getReservationByEmailHisto() {
+
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
 		return this.reservationService.getReservationByEmailHisto(email);
 	}
