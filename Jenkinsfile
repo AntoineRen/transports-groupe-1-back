@@ -10,16 +10,6 @@ pipeline {
                 sh './mvnw clean package'
             }
         }
-        stage('quality') {
-            when {
-                branch 'master'
-            }
-            steps {
-                withSonarQubeEnv('Sonar-Nantes') {
-                  sh './mvnw org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
-                }
-            }
-        }
          stage('deploy') {
              when {
                 branch 'master'
