@@ -10,16 +10,6 @@ pipeline {
                 sh './mvnw clean package'
             }
         }
-        stage('quality') {
-            when {
-                branch 'master'
-            }
-            steps {
-                withSonarQubeEnv('Sonar-Nantes') {
-                  sh './mvnw org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
-                }
-            }
-        }
          stage('deploy') {
              when {
                 branch 'master'
@@ -29,17 +19,14 @@ pipeline {
                   sh "git checkout ${GIT_BRANCH}"
                   sh "git pull"
                   sh "git push --force ${PROD_GIT} ${GIT_BRANCH}:master"
-                  slackSend channel: '#jenkins_nantes', color: 'good', message: "Déploiement en cours chez Clever Cloud ! ${env.JOB_NAME} commit ${env.GIT_COMMIT}"
+                  discordSend link: "${env.BUILD_URL}", result: "${currentBuild.currentResult}", title: "Déploiement Back ! ${env.JOB_NAME} commit ${env.GIT_COMMIT}", webhookURL: "${DISCORD_D2020_D02}"
                }
             }
         }
     }
-    post {
-        success {
-           slackSend channel: '#jenkins_nantes', color: 'good', message: "Succès ! ${env.JOB_NAME} commit ${env.GIT_COMMIT} (<${env.BUILD_URL}|Open>)"
-        }
-        failure {
-           slackSend channel: '#jenkins_nantes', color: 'danger', message: "Oops ! ${env.JOB_NAME} commit ${env.GIT_COMMIT} (<${env.BUILD_URL}|Open>)"
-        }
-    }
+   post {
+       failure {
+           discordSend link: "${env.BUILD_URL}",  result: "${currentBuild.currentResult}", title: "oops ! ${env.JOB_NAME} commit ${env.GIT_COMMIT}", webhookURL: "${DISCORD_D2020_D02}"
+       }
+   }
 }

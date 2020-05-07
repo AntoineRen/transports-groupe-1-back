@@ -1,15 +1,11 @@
 package dev.entites;
 
-import java.util.List;
-
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import com.sun.xml.bind.v2.TODO;
 
 import dev.entites.utiles.StatutReservation;
 
@@ -36,27 +32,6 @@ public class Reservation extends BaseEntite {
 	 */
 	public Reservation() {
 
-	}
-
-	/**
-	 * Constructeur
-	 * 
-	 * @param id
-	 * @param itineraire
-	 * @param responsable
-	 * @param chauffeurId
-	 * @param listPassagers
-	 * 
-	 *                      {@link TODO} Verifier si possible d'instancier sans
-	 *                      chauffeurId
-	 */
-	public Reservation(Itineraire itineraire, Collegue responsable, Collegue chauffeur, List<Collegue> listPassagers,
-			StatutReservation statut) {
-		super();
-		this.itineraire = itineraire;
-		this.responsable = responsable;
-		this.chauffeur = chauffeur;
-		this.statut = statut;
 	}
 
 	/**
@@ -149,6 +124,42 @@ public class Reservation extends BaseEntite {
 	 */
 	public void setStatut(StatutReservation statut) {
 		this.statut = statut;
+	}
+
+	/**
+	 * Getter
+	 *
+	 * @return the chauffeur
+	 */
+	public Collegue getChauffeur() {
+		return chauffeur;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param chauffeur the chauffeur to set
+	 */
+	public void setChauffeur(Collegue chauffeur) {
+		this.chauffeur = chauffeur;
+	}
+
+	/**
+	 * Getter
+	 *
+	 * @return the vehicule
+	 */
+	public VehiculeSociete getVehicule() {
+		return vehicule;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param vehicule the vehicule to set
+	 */
+	public void setVehicule(VehiculeSociete vehicule) {
+		this.vehicule = vehicule;
 	}
 
 }

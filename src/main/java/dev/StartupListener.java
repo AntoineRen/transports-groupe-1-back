@@ -4,22 +4,27 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import dev.entites.Annonce;
 import dev.entites.Collegue;
 import dev.entites.Itineraire;
+import dev.entites.Reservation;
 import dev.entites.RoleCollegue;
+import dev.entites.VehiculeSociete;
+import dev.entites.utiles.Categorie;
 import dev.entites.utiles.Role;
+import dev.entites.utiles.StatutReservation;
+import dev.entites.utiles.StatutVehiculeSociete;
 import dev.entites.utiles.Version;
 import dev.repository.CollegueRepo;
 import dev.repository.AnnonceRepository;
+import dev.repository.ReservationRepository;
+import dev.repository.VehiculeSocieteRepository;
 import dev.repository.VersionRepo;
 
 /**
@@ -32,15 +37,25 @@ public class StartupListener {
 	private VersionRepo versionRepo;
 	private PasswordEncoder passwordEncoder;
 	private CollegueRepo collegueRepo;
+
 	private AnnonceRepository annonceRepo;
+	private VehiculeSocieteRepository vehiculeRepo;
+	private ReservationRepository reservationRepo;
 
 	public StartupListener(@Value("${app.version}") String appVersion, VersionRepo versionRepo,
-			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, AnnonceRepository annonceRepo) {
+			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, VehiculeSocieteRepository vehiculeRepo,
+			ReservationRepository reservationRepo, AnnonceRepository annonceRepo) {
+
 		this.appVersion = appVersion;
 		this.versionRepo = versionRepo;
 		this.passwordEncoder = passwordEncoder;
 		this.collegueRepo = collegueRepo;
+
 		this.annonceRepo = annonceRepo;
+
+		this.vehiculeRepo = vehiculeRepo;
+		this.reservationRepo = reservationRepo;
+
 	}
 
 	@EventListener(ContextRefreshedEvent.class)
@@ -74,6 +89,72 @@ public class StartupListener {
 		col3.setRoles(Arrays.asList(new RoleCollegue(col3, Role.ROLE_COLLABORATEUR),
 				new RoleCollegue(col3, Role.ROLE_CHAUFFEUR)));
 		this.collegueRepo.save(col3);
+
+
+		// Création de 3 véhicule
+		VehiculeSociete vehi1 = new VehiculeSociete("AA-000-AA", "Dolorean", "DMC-12", Categorie.CATEGORIE_CP, 2,
+				StatutVehiculeSociete.EN_SERVICE);
+		this.vehiculeRepo.save(vehi1);
+
+		VehiculeSociete vehi2 = new VehiculeSociete("BB-000-BB", "Le Bus magique", "Confinement version",
+				Categorie.CATEGORIE_SUV, 20, StatutVehiculeSociete.EN_SERVICE);
+		this.vehiculeRepo.save(vehi2);
+
+		VehiculeSociete vehi3 = new VehiculeSociete("CC-000-CC", "Platypus", "Vroum Vroum", Categorie.CATEGORIE_BTL, 5,
+				StatutVehiculeSociete.EN_SERVICE);
+		this.vehiculeRepo.save(vehi3);
+
+		// Création de 10 réservations pour admin
+		Reservation res1 = new Reservation(new Itineraire(LocalDateTime.of(2020, 5, 4, 13, 30),
+				LocalDateTime.of(2020, 5, 8, 16, 50), "Rennes", "Nantes", 200, 120.0), col1, null,
+				StatutReservation.STATUT_EN_COURS, vehi1);
+		this.reservationRepo.save(res1);
+
+		Reservation res2 = new Reservation(new Itineraire(LocalDateTime.of(2020, 5, 8, 16, 50),
+				LocalDateTime.of(2020, 5, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
+				StatutReservation.STATUT_EN_COURS, vehi2);
+		this.reservationRepo.save(res2);
+
+		Reservation res3 = new Reservation(new Itineraire(LocalDateTime.of(2020, 4, 8, 16, 50),
+				LocalDateTime.of(2020, 4, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
+				StatutReservation.STATUT_EN_COURS, vehi2);
+		this.reservationRepo.save(res3);
+
+		Reservation res4 = new Reservation(new Itineraire(LocalDateTime.of(2020, 4, 8, 16, 50),
+				LocalDateTime.of(2020, 4, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
+				StatutReservation.STATUT_EN_COURS, vehi3);
+		this.reservationRepo.save(res4);
+
+		Reservation res5 = new Reservation(new Itineraire(LocalDateTime.of(2020, 4, 8, 16, 50),
+				LocalDateTime.of(2020, 4, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
+				StatutReservation.STATUT_EN_COURS, vehi3);
+		this.reservationRepo.save(res5);
+
+		Reservation res6 = new Reservation(new Itineraire(LocalDateTime.of(2020, 4, 8, 16, 50),
+				LocalDateTime.of(2020, 4, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
+				StatutReservation.STATUT_EN_COURS, vehi2);
+		this.reservationRepo.save(res6);
+
+		Reservation res7 = new Reservation(new Itineraire(LocalDateTime.of(2020, 4, 8, 16, 50),
+				LocalDateTime.of(2020, 4, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
+				StatutReservation.STATUT_EN_COURS, vehi1);
+		this.reservationRepo.save(res7);
+
+		Reservation res8 = new Reservation(new Itineraire(LocalDateTime.of(2020, 4, 8, 16, 50),
+				LocalDateTime.of(2020, 4, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
+				StatutReservation.STATUT_EN_COURS, vehi3);
+		this.reservationRepo.save(res8);
+
+		Reservation res9 = new Reservation(new Itineraire(LocalDateTime.of(2020, 4, 8, 16, 50),
+				LocalDateTime.of(2020, 4, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
+				StatutReservation.STATUT_EN_COURS, vehi1);
+		this.reservationRepo.save(res9);
+
+		Reservation res10 = new Reservation(new Itineraire(LocalDateTime.of(2020, 4, 8, 16, 50),
+				LocalDateTime.of(2020, 4, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
+				StatutReservation.STATUT_EN_COURS, vehi2);
+		this.reservationRepo.save(res10);
+
 
 		// itineraire
 		Itineraire ite1 = new Itineraire();
