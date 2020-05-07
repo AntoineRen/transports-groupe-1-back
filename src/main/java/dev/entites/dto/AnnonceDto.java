@@ -16,8 +16,8 @@ public class AnnonceDto {
 	@FutureOrPresent
 	private LocalDateTime dateDepart; 
 	
-	//@NotNull
-	//@FutureOrPresent
+	@NotNull
+	@FutureOrPresent
 	private LocalDateTime dateArrivee; 
 	
 	@NotBlank
