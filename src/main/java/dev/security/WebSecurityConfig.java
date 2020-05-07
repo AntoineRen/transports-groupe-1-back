@@ -76,7 +76,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 				// toutes les requêtes doivent être authentifiées
 				.authorizeRequests().anyRequest().authenticated().and()
-				// .authorizeRequests().anyRequest().permitAll().and()
 				// génération d'un formulaire de login
 				// il faut produire une requête avec les caractéristiques suivantes :
 				// POST /login
@@ -102,6 +101,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// en cas de succès un OK est envoyé (à la place d'une redirection vers /login)
 				.logoutSuccessHandler((req, resp, auth) -> resp.setStatus(HttpServletResponse.SC_OK))
 				// suppression du cookie d'authentification
-				.deleteCookies(TOKEN_COOKIE);// .and().headers().frameOptions().disable();
+				.deleteCookies(TOKEN_COOKIE);
 	}
 }
