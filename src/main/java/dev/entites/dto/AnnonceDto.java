@@ -2,37 +2,56 @@ package dev.entites.dto;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 public class AnnonceDto {
 
-	private LocalDateTime dateDepart; // TODO ajouter NOTNULL
-	private LocalDateTime dateArrivee; // TODO ajouter NOTNULL
+	@NotNull
+	@FutureOrPresent
+	private LocalDateTime dateDepart; 
+	
+	//@NotNull
+	//@FutureOrPresent
+	private LocalDateTime dateArrivee; 
+	
 	@NotBlank
 	private String lieuDepart;
+	
 	@NotBlank
 	private String lieuDestination;
 
 	/** dureeTrajet : La duree du trajet exprimée en minute */
 	@NotNull
+	@Positive
 	private Integer dureeTrajet;
 
 	/** distance : La distance est exprimée en Kilometre */
 	@NotNull
+	@Positive
 	private Double distance;
 
 	@NotNull
 	private Long responsable_id;
 
 	@NotBlank
+	@Size(min = 9, max = 10)
 	private String immatriculation;
+	
 	@NotBlank
 	private String marque;
+	
 	@NotBlank
 	private String modele;
 
 	@NotNull
+	@Min(1)
+	@Max(20)
 	private Integer nbPlace;
 
 	/**
