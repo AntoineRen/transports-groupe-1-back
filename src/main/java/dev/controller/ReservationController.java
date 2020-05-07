@@ -47,12 +47,10 @@ public class ReservationController {
 	}
 
 	/**
-	 * Réceptionne une requete sur l'url back_url/reservation/?email="..." et
-	 * renvoie la liste des réservations en cours de véhicule de société du collègue
-	 * possésant cet email
+	 * Réceptionne une requete sur l'url back_url/reservation/current et renvoie la
+	 * liste des réservations en cours du collègue connecté
 	 * 
-	 * @param email
-	 * @return Reservation
+	 * @return List<Reservation>
 	 */
 	@GetMapping("current")
 	public List<Reservation> getReservationByEmailEnCours() {
@@ -63,12 +61,10 @@ public class ReservationController {
 	}
 
 	/**
-	 * Réceptionne une requete sur l'url back_url/reservation/?email="..." et
-	 * renvoie la liste des réservations passées, de véhicule de société du collègue
-	 * possésant cet email
+	 * Réceptionne une requete sur l'url back_url/reservation/histo" et renvoie la
+	 * liste des réservations passées du collègue connecté
 	 * 
-	 * @param email
-	 * @return Reservation
+	 * @return List<Reservation>
 	 */
 	@GetMapping("histo")
 	public List<Reservation> getReservationByEmailHisto() {
@@ -78,6 +74,13 @@ public class ReservationController {
 		return this.reservationService.getReservationByEmailHisto(email);
 	}
 
+	/**
+	 * Catche l'exception throw par le service si aucun collègue n'a été trouvé et
+	 * renvoie une ResponseEntity avec le statut 404 et le message de lexception
+	 * 
+	 * @param e
+	 * @return ResponseEntity<String>
+	 */
 	@ExceptionHandler(CollegueNonTrouveException.class)
 	public ResponseEntity<String> onCollegueNonTrouveException(CollegueNonTrouveException e) {
 

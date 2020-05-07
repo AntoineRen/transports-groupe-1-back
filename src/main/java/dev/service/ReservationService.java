@@ -102,6 +102,13 @@ public class ReservationService {
 
 	}
 
+	/**
+	 * A partir d'un email verifie qu'un collegue existe avec cet email et renvoie
+	 * la liste de ses réservations passées, de véhicules de sociétés
+	 * 
+	 * @param email
+	 * @return List<Reservation>
+	 */
 	public List<Reservation> getReservationByEmailHisto(String email) {
 
 		Optional<Collegue> responsable = this.collegueRepository.findOneByEmail(email);
