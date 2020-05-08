@@ -46,13 +46,6 @@ public class AnnonceService {
 	}
 
 	/**
-	 * @return une liste de toutes les annonces en basse Attention!! Deprecated
-	 */
-	public List<Annonce> getAllAnnonces() {
-		return this.annonceRepository.findAll();
-	}
-
-	/**
 	 * @param email
 	 * @return Liste d'annonces d'un responsable grace à son mail si l'email ne
 	 *         correspond a aucun collegue renvois une exception
@@ -63,11 +56,10 @@ public class AnnonceService {
 			return this.annonceRepository.findAllByResponsable(responsable.get());
 		} else {
 			// TODO creer exception adaptée
-			throw new RuntimeException();
+			throw new CollegueNonTrouveException("Aucun responcable de covoiturage trouvé avec cet email : " + email);
 		}
 
 	}
-
 
 	/**
 	 * @param email
@@ -80,47 +72,47 @@ public class AnnonceService {
 			return this.annonceRepository.findAllBylistPassagers(passager.get());
 		} else {
 			// TODO creer exception adaptée
-			throw new CollegueNonTrouveException();
+			throw new CollegueNonTrouveException("Aucun passager trouvé avec cet email : " + email);
 		}
 	}
 
-	
-	
 	/**
 	 * @param listAnnonces
-	 * @return les Annonces de la listAnnonces au statut "EN COURS" (antérieur a la date et au temps actuel 
+	 * @return les Annonces de la listAnnonces au statut "EN COURS" (antérieur a la
+	 *         date et au temps actuel
 	 */
-	public List<Annonce> getAnnonceEnCours (List<Annonce> listAnnonces){
+	public List<Annonce> getAnnonceEnCours(List<Annonce> listAnnonces) {
 		List<Annonce> annonceEncours = listAnnonces.stream()
-				.filter(annonce -> annonce.getItineraire().getDateDepart().isAfter(LocalDateTime.now())
-						|| annonce.getItineraire().getDateDepart().isEqual(LocalDateTime.now()))
+				.filter(annonce -> annonce.getItineraire().getDateDepart().isAfter(LocalDateTime.now().plusMinutes(5)))
+				.sorted((a, b) -> a.getItineraire().getDateDepart().compareTo((b.getItineraire().getDateDepart())))
 				.collect(Collectors.toList());
 		return annonceEncours;
 	}
-	
+
 	/**
 	 * @param listAnnonces
-	 * @returnles Annonces de la listAnnonces posterieur a la date et au temps actuel, utilisé en historique 
+	 * @returnles Annonces de la listAnnonces posterieur a la date et au temps
+	 *            actuel, utilisé en historique
 	 */
-	public List<Annonce> getHistoriqueAnnonce (List<Annonce> listAnnonces){
-		List<Annonce> annonceEncours = listAnnonces.stream()
-				.filter(annonce -> annonce.getItineraire().getDateArrivee().isBefore(LocalDateTime.now())
-						|| annonce.getItineraire().getDateArrivee().isEqual(LocalDateTime.now()))
+	public List<Annonce> getHistoriqueAnnonce(List<Annonce> listAnnonces) {
+		List<Annonce> annonceEncours = listAnnonces.stream().filter(
+				annonce -> annonce.getItineraire().getDateArrivee().isBefore(LocalDateTime.now().plusMinutes(5)))
+				.sorted((a, b) -> a.getItineraire().getDateDepart().compareTo((b.getItineraire().getDateDepart())))
 				.collect(Collectors.toList());
 		return annonceEncours;
 	}
 
 	/**
 	 * @param email
-	 * @return  Liste d'annonces en tant que passager ou responcable grace à son mail si l'email ne correspond a aucun
-	 *         collegue renvois une exception
+	 * @return Liste d'annonces en tant que passager ou responcable grace à son mail
+	 *         si l'email ne correspond a aucun collegue renvois une exception
 	 */
 	public List<Annonce> getAllAnnoncesByCollegue(String email) {
 		List<Annonce> allAnnonceResponcable = this.getAnnoncesByResponcable(email);
 		List<Annonce> allAnnoncePassager = this.getAnnonceByPassager(email);
 		List<Annonce> allAnnonce = Stream.concat(allAnnonceResponcable.stream(), allAnnoncePassager.stream())
-                .collect(Collectors.toList());
-		
+				.collect(Collectors.toList());
+
 		return allAnnonce;
 	}
 
