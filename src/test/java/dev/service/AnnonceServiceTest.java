@@ -81,8 +81,8 @@ class AnnonceServiceTest {
 
 		Itineraire itinerairePast = new Itineraire(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1),
 				"test", "test", 100, 100D);
-		Itineraire itineraireProxPast = new Itineraire(LocalDateTime.now().minusMinutes(4),
-				LocalDateTime.now().minusMinutes(5), "test", "test", 100, 100D);
+		Itineraire itineraireProxPast = new Itineraire(LocalDateTime.now().minusHours(2),
+				LocalDateTime.now().minusMinutes(4), "test", "test", 100, 100D);
 		Itineraire itineraireProxFuture = new Itineraire(LocalDateTime.now().plusMinutes(6),
 				LocalDateTime.now().plusMinutes(5), "test", "test", 100, 100D);
 		Itineraire itineraireFuture = new Itineraire(LocalDateTime.now().plusDays(5), LocalDateTime.now().plusDays(5),
