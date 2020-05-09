@@ -46,30 +46,37 @@ class AnnonceServiceTest {
 	Annonce annonceTest;
 	Collegue responcableTest;
 	Collegue passagerTest;
-	List<Annonce> listAnnonces=new ArrayList<>();
-	List<Annonce> listAnnoncesTime =new ArrayList<>();
+	List<Annonce> listAnnonces = new ArrayList<>();
+	List<Annonce> listAnnoncesPassager = new ArrayList<>();
+	List<Annonce> listAnnoncesTime = new ArrayList<>();
 	Annonce annoncePast = new Annonce();
 	Annonce annonceFuture = new Annonce();
+	Annonce annoncePassagerTest = new Annonce();
 
 	@BeforeEach
 	public void init() {
 
-
-
 		// Valorisation Collegue
 
 		passagerTest = new Collegue("MonsieurPassagerTest", "test", "testPassager@test.fr", "Mdptest", "00000000");
-		
+
 		responcableTest = new Collegue("MonsieurResponcebleTest", "ResponcableTest", "testResponsable@test.fr",
 				"MdpResponcabletest", "00000000");
-		
+		passagerTest = new Collegue("MonsieurPassagerTest", "PassagerTest", "testpassager@test.fr", "MdpPassagertest",
+				"00000000");
+
 		annonceTest = new Annonce(
 				new Itineraire(LocalDateTime.now(), LocalDateTime.now().plusDays(5), "test", "test", 100, 100D),
 				responcableTest, "TT-666-TT", "Test", "test", 4);
 
+		annoncePassagerTest = new Annonce(
+				new Itineraire(LocalDateTime.now(), LocalDateTime.now().plusDays(5), "test", "test", 100, 100D),
+				passagerTest, "TT-666-TT", "Test", "test", 4);
+
 		listAnnonces = new ArrayList<>();
 		listAnnonces.add(annonceTest);
-		
+
+		listAnnoncesPassager.add(annoncePassagerTest);
 		// Valorosation Itineraire
 
 		Itineraire itinerairePast = new Itineraire(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1),
@@ -82,11 +89,11 @@ class AnnonceServiceTest {
 				"test", "test", 100, 100D);
 
 		// Valorosation Annonce
-	annoncePast = new Annonce(new Itineraire(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1),
+		annoncePast = new Annonce(new Itineraire(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1),
 				"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4);
-	annonceFuture = new Annonce(new Itineraire(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1),
-			"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4);
-		
+		annonceFuture = new Annonce(new Itineraire(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1),
+				"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4);
+
 		listAnnoncesTime.add(new Annonce(itinerairePast, passagerTest, "TT-666-TT", "Test", "test", 4));
 		listAnnoncesTime.add(new Annonce(itineraireProxPast, passagerTest, "TT-666-TT", "Test", "test", 4));
 		listAnnoncesTime.add(new Annonce(itineraireProxFuture, passagerTest, "TT-666-TT", "Test", "test", 4));
@@ -135,23 +142,21 @@ class AnnonceServiceTest {
 	void testGetAnnonceEnCours() {
 
 		assertEquals(1, this.annonceService.getAnnonceEnCours(listAnnoncesTime).size());
-		assertThat(this.annonceService.getAnnonceEnCours(listAnnoncesTime).contains(annoncePast)); 
+		assertThat(this.annonceService.getAnnonceEnCours(listAnnoncesTime).contains(annoncePast));
 
 	}
 
 	@Test
 	void testGetHistoriqueAnnonce() {
 		assertEquals(3, this.annonceService.getHistoriqueAnnonce(listAnnoncesTime).size());
-		assertThat(this.annonceService.getAnnonceEnCours(listAnnoncesTime).contains(annonceFuture)); 
+		assertThat(this.annonceService.getAnnonceEnCours(listAnnoncesTime).contains(annonceFuture));
 	}
-
+//TODO
 //	@Test
 //	void GetAllAnnoncesByCollegue() {
-//		when(this.annonceService.getAnnoncesByResponcable(emailResponsableTest)).thenReturn(listAnnoncesTime);
-//		when(this.annonceService.getAnnonceByPassager(emailResponsableTest)).thenReturn(listAnnoncesTime);
-//	assertEquals(2, this.annonceService.getAllAnnoncesByCollegue(emailPassagerTest));
+//		when(annonceService.getAnnoncesByResponcable(emailResponsableTest)).thenReturn(listAnnonces);
+//		when(annonceService.getAnnonceByPassager(emailResponsableTest)).thenReturn(listAnnonces);
+//		assertEquals(2, this.annonceService.getAllAnnoncesByCollegue(emailResponsableTest));
 //	}
-
-
 
 }

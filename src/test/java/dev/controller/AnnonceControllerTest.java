@@ -56,66 +56,91 @@ class AnnonceControllerTest {
 	// Instance necessaire, jeu de donnée
 	String baseUrl = "/annonce";
 	String emailTest = "testAnnonce@test.fr";
-	Collegue collegueTest;
+
 	String emailResponsableTest = "testResponsable@test.fr";
 	String emailPassagerTest = "testPassager@test.fr";
-	Annonce annonceTest;
+	Annonce annonceTestResponcable;
+	Annonce annonceTestPassager;
 	Collegue responcableTest;
 	Collegue passagerTest;
-	List<Annonce> listAnnonces=new ArrayList<>();
-	List<Annonce> listAnnoncesTime =new ArrayList<>();
-	Annonce annoncePast = new Annonce();
-	Annonce annonceFuture = new Annonce();
-	
+	List<Annonce> listAnnoncesResponsable = new ArrayList<>();
+	List<Annonce> listAnnoncesPassager = new ArrayList<>();
+
+
+
 	@BeforeEach
 	public void init() {
-		
+
 		// Valorisation Collegue
 
-				passagerTest = new Collegue("MonsieurPassagerTest", "test", "testPassager@test.fr", "Mdptest", "00000000");
-				
-				responcableTest = new Collegue("MonsieurResponcebleTest", "ResponcableTest", "testResponsable@test.fr",
-						"MdpResponcabletest", "00000000");
-				
-				annonceTest = new Annonce(
-						new Itineraire(LocalDateTime.now().plusDays(5), LocalDateTime.now().plusDays(6), "test", "test", 100, 100D),
-						responcableTest, "TT-666-TT", "Test", "test", 4);
+		responcableTest = new Collegue("MonsieurResponcebleTest", "ResponcableTest", "testResponsable@test.fr",
+				"MdpResponcabletest", "00000000");
 
-				listAnnonces = new ArrayList<>();
-				listAnnonces.add(annonceTest);
-				
-				// Valorosation Itineraire
+		annonceTestResponcable = new Annonce(new Itineraire(LocalDateTime.now().plusDays(5),
+				LocalDateTime.now().plusDays(6), "test", "test", 100, 100D), responcableTest, "TT-666-TT", "Test",
+				"test", 4);
 
-				Itineraire itinerairePast = new Itineraire(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1),
-						"test", "test", 100, 100D);
-				Itineraire itineraireProxPast = new Itineraire(LocalDateTime.now().minusMinutes(5),
-						LocalDateTime.now().minusMinutes(5), "test", "test", 100, 100D);
-				Itineraire itineraireProxFuture = new Itineraire(LocalDateTime.now().plusMinutes(5),
-						LocalDateTime.now().plusMinutes(5), "test", "test", 100, 100D);
-				Itineraire itineraireFuture = new Itineraire(LocalDateTime.now().plusDays(5), LocalDateTime.now().plusDays(5),
-						"test", "test", 100, 100D);
+		listAnnoncesResponsable = new ArrayList<>();
+		listAnnoncesResponsable.add(annonceTestResponcable);
 
-				// Valorosation Annonce
-			annoncePast = new Annonce(new Itineraire(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1),
-						"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4);
-			annonceFuture = new Annonce(new Itineraire(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1),
-					"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4);
-				
-				listAnnoncesTime.add(new Annonce(itinerairePast, passagerTest, "TT-666-TT", "Test", "test", 4));
-				listAnnoncesTime.add(new Annonce(itineraireProxPast, passagerTest, "TT-666-TT", "Test", "test", 4));
-				listAnnoncesTime.add(new Annonce(itineraireProxFuture, passagerTest, "TT-666-TT", "Test", "test", 4));
-				listAnnoncesTime.add(new Annonce(itineraireFuture, passagerTest, "TT-666-TT", "Test", "test", 4));
+		passagerTest = new Collegue("MonsieurPassagerTest", "test", "testPassager@test.fr", "Mdptest", "00000000");
+
+		annonceTestPassager = new Annonce(new Itineraire(LocalDateTime.now().plusDays(5),
+				LocalDateTime.now().plusDays(6), "test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test",
+				4);
+		listAnnoncesPassager = new ArrayList<>();
+		listAnnoncesPassager.add(annonceTestPassager);
+
 
 	}
 
-//	@Test
-//	@WithMockUser(username = "testAnnonce@test.fr")
-//	void testgetAnnoncesByResponsableEmail() throws Exception {
-//		when(this.annonceService.getAnnoncesByResponcable(emailTest)).thenReturn(listAnnonces);
-//
-//		mockMvc.perform(get(baseUrl + "/listAnnonceByResponsable")).andExpect(status().is(200))
-//				.andExpect(jsonPath("$[0].responsable.nom").value("test"))
-//				.andExpect(jsonPath("$[0].itineraire.distance").value(100))
-//				.andExpect(jsonPath("$[0].immatriculation").value("TT-666-TT"));
-//	}
+	@Test
+	@WithMockUser(username = "testResponsable@test.fr")
+	void testgetAnnoncesByResponsableEmail() throws Exception {
+
+		when(this.annonceService.getAnnonceEnCours(listAnnoncesResponsable)).thenReturn(listAnnoncesResponsable);
+		when(this.annonceService.getAnnoncesByResponcable(emailResponsableTest)).thenReturn(listAnnoncesResponsable);
+
+		mockMvc.perform(get(baseUrl + "/listAnnonceByResponsable")).andExpect(status().is(200))
+				.andExpect(jsonPath("$[0].responsable.nom").value("MonsieurResponcebleTest"))
+				.andExpect(jsonPath("$[0].itineraire.distance").value(100))
+				.andExpect(jsonPath("$[0].immatriculation").value("TT-666-TT"));
+	}
+
+	@Test
+	@WithMockUser(username = "testPassager@test.fr")
+	void testgetAnnoncesByPassagerEmail() throws Exception {
+		when(this.annonceService.getAnnonceByPassager(emailPassagerTest)).thenReturn(listAnnoncesPassager);
+		when(this.annonceService.getAnnonceEnCours(listAnnoncesPassager)).thenReturn(listAnnoncesPassager);
+
+		mockMvc.perform(get(baseUrl + "/listAnnonceByPassager")).andExpect(status().is(200))
+				.andExpect(jsonPath("$[0].responsable.nom").value("MonsieurPassagerTest"))
+				.andExpect(jsonPath("$[0].itineraire.distance").value(100))
+				.andExpect(jsonPath("$[0].immatriculation").value("TT-666-TT"));
+	}
+
+	@Test
+	@WithMockUser(username = "testPassager@test.fr")
+	void testgetFutureAnnoncesByCollegue() throws Exception {
+		when(this.annonceService.getAnnonceEnCours(listAnnoncesPassager)).thenReturn(listAnnoncesPassager);
+		when(this.annonceService.getAllAnnoncesByCollegue(emailPassagerTest)).thenReturn(listAnnoncesPassager);
+
+		mockMvc.perform(get(baseUrl + "/listAnnonceEnCours")).andExpect(status().is(200))
+				.andExpect(jsonPath("$[0].responsable.nom").value("MonsieurPassagerTest"))
+				.andExpect(jsonPath("$[0].itineraire.distance").value(100))
+				.andExpect(jsonPath("$[0].immatriculation").value("TT-666-TT"));
+	}
+
+	@Test
+	@WithMockUser(username = "testPassager@test.fr")
+	void testgetHistoriqueAnnoncesByCollegue() throws Exception {
+		when(this.annonceService.getHistoriqueAnnonce(listAnnoncesPassager)).thenReturn(listAnnoncesPassager);
+		when(this.annonceService.getAllAnnoncesByCollegue(emailPassagerTest)).thenReturn(listAnnoncesPassager);
+
+		mockMvc.perform(get(baseUrl + "/listAnnonceHistorique")).andExpect(status().is(200))
+				.andExpect(jsonPath("$[0].responsable.nom").value("MonsieurPassagerTest"))
+				.andExpect(jsonPath("$[0].itineraire.distance").value(100))
+				.andExpect(jsonPath("$[0].immatriculation").value("TT-666-TT"));
+	}
+
 }
