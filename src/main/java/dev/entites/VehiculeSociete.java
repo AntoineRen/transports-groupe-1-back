@@ -18,6 +18,7 @@ public class VehiculeSociete extends BaseEntite {
 	private Integer nbPlace;
 	@Enumerated(EnumType.STRING)
 	private StatutVehiculeSociete statut;
+	private String photoUrl;
 
 	/**
 	 * Constructeur
@@ -39,7 +40,7 @@ public class VehiculeSociete extends BaseEntite {
 	 * @param listReservations
 	 */
 	public VehiculeSociete(String immatriculation, String marque, String modele, Categorie categorie, Integer nbPlace,
-			StatutVehiculeSociete statut) {
+			StatutVehiculeSociete statut, String photoUrl) {
 		super();
 		this.immatriculation = immatriculation;
 		this.marque = marque;
@@ -47,6 +48,7 @@ public class VehiculeSociete extends BaseEntite {
 		this.categorie = categorie;
 		this.nbPlace = nbPlace;
 		this.statut = statut;
+		this.photoUrl = photoUrl;
 	}
 
 	/**
@@ -155,6 +157,24 @@ public class VehiculeSociete extends BaseEntite {
 	 */
 	public void setStatut(StatutVehiculeSociete statut) {
 		this.statut = statut;
+	}
+
+	/**
+	 * Getter
+	 *
+	 * @return the photoUrl
+	 */
+	public String getPhotoUrl() {
+		return photoUrl;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param photoUrl the photoUrl to set
+	 */
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
 	}
 
 }

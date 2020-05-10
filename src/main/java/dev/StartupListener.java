@@ -82,25 +82,28 @@ public class StartupListener {
 
 		// Création de 3 véhicule
 		VehiculeSociete vehi1 = new VehiculeSociete("AA-000-AA", "Dolorean", "DMC-12", Categorie.CATEGORIE_CP, 2,
-				StatutVehiculeSociete.EN_SERVICE);
+				StatutVehiculeSociete.EN_SERVICE,
+				"https://images.unsplash.com/photo-1515853191710-4db39aa5fe54?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1376&q=80");
 		this.vehiculeRepo.save(vehi1);
 
 		VehiculeSociete vehi2 = new VehiculeSociete("BB-000-BB", "Le Bus magique", "Confinement version",
-				Categorie.CATEGORIE_SUV, 20, StatutVehiculeSociete.EN_SERVICE);
+				Categorie.CATEGORIE_SUV, 20, StatutVehiculeSociete.EN_SERVICE,
+				"https://images.unsplash.com/photo-1527058918112-6e17a8213943?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80");
 		this.vehiculeRepo.save(vehi2);
 
 		VehiculeSociete vehi3 = new VehiculeSociete("CC-000-CC", "Platypus", "Vroum Vroum", Categorie.CATEGORIE_BTL, 5,
-				StatutVehiculeSociete.EN_SERVICE);
+				StatutVehiculeSociete.EN_REPARATION,
+				"https://images.unsplash.com/photo-1579571274591-51ace815723a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1367&q=80");
 		this.vehiculeRepo.save(vehi3);
 
 		// Création de 10 réservations pour admin
-		Reservation res1 = new Reservation(new Itineraire(LocalDateTime.of(2020, 5, 4, 13, 30),
-				LocalDateTime.of(2020, 5, 8, 16, 50), "Rennes", "Nantes", 200, 120.0), col1, null,
+		Reservation res1 = new Reservation(new Itineraire(LocalDateTime.of(2020, 5, 15, 13, 30),
+				LocalDateTime.of(2020, 5, 25, 16, 50), "Rennes", "Nantes", 200, 120.0), col1, null,
 				StatutReservation.STATUT_EN_COURS, vehi1);
 		this.reservationRepo.save(res1);
 
 		Reservation res2 = new Reservation(new Itineraire(LocalDateTime.of(2020, 5, 8, 16, 50),
-				LocalDateTime.of(2020, 5, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
+				LocalDateTime.of(2020, 5, 28, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
 				StatutReservation.STATUT_EN_COURS, vehi2);
 		this.reservationRepo.save(res2);
 

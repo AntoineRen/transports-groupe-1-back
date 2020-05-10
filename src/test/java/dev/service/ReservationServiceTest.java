@@ -58,7 +58,7 @@ class ReservationServiceTest {
 
 		collegueTest = new Collegue("test", "test", "test@test.fr", "test", "00000000");
 		vehiculeTest = new VehiculeSociete("immatriculationTest", "marqueTest", "modeleTest", Categorie.CATEGORIE_BTL,
-				5, StatutVehiculeSociete.EN_SERVICE);
+				5, StatutVehiculeSociete.EN_SERVICE, null);
 		reservationEnCoursTest = new Reservation(new Itineraire(LocalDateTime.now().plusDays(5),
 				LocalDateTime.now().plusDays(5), "test", "test", 100, 100D), collegueTest, null,
 				StatutReservation.STATUT_EN_COURS, vehiculeTest);
