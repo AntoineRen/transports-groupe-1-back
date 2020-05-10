@@ -21,12 +21,11 @@ import dev.service.AnnonceService;
 public class AnnonceController {
 
 	private AnnonceService annonceService;
-	private CollegueRepo collegueRepo;
 	
 
-	public AnnonceController(AnnonceService annonceService, CollegueRepo collegueRepo) {
+	public AnnonceController(AnnonceService annonceService) {
 		this.annonceService = annonceService;
-		this.collegueRepo = collegueRepo;
+
 	}
 
 	@GetMapping
