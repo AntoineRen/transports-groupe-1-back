@@ -1,14 +1,16 @@
 package dev;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.List;
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
+import dev.entites.Annonce;
 import dev.entites.Collegue;
 import dev.entites.Reservation;
 import dev.entites.RoleCollegue;
@@ -19,6 +21,7 @@ import dev.entites.utiles.StatutReservation;
 import dev.entites.utiles.StatutVehiculeSociete;
 import dev.entites.utiles.Version;
 import dev.repository.CollegueRepo;
+import dev.repository.AnnonceRepository;
 import dev.repository.ReservationRepository;
 import dev.repository.VehiculeSocieteRepository;
 import dev.repository.VersionRepo;
@@ -33,18 +36,25 @@ public class StartupListener {
 	private VersionRepo versionRepo;
 	private PasswordEncoder passwordEncoder;
 	private CollegueRepo collegueRepo;
+
+	private AnnonceRepository annonceRepo;
 	private VehiculeSocieteRepository vehiculeRepo;
 	private ReservationRepository reservationRepo;
 
 	public StartupListener(@Value("${app.version}") String appVersion, VersionRepo versionRepo,
 			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, VehiculeSocieteRepository vehiculeRepo,
-			ReservationRepository reservationRepo) {
+			ReservationRepository reservationRepo, AnnonceRepository annonceRepo) {
+
 		this.appVersion = appVersion;
 		this.versionRepo = versionRepo;
 		this.passwordEncoder = passwordEncoder;
 		this.collegueRepo = collegueRepo;
+
+		this.annonceRepo = annonceRepo;
+
 		this.vehiculeRepo = vehiculeRepo;
 		this.reservationRepo = reservationRepo;
+
 	}
 
 	@EventListener(ContextRefreshedEvent.class)
@@ -78,6 +88,7 @@ public class StartupListener {
 		col3.setRoles(Arrays.asList(new RoleCollegue(col3, Role.ROLE_COLLABORATEUR),
 				new RoleCollegue(col3, Role.ROLE_CHAUFFEUR)));
 		this.collegueRepo.save(col3);
+
 
 		// Création de 3 véhicule
 		VehiculeSociete vehi1 = new VehiculeSociete("AA-000-AA", "Dolorean", "DMC-12", Categorie.CATEGORIE_CP, 2,
@@ -135,6 +146,122 @@ public class StartupListener {
 		Reservation res10 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
 				col1, null, StatutReservation.STATUT_EN_COURS, vehi2);
 		this.reservationRepo.save(res10);
-	}
 
+
+		// itineraire
+		Itineraire ite1 = new Itineraire();
+		LocalDateTime dt = LocalDateTime.now();
+		ite1.setDateArrivee(dt);
+		ite1.setDateDepart(dt);
+		ite1.setLieuDepart("maison");
+		ite1.setLieuDestination("boulo");
+		ite1.setDureeTrajet(200);
+		ite1.setDistance(202D);
+
+		Itineraire ite2 = new Itineraire();
+		LocalDateTime dt1 = LocalDateTime.of(1992, 05, 30, 00, 00);
+		ite2.setDateArrivee(dt1);
+		ite2.setDateDepart(dt1);
+		ite2.setLieuDepart("Cul de sac");
+		ite2.setLieuDestination("La montagne solitaire");
+		ite2.setDureeTrajet(200);
+		ite2.setDistance(202D);
+
+		// Annonce
+		Annonce annonce1 = new Annonce();
+		annonce1.setItineraire(ite2);
+		annonce1.setResponsable(col2);
+		annonce1.setListPassagers(new ArrayList());
+		annonce1.setImmatriculation("JD-666-JD");
+		annonce1.setMarque("Dolorean1");
+		annonce1.setModele("DMC-12");
+		annonce1.setNbPlace(2);
+		List<Collegue> listPassagers = Arrays.asList(col1, col2, col3);
+		annonce1.setListPassagers(listPassagers);
+		this.annonceRepo.save(annonce1);
+
+		Annonce annonce2 = new Annonce();
+		annonce2.setItineraire(ite1);
+		annonce2.setResponsable(col2);
+		annonce2.setListPassagers(new ArrayList());
+		annonce2.setImmatriculation("JD-666-JD");
+		annonce2.setMarque("Dolorean2");
+		annonce2.setModele("DMC-12");
+		annonce2.setNbPlace(2);
+		this.annonceRepo.save(annonce2);
+
+		Annonce annonce3 = new Annonce();
+		annonce3.setItineraire(ite1);
+		annonce3.setResponsable(col2);
+		annonce3.setListPassagers(new ArrayList());
+		annonce3.setImmatriculation("JD-666-JD");
+		annonce3.setMarque("Dolorean3");
+		annonce3.setModele("DMC-12");
+		annonce3.setNbPlace(2);
+		this.annonceRepo.save(annonce3);
+
+		Annonce annonce4 = new Annonce();
+		annonce4.setItineraire(ite1);
+		annonce4.setResponsable(col2);
+		annonce4.setListPassagers(new ArrayList());
+		annonce4.setImmatriculation("JD-666-JD");
+		annonce4.setMarque("Dolorean4");
+		annonce4.setModele("DMC-12");
+		annonce4.setNbPlace(2);
+		this.annonceRepo.save(annonce4);
+
+		Annonce annonce5 = new Annonce();
+		annonce5.setItineraire(ite1);
+		annonce5.setResponsable(col2);
+		annonce5.setListPassagers(new ArrayList());
+		annonce5.setImmatriculation("JD-666-JD");
+		annonce5.setMarque("Dolorean5");
+		annonce5.setModele("DMC-12");
+		annonce5.setNbPlace(2);
+		this.annonceRepo.save(annonce5);
+
+		Annonce annonce6 = new Annonce();
+		annonce6.setItineraire(ite1);
+		annonce6.setResponsable(col1);
+		annonce6.setListPassagers(new ArrayList());
+		annonce6.setImmatriculation("JD-666-JD");
+		annonce6.setMarque("Bus Magique");
+		annonce6.setModele("Nw");
+		annonce6.setNbPlace(2);
+		this.annonceRepo.save(annonce6);
+
+		Annonce annonce7 = new Annonce();
+		annonce7.setItineraire(ite1);
+		annonce7.setResponsable(col1);
+		annonce7.setListPassagers(new ArrayList());
+		annonce7.setImmatriculation("JD-666-JD");
+		annonce7.setMarque("Dragon");
+		annonce7.setModele("magnar a pointe");
+		annonce7.setNbPlace(2);
+		this.annonceRepo.save(annonce7);
+
+		Annonce annonce8 = new Annonce();
+		annonce8.setItineraire(new Itineraire(LocalDateTime.of(1966, 05, 30, 00, 00),
+				LocalDateTime.of(1967, 05, 30, 00, 00), "mordor", "gondor", 1000, 10000D));
+		annonce8.setResponsable(col2);
+		annonce8.setImmatriculation("JD-666-JD");
+		annonce8.setMarque("Oliphant");
+		annonce8.setModele("GreySkin");
+		annonce8.setNbPlace(2);
+		List<Collegue> listPassagersSansCollab = Arrays.asList(col1, col3);
+		annonce8.setListPassagers(listPassagersSansCollab);
+		this.annonceRepo.save(annonce8);
+
+		Annonce annonce9 = new Annonce();
+		annonce8.setItineraire(new Itineraire(LocalDateTime.of(2021, 05, 30, 00, 00),
+				LocalDateTime.of(2021, 05, 31, 00, 00), "tatouin", "Mustafar", 1000, 10000D));
+		annonce8.setResponsable(col2);
+		annonce8.setImmatriculation("JD-666-JD");
+		annonce8.setMarque("faucon millenium");
+		annonce8.setModele("1100KK");
+		annonce8.setNbPlace(2);
+		List<Collegue> listPassagersfutur = Arrays.asList(col1,col2,col3);
+		annonce8.setListPassagers(listPassagersSansCollab);
+		this.annonceRepo.save(annonce8);
+	}
 }
