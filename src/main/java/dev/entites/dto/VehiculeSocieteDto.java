@@ -3,8 +3,11 @@ package dev.entites.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import dev.entites.VehiculeSociete;
+
 public class VehiculeSocieteDto {
 
+	private Long id;
 	@NotBlank
 	private String immatriculation;
 	@NotBlank
@@ -12,27 +15,43 @@ public class VehiculeSocieteDto {
 	@NotBlank
 	private String modele;
 	@NotBlank
-	private String categorie; // TODO se renseigner sur Enum
+	private String categorie;
 	@NotNull
 	private Integer nbPlace;
+
+	private String photoUrl;
 
 	/**
 	 * Constructor
 	 *
+	 * @param id
 	 * @param immatriculation
 	 * @param marque
 	 * @param modele
 	 * @param categorie
 	 * @param nbPlace
+	 * @param photoUrl
 	 */
-	public VehiculeSocieteDto(@NotBlank String immatriculation, @NotBlank String marque, @NotBlank String modele,
-			@NotBlank String categorie, @NotNull Integer nbPlace) {
+	public VehiculeSocieteDto(Long id, @NotBlank String immatriculation, @NotBlank String marque,
+			@NotBlank String modele, @NotBlank String categorie, @NotNull Integer nbPlace, String photoUrl) {
 		super();
+		this.id = id;
 		this.immatriculation = immatriculation;
 		this.marque = marque;
 		this.modele = modele;
 		this.categorie = categorie;
 		this.nbPlace = nbPlace;
+		this.photoUrl = photoUrl;
+	}
+
+	public VehiculeSocieteDto(VehiculeSociete vehicule) {
+		this.id = vehicule.getId();
+		this.immatriculation = vehicule.getImmatriculation();
+		this.marque = vehicule.getMarque();
+		this.modele = vehicule.getModele();
+		this.categorie = vehicule.getCategorie().getDetail();
+		this.nbPlace = vehicule.getNbPlace();
+		this.photoUrl = vehicule.getPhotoUrl();
 	}
 
 	/**
@@ -123,6 +142,42 @@ public class VehiculeSocieteDto {
 	 */
 	public void setNbPlace(Integer nbPlace) {
 		this.nbPlace = nbPlace;
+	}
+
+	/**
+	 * Getter
+	 *
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
+	 * Getter
+	 *
+	 * @return the photoUrl
+	 */
+	public String getPhotoUrl() {
+		return photoUrl;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param photoUrl the photoUrl to set
+	 */
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
 	}
 
 }

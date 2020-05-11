@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.entites.Reservation;
 import dev.entites.dto.ReservationDto;
 import dev.exceptions.CollegueNonTrouveException;
+import dev.exceptions.ReservationHoraireIncompatibleException;
+import dev.exceptions.VehiculeNonTrouveException;
 import dev.service.ReservationService;
 
 @RestController
@@ -40,15 +42,25 @@ public class ReservationController {
 		return this.reservationService.getAllReservations();
 	}
 
+	/**
+	 * Réceptionne une requète post sur l'url back_url/reservation contenant les
+	 * informations nécessaires a la création d'une reservation et la renvoie si la
+	 * sauvegarde en base de données à été un succes
+	 * 
+	 * @param reservationDto
+	 * @return Reservation
+	 */
 	@PostMapping
 	public Reservation postReservation(@RequestBody @Valid ReservationDto reservationDto) {
 
-		return this.reservationService.postReservation(reservationDto);
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		return this.reservationService.postReservation(email, reservationDto);
 	}
 
 	/**
-	 * Réceptionne une requete sur l'url back_url/reservation/current et renvoie la
-	 * liste des réservations en cours du collègue connecté
+	 * Réceptionne une requete get sur l'url back_url/reservation/current et renvoie
+	 * la liste des réservations en cours du collègue connecté
 	 * 
 	 * @return List<Reservation>
 	 */
@@ -61,8 +73,8 @@ public class ReservationController {
 	}
 
 	/**
-	 * Réceptionne une requete sur l'url back_url/reservation/histo" et renvoie la
-	 * liste des réservations passées du collègue connecté
+	 * Réceptionne une requete get sur l'url back_url/reservation/histo" et renvoie
+	 * la liste des réservations passées du collègue connecté
 	 * 
 	 * @return List<Reservation>
 	 */
@@ -76,13 +88,40 @@ public class ReservationController {
 
 	/**
 	 * Catche l'exception throw par le service si aucun collègue n'a été trouvé et
-	 * renvoie une ResponseEntity avec le statut 404 et le message de lexception
+	 * renvoie une ResponseEntity avec le statut 404 et le message de l'exception
 	 * 
 	 * @param e
 	 * @return ResponseEntity<String>
 	 */
 	@ExceptionHandler(CollegueNonTrouveException.class)
 	public ResponseEntity<String> onCollegueNonTrouveException(CollegueNonTrouveException e) {
+
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+	}
+
+	/**
+	 * Catche l'exception throw par le service si aucun véchicule n'a été trouvé et
+	 * renvoie une ResponseEntity avec le statut 404 et le message de l'exception
+	 * 
+	 * @param e
+	 * @return ResponseEntity<String>
+	 */
+	@ExceptionHandler(VehiculeNonTrouveException.class)
+	public ResponseEntity<String> onVehiculeNonTrouveException(VehiculeNonTrouveException e) {
+
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+	}
+
+	/**
+	 * Catche l'exception throw par le service si les horaires de la réservation à
+	 * crée sont incompatibles avec les reservations présentes en base de données et
+	 * renvoie une ResponseEntity avec le statut 404 et le message de l'exception
+	 * 
+	 * @param e
+	 * @return ResponseEntity<String>
+	 */
+	@ExceptionHandler(ReservationHoraireIncompatibleException.class)
+	public ResponseEntity<String> onReservationHoraireIncompatibleException(ReservationHoraireIncompatibleException e) {
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	}
