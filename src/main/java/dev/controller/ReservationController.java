@@ -43,7 +43,9 @@ public class ReservationController {
 	@PostMapping
 	public Reservation postReservation(@RequestBody @Valid ReservationDto reservationDto) {
 
-		return this.reservationService.postReservation(reservationDto);
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		return this.reservationService.postReservation(email, reservationDto);
 	}
 
 	/**

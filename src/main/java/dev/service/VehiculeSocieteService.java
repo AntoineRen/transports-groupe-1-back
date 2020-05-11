@@ -106,8 +106,8 @@ public class VehiculeSocieteService {
 
 		for (Reservation reservation : reservations) {
 
-			LocalDateTime reservationDepart = reservation.getItineraire().getDateDepart();
-			LocalDateTime reservationArrivee = reservation.getItineraire().getDateArrivee();
+			LocalDateTime reservationDepart = reservation.getDateDepart();
+			LocalDateTime reservationArrivee = reservation.getDateArrivee();
 
 			if (reservationDepart.isEqual(periode.getDateDepart()) // reservation depart == periode depart
 					|| reservationDepart.isEqual(periode.getDateRetour()) // reservation depart == periode retour

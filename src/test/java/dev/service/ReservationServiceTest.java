@@ -16,7 +16,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import dev.entites.Collegue;
-import dev.entites.Itineraire;
 import dev.entites.Reservation;
 import dev.entites.VehiculeSociete;
 import dev.entites.utiles.Categorie;
@@ -59,12 +58,10 @@ class ReservationServiceTest {
 		collegueTest = new Collegue("test", "test", "test@test.fr", "test", "00000000");
 		vehiculeTest = new VehiculeSociete("immatriculationTest", "marqueTest", "modeleTest", Categorie.CATEGORIE_BTL,
 				5, StatutVehiculeSociete.EN_SERVICE, null);
-		reservationEnCoursTest = new Reservation(new Itineraire(LocalDateTime.now().plusDays(5),
-				LocalDateTime.now().plusDays(5), "test", "test", 100, 100D), collegueTest, null,
-				StatutReservation.STATUT_EN_COURS, vehiculeTest);
-		reservationHistoTest = new Reservation(new Itineraire(LocalDateTime.now().minusDays(5),
-				LocalDateTime.now().minusDays(5), "test", "test", 100, 200D), collegueTest, null,
-				StatutReservation.STATUT_EN_COURS, vehiculeTest);
+		reservationEnCoursTest = new Reservation(LocalDateTime.now().plusDays(5), LocalDateTime.now().plusDays(5),
+				collegueTest, null, StatutReservation.STATUT_EN_COURS, vehiculeTest);
+		reservationHistoTest = new Reservation(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(5),
+				collegueTest, null, StatutReservation.STATUT_EN_COURS, vehiculeTest);
 
 		reservations = new ArrayList<>();
 		reservations.add(reservationEnCoursTest);

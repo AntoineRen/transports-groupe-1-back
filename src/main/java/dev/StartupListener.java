@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import dev.entites.Collegue;
-import dev.entites.Itineraire;
 import dev.entites.Reservation;
 import dev.entites.RoleCollegue;
 import dev.entites.VehiculeSociete;
@@ -97,54 +96,44 @@ public class StartupListener {
 		this.vehiculeRepo.save(vehi3);
 
 		// Création de 10 réservations pour admin
-		Reservation res1 = new Reservation(new Itineraire(LocalDateTime.of(2020, 5, 15, 13, 30),
-				LocalDateTime.of(2020, 5, 25, 16, 50), "Rennes", "Nantes", 200, 120.0), col1, null,
-				StatutReservation.STATUT_EN_COURS, vehi1);
+		Reservation res1 = new Reservation(LocalDateTime.of(2020, 5, 15, 13, 30), LocalDateTime.of(2020, 5, 25, 16, 50),
+				col1, null, StatutReservation.STATUT_EN_COURS, vehi1);
 		this.reservationRepo.save(res1);
 
-		Reservation res2 = new Reservation(new Itineraire(LocalDateTime.of(2020, 5, 8, 16, 50),
-				LocalDateTime.of(2020, 5, 28, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
-				StatutReservation.STATUT_EN_COURS, vehi2);
+		Reservation res2 = new Reservation(LocalDateTime.of(2020, 5, 8, 16, 50), LocalDateTime.of(2020, 5, 28, 15, 30),
+				col1, null, StatutReservation.STATUT_EN_COURS, vehi2);
 		this.reservationRepo.save(res2);
 
-		Reservation res3 = new Reservation(new Itineraire(LocalDateTime.of(2020, 4, 8, 16, 50),
-				LocalDateTime.of(2020, 4, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
-				StatutReservation.STATUT_EN_COURS, vehi2);
+		Reservation res3 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
+				col1, null, StatutReservation.STATUT_EN_COURS, vehi2);
 		this.reservationRepo.save(res3);
 
-		Reservation res4 = new Reservation(new Itineraire(LocalDateTime.of(2020, 4, 8, 16, 50),
-				LocalDateTime.of(2020, 4, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
-				StatutReservation.STATUT_EN_COURS, vehi3);
+		Reservation res4 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
+				col1, null, StatutReservation.STATUT_EN_COURS, vehi3);
 		this.reservationRepo.save(res4);
 
-		Reservation res5 = new Reservation(new Itineraire(LocalDateTime.of(2020, 4, 8, 16, 50),
-				LocalDateTime.of(2020, 4, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
-				StatutReservation.STATUT_EN_COURS, vehi3);
+		Reservation res5 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
+				col1, null, StatutReservation.STATUT_EN_COURS, vehi3);
 		this.reservationRepo.save(res5);
 
-		Reservation res6 = new Reservation(new Itineraire(LocalDateTime.of(2020, 4, 8, 16, 50),
-				LocalDateTime.of(2020, 4, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
-				StatutReservation.STATUT_EN_COURS, vehi2);
+		Reservation res6 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
+				col1, null, StatutReservation.STATUT_EN_COURS, vehi2);
 		this.reservationRepo.save(res6);
 
-		Reservation res7 = new Reservation(new Itineraire(LocalDateTime.of(2020, 4, 8, 16, 50),
-				LocalDateTime.of(2020, 4, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
-				StatutReservation.STATUT_EN_COURS, vehi1);
+		Reservation res7 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
+				col1, null, StatutReservation.STATUT_EN_COURS, vehi1);
 		this.reservationRepo.save(res7);
 
-		Reservation res8 = new Reservation(new Itineraire(LocalDateTime.of(2020, 4, 8, 16, 50),
-				LocalDateTime.of(2020, 4, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
-				StatutReservation.STATUT_EN_COURS, vehi3);
+		Reservation res8 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
+				col1, null, StatutReservation.STATUT_EN_COURS, vehi3);
 		this.reservationRepo.save(res8);
 
-		Reservation res9 = new Reservation(new Itineraire(LocalDateTime.of(2020, 4, 8, 16, 50),
-				LocalDateTime.of(2020, 4, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
-				StatutReservation.STATUT_EN_COURS, vehi1);
+		Reservation res9 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
+				col1, null, StatutReservation.STATUT_EN_COURS, vehi1);
 		this.reservationRepo.save(res9);
 
-		Reservation res10 = new Reservation(new Itineraire(LocalDateTime.of(2020, 4, 8, 16, 50),
-				LocalDateTime.of(2020, 4, 12, 15, 30), "Rennes", "Nantes", 200, 120.0), col1, null,
-				StatutReservation.STATUT_EN_COURS, vehi2);
+		Reservation res10 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
+				col1, null, StatutReservation.STATUT_EN_COURS, vehi2);
 		this.reservationRepo.save(res10);
 	}
 

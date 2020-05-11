@@ -11,7 +11,6 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import dev.entites.Collegue;
-import dev.entites.Itineraire;
 import dev.entites.Reservation;
 import dev.entites.VehiculeSociete;
 import dev.entites.dto.ReservationDto;
@@ -46,24 +45,20 @@ public class ReservationService {
 	}
 
 	@Transactional
-	public Reservation postReservation(@Valid ReservationDto reservationDto) {
+	public Reservation postReservation(String email, @Valid ReservationDto reservationDto) {
 
 		Reservation reservation = null;
 
-		Itineraire itineraire = new Itineraire(reservationDto.getDateDepart(), reservationDto.getDateArrivee(),
-				reservationDto.getLieuDepart(), reservationDto.getLieuDestination(), reservationDto.getDureeTrajet(),
-				reservationDto.getDistance());
-
 		// find collegue en tant que responsable
-		Optional<Collegue> responsable = this.collegueRepository.findById(reservationDto.getResponsable_id());
+		Optional<Collegue> responsable = this.collegueRepository.findOneByEmail(email);
 		// find vehicule
 		Optional<VehiculeSociete> vehicule = this.vehiculeRepository.findById(reservationDto.getVehicule_id());
 
 		// si responsable + vehicule
 		if (responsable.isPresent() && vehicule.isPresent()) {
 
-			reservation = new Reservation(itineraire, responsable.get(), null, StatutReservation.STATUT_EN_COURS,
-					vehicule.get());
+			reservation = new Reservation(reservationDto.getDateDepart(), reservationDto.getDateArrivee(),
+					responsable.get(), null, StatutReservation.STATUT_EN_COURS, vehicule.get());
 
 		} else {
 			if (!responsable.isPresent()) {
@@ -92,10 +87,9 @@ public class ReservationService {
 			// recupere toutes les reservations du responsable, les filtrent pour garder les
 			// réservations actuelles
 			return this.reservationRepository.findAllByResponsable(responsable.get()).stream()
-					.filter(resa -> resa.getItineraire().getDateArrivee().isAfter(LocalDateTime.now())
-							|| resa.getItineraire().getDateArrivee().isEqual(LocalDateTime.now()))
-					.sorted((a, b) -> a.getItineraire().getDateDepart().compareTo((b.getItineraire().getDateDepart())))
-					.collect(Collectors.toList());
+					.filter(resa -> resa.getDateArrivee().isAfter(LocalDateTime.now())
+							|| resa.getDateArrivee().isEqual(LocalDateTime.now()))
+					.sorted((a, b) -> a.getDateDepart().compareTo((b.getDateDepart()))).collect(Collectors.toList());
 		} else {
 			throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
 		}
@@ -117,9 +111,8 @@ public class ReservationService {
 			// recupere toutes les reservations du responsable, les filtrent pour garder les
 			// réservations passées
 			return this.reservationRepository.findAllByResponsable(responsable.get()).stream()
-					.filter(resa -> resa.getItineraire().getDateArrivee().isBefore(LocalDateTime.now()))
-					.sorted((a, b) -> a.getItineraire().getDateDepart().compareTo((b.getItineraire().getDateDepart())))
-					.collect(Collectors.toList());
+					.filter(resa -> resa.getDateArrivee().isBefore(LocalDateTime.now()))
+					.sorted((a, b) -> a.getDateDepart().compareTo((b.getDateDepart()))).collect(Collectors.toList());
 		} else {
 			throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
 		}

@@ -21,7 +21,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import dev.entites.Collegue;
-import dev.entites.Itineraire;
 import dev.entites.Reservation;
 import dev.entites.VehiculeSociete;
 import dev.entites.utiles.Categorie;
@@ -55,7 +54,8 @@ class ReservationControllerTest {
 	String emailTest = "test@test.fr";
 
 	Collegue collegueTest;
-	VehiculeSociete vehiculeTest;
+	VehiculeSociete vehiculeTest1;
+	VehiculeSociete vehiculeTest2;
 	List<Reservation> reservationsEnCoursTest;
 	List<Reservation> reservationsHistoTest;
 
@@ -63,14 +63,14 @@ class ReservationControllerTest {
 	public void init() {
 
 		collegueTest = new Collegue("test", "test", "test@test.fr", "test", "00000000");
-		vehiculeTest = new VehiculeSociete("immatriculationTest", "marqueTest", "modeleTest", Categorie.CATEGORIE_BTL,
+		vehiculeTest1 = new VehiculeSociete("immatriculationTest1", "marqueTest", "modeleTest", Categorie.CATEGORIE_BTL,
 				5, StatutVehiculeSociete.EN_SERVICE, null);
-		Reservation reservationEnCoursTest = new Reservation(new Itineraire(LocalDateTime.now().plusDays(5),
-				LocalDateTime.now().plusDays(5), "test", "test", 100, 100D), collegueTest, null,
-				StatutReservation.STATUT_EN_COURS, vehiculeTest);
-		Reservation reservationHistoTest = new Reservation(new Itineraire(LocalDateTime.now().minusDays(5),
-				LocalDateTime.now().minusDays(5), "test", "test", 100, 200D), collegueTest, null,
-				StatutReservation.STATUT_EN_COURS, vehiculeTest);
+		vehiculeTest2 = new VehiculeSociete("immatriculationTest2", "marqueTest", "modeleTest", Categorie.CATEGORIE_BTL,
+				5, StatutVehiculeSociete.EN_SERVICE, null);
+		Reservation reservationEnCoursTest = new Reservation(LocalDateTime.now().plusDays(5),
+				LocalDateTime.now().plusDays(5), collegueTest, null, StatutReservation.STATUT_EN_COURS, vehiculeTest1);
+		Reservation reservationHistoTest = new Reservation(LocalDateTime.now().minusDays(5),
+				LocalDateTime.now().minusDays(5), collegueTest, null, StatutReservation.STATUT_EN_COURS, vehiculeTest2);
 
 		reservationsEnCoursTest = new ArrayList<>();
 		reservationsEnCoursTest.add(reservationEnCoursTest);
@@ -88,8 +88,7 @@ class ReservationControllerTest {
 
 		mockMvc.perform(get(baseUrl + "/current/")).andExpect(status().is(200))
 				.andExpect(jsonPath("$[0].responsable.nom").value("test"))
-				.andExpect(jsonPath("$[0].itineraire.distance").value(100))
-				.andExpect(jsonPath("$[0].vehicule.immatriculation").value("immatriculationTest"));
+				.andExpect(jsonPath("$[0].vehicule.immatriculation").value("immatriculationTest1"));
 
 	}
 
@@ -113,8 +112,7 @@ class ReservationControllerTest {
 
 		mockMvc.perform(get(baseUrl + "/histo/")).andExpect(status().is(200))
 				.andExpect(jsonPath("$[0].responsable.nom").value("test"))
-				.andExpect(jsonPath("$[0].itineraire.distance").value(200))
-				.andExpect(jsonPath("$[0].vehicule.immatriculation").value("immatriculationTest"));
+				.andExpect(jsonPath("$[0].vehicule.immatriculation").value("immatriculationTest2"));
 
 	}
 
