@@ -16,6 +16,8 @@ import dev.entites.VehiculeSociete;
 import dev.entites.dto.ReservationDto;
 import dev.entites.utiles.StatutReservation;
 import dev.exceptions.CollegueNonTrouveException;
+import dev.exceptions.ReservationHoraireIncompatibleException;
+import dev.exceptions.VehiculeNonTrouveException;
 import dev.repository.CollegueRepository;
 import dev.repository.ReservationRepository;
 import dev.repository.VehiculeSocieteRepository;
@@ -44,6 +46,15 @@ public class ReservationService {
 		return this.reservationRepository.findAll();
 	}
 
+	/**
+	 * A partir d'un email et d'un object ReservationDto, vérifie que les
+	 * informations nécessaire a la création d'une reservation sont correct et
+	 * sauvegarde la reservation en base de données
+	 * 
+	 * @param email
+	 * @param reservationDto
+	 * @return Reservation
+	 */
 	@Transactional
 	public Reservation postReservation(String email, @Valid ReservationDto reservationDto) {
 
@@ -57,19 +68,64 @@ public class ReservationService {
 		// si responsable + vehicule
 		if (responsable.isPresent() && vehicule.isPresent()) {
 
-			reservation = new Reservation(reservationDto.getDateDepart(), reservationDto.getDateArrivee(),
-					responsable.get(), null, StatutReservation.STATUT_EN_COURS, vehicule.get());
+			// vérification heure reservation corrects
+			List<Reservation> reservations = this.reservationRepository.findAllByVehicule(vehicule.get());
+
+			if (this.vechiculeDispoInReservations(reservations, reservationDto.getDateDepart(),
+					reservationDto.getDateArrivee())) {
+
+				reservation = new Reservation(reservationDto.getDateDepart(), reservationDto.getDateArrivee(),
+						responsable.get(), null, StatutReservation.STATUT_EN_COURS, vehicule.get());
+			} else {
+				throw new ReservationHoraireIncompatibleException(
+						"Impossible de créer la réservation du fait d'horraires incompatibles.");
+			}
 
 		} else {
 			if (!responsable.isPresent()) {
-				throw new RuntimeException(); // TODO creer exception responsable non trouvé
+				throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
 			} else {
-				throw new RuntimeException(); // TODO creer exception vehicule non trouvé
+				throw new VehiculeNonTrouveException(
+						"Aucun véhicule trouvé avec cet id : " + reservationDto.getVehicule_id());
 			}
 		}
 
 		this.reservationRepository.save(reservation);
 		return reservation;
+	}
+
+	/**
+	 * Vérifie qu'une période ne rentre pas en conflit avec une reservation
+	 * existante
+	 * 
+	 * @param reservations
+	 * @param dateDepart
+	 * @param dateRetour
+	 * @return Boolean si la période ne rentre pas en conflit avec les reservations
+	 */
+	private Boolean vechiculeDispoInReservations(List<Reservation> reservations, LocalDateTime dateDepart,
+			LocalDateTime dateRetour) {
+
+		for (Reservation reservation : reservations) {
+
+			LocalDateTime reservationDepart = reservation.getDateDepart();
+			LocalDateTime reservationArrivee = reservation.getDateArrivee();
+
+			if (reservationDepart.isEqual(dateDepart) // reservation depart == periode depart
+					|| reservationDepart.isEqual(dateRetour) // reservation depart == periode retour
+					|| reservationArrivee.isEqual(dateDepart) // reservation retour == periode depart
+					|| reservationArrivee.isEqual(dateRetour) // reservation retour == periode retour
+					|| (reservationDepart.isAfter(dateDepart) // periode depart < reservation depart <
+																// periode retour
+							&& reservationDepart.isBefore(dateRetour))
+					|| (reservationArrivee.isAfter(dateDepart) // periode depart < reservation retour <
+																// periode retour
+							&& reservationArrivee.isBefore(dateRetour))) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**

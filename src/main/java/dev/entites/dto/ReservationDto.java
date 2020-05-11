@@ -11,7 +11,7 @@ public class ReservationDto {
 	@NotNull
 	private LocalDateTime dateArrivee;
 	@NotNull
-	private Long vehicule_id;
+	private Long vehiculeId;
 
 	/**
 	 * Constructor
@@ -21,11 +21,11 @@ public class ReservationDto {
 	 * @param vehicule_id
 	 */
 	public ReservationDto(@NotNull LocalDateTime dateDepart, @NotNull LocalDateTime dateArrivee,
-			@NotNull Long vehicule_id) {
+			@NotNull Long vehiculeId) {
 		super();
 		this.dateDepart = dateDepart;
 		this.dateArrivee = dateArrivee;
-		this.vehicule_id = vehicule_id;
+		this.vehiculeId = vehiculeId;
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class ReservationDto {
 	 * @return the vehicule_id
 	 */
 	public Long getVehicule_id() {
-		return vehicule_id;
+		return vehiculeId;
 	}
 
 	/**
@@ -78,8 +78,8 @@ public class ReservationDto {
 	 *
 	 * @param vehicule_id the vehicule_id to set
 	 */
-	public void setVehicule_id(Long vehicule_id) {
-		this.vehicule_id = vehicule_id;
+	public void setVehicule_id(Long vehiculeId) {
+		this.vehiculeId = vehiculeId;
 	}
 
 }
