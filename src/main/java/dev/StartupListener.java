@@ -4,14 +4,16 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.hibernate.mapping.Array;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
 import dev.entites.Annonce;
 import dev.entites.Collegue;
+import dev.entites.Itineraire;
 import dev.entites.Reservation;
 import dev.entites.RoleCollegue;
 import dev.entites.VehiculeSociete;
@@ -20,8 +22,8 @@ import dev.entites.utiles.Role;
 import dev.entites.utiles.StatutReservation;
 import dev.entites.utiles.StatutVehiculeSociete;
 import dev.entites.utiles.Version;
-import dev.repository.CollegueRepo;
 import dev.repository.AnnonceRepository;
+import dev.repository.CollegueRepo;
 import dev.repository.ReservationRepository;
 import dev.repository.VehiculeSocieteRepository;
 import dev.repository.VersionRepo;
@@ -89,7 +91,6 @@ public class StartupListener {
 				new RoleCollegue(col3, Role.ROLE_CHAUFFEUR)));
 		this.collegueRepo.save(col3);
 
-
 		// Création de 3 véhicule
 		VehiculeSociete vehi1 = new VehiculeSociete("AA-000-AA", "Dolorean", "DMC-12", Categorie.CATEGORIE_CP, 2,
 				StatutVehiculeSociete.EN_SERVICE,
@@ -146,7 +147,6 @@ public class StartupListener {
 		Reservation res10 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
 				col1, null, StatutReservation.STATUT_EN_COURS, vehi2);
 		this.reservationRepo.save(res10);
-
 
 		// itineraire
 		Itineraire ite1 = new Itineraire();
@@ -260,7 +260,7 @@ public class StartupListener {
 		annonce8.setMarque("faucon millenium");
 		annonce8.setModele("1100KK");
 		annonce8.setNbPlace(2);
-		List<Collegue> listPassagersfutur = Arrays.asList(col1,col2,col3);
+		List<Collegue> listPassagersfutur = Arrays.asList(col1, col2, col3);
 		annonce8.setListPassagers(listPassagersSansCollab);
 		this.annonceRepo.save(annonce8);
 	}
