@@ -9,7 +9,8 @@ import dev.entites.Collegue;
 
 @Repository
 public interface CollegueRepository extends JpaRepository<Collegue, Long> {
-
+	
 	Optional<Collegue> findOneByEmail(String email);
 
+	
 }

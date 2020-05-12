@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -27,6 +28,9 @@ public class Collegue extends BaseEntite {
 	@OneToMany(mappedBy = "collegue", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private List<RoleCollegue> roles;
 
+	@ManyToMany
+	private List<Annonce> listCovoiturageAnnonces ; 
+	
 	/**
 	 * Constructeur
 	 * 
