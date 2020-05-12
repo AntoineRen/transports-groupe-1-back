@@ -12,20 +12,24 @@ public class ReservationDto {
 	private LocalDateTime dateArrivee;
 	@NotNull
 	private Long vehiculeId;
+	@NotNull
+	private Boolean avecChauffeur;
 
 	/**
 	 * Constructor
 	 *
 	 * @param dateDepart
 	 * @param dateArrivee
-	 * @param vehicule_id
+	 * @param vehiculeId
+	 * @param avecChauffeur
 	 */
 	public ReservationDto(@NotNull LocalDateTime dateDepart, @NotNull LocalDateTime dateArrivee,
-			@NotNull Long vehiculeId) {
+			@NotNull Long vehiculeId, @NotNull Boolean avecChauffeur) {
 		super();
 		this.dateDepart = dateDepart;
 		this.dateArrivee = dateArrivee;
 		this.vehiculeId = vehiculeId;
+		this.avecChauffeur = avecChauffeur;
 	}
 
 	/**
@@ -67,19 +71,37 @@ public class ReservationDto {
 	/**
 	 * Getter
 	 *
-	 * @return the vehicule_id
+	 * @return the vehiculeId
 	 */
-	public Long getVehicule_id() {
+	public Long getVehiculeId() {
 		return vehiculeId;
 	}
 
 	/**
 	 * Setter
 	 *
-	 * @param vehicule_id the vehicule_id to set
+	 * @param vehiculeId the vehiculeId to set
 	 */
-	public void setVehicule_id(Long vehiculeId) {
+	public void setVehiculeId(Long vehiculeId) {
 		this.vehiculeId = vehiculeId;
+	}
+
+	/**
+	 * Getter
+	 *
+	 * @return the avecChauffeur
+	 */
+	public Boolean getAvecChauffeur() {
+		return avecChauffeur;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param avecChauffeur the avecChauffeur to set
+	 */
+	public void setAvecChauffeur(Boolean avecChauffeur) {
+		this.avecChauffeur = avecChauffeur;
 	}
 
 }
