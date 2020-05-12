@@ -61,6 +61,14 @@ public class AnnonceController {
 				.getHistoriqueAnnonce(annonceService.getAllAnnoncesByCollegue(email));
 		return listAnnonceCollegue;
 	}
+	
+	@GetMapping("listAnnonceByResponsableHistorique")
+	public List<Annonce> getHistoriqueAnnoncesByResponsableEmail() {
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		List<Annonce> listAnnonceCollegue = annonceService
+				.getHistoriqueAnnonce(annonceService.getAnnoncesByResponcable(email));
+		return listAnnonceCollegue;
+	}
 
 	@PostMapping
 	public Annonce postAnnonce(@RequestBody @Valid AnnonceDto annonceDto) {

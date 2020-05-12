@@ -167,6 +167,15 @@ public class StartupListener {
 		ite2.setLieuDestination("La montagne solitaire");
 		ite2.setDureeTrajet(200);
 		ite2.setDistance(202D);
+		
+		Itineraire ite3 = new Itineraire();
+		LocalDateTime dt2 = LocalDateTime.of(2022, 05, 30, 00, 00);
+		ite3.setDateArrivee(dt2);
+		ite3.setDateDepart(dt2);
+		ite3.setLieuDepart("Cul de sac1");
+		ite3.setLieuDestination("La montagne solitaire1");
+		ite3.setDureeTrajet(200);
+		ite3.setDistance(202D);
 
 		// Annonce
 		Annonce annonce1 = new Annonce();
@@ -261,8 +270,46 @@ public class StartupListener {
 		annonce8.setMarque("faucon millenium");
 		annonce8.setModele("1100KK");
 		annonce8.setNbPlace(2);
-		List<Collegue> listPassagersfutur = Arrays.asList(col1, col2, col3);
-		annonce8.setListPassagers(listPassagersSansCollab);
-		this.annonceRepo.save(annonce8);
+		List<Collegue> listPassagersfutur = Arrays.asList(col1,col2,col3);
+		annonce8.setListPassagers(listPassagersfutur);
+		this.annonceRepo.save(annonce9);
+		
+		// Annonce
+		Annonce annonce10 = new Annonce();
+		annonce10.setItineraire(ite2);
+		annonce10.setResponsable(col1);
+		annonce10.setListPassagers(new ArrayList());
+		annonce10.setImmatriculation("JD-666-JD");
+		annonce10.setMarque("Dragon");
+		annonce10.setModele("magnar a pointe");
+		List<Collegue> listPassagers1 = Arrays.asList(col1, col2, col3);
+		annonce10.setListPassagers(listPassagers1);
+		annonce10.setNbPlace(2);
+		this.annonceRepo.save(annonce10);
+		
+		Annonce annonce11 = new Annonce();
+		annonce11.setItineraire(ite2);
+		annonce11.setResponsable(col1);
+		annonce11.setListPassagers(new ArrayList());
+		annonce11.setImmatriculation("JD-666-JD");
+		annonce11.setMarque("Dragon");
+		annonce11.setModele("magnar a pointe");
+		List<Collegue> listPassagers2 = Arrays.asList(col1, col2, col3);
+		annonce11.setListPassagers(listPassagers2);
+		annonce11.setNbPlace(2);
+		this.annonceRepo.save(annonce11);
+		
+		Annonce annonce12 = new Annonce();
+		annonce12.setItineraire(ite3);
+		annonce12.setResponsable(col1);
+		annonce12.setListPassagers(new ArrayList());
+		annonce12.setImmatriculation("JD-666-JD");
+		annonce12.setMarque("Dragon");
+		annonce12.setModele("magnar a pointe");
+		List<Collegue> listPassagers3 = Arrays.asList(col1, col2, col3);
+		annonce12.setListPassagers(listPassagers3);
+		annonce12.setNbPlace(2);
+		this.annonceRepo.save(annonce12);
+
 	}
 }
