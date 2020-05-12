@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.entites.VehiculeSociete;
+import dev.entites.dto.DisponibiliteDto;
+import dev.entites.dto.PeriodeDto;
 import dev.entites.dto.VehiculeSocieteDto;
 import dev.service.VehiculeSocieteService;
 
@@ -31,7 +33,7 @@ public class VehiculeController {
 	}
 
 	@GetMapping
-	public List<VehiculeSociete> getAllVehicules() {
+	public List<VehiculeSocieteDto> getAllVehicules() {
 
 		return this.vehiculeService.getAllVehicules();
 	}
@@ -40,5 +42,19 @@ public class VehiculeController {
 	public VehiculeSociete postVehicule(@RequestBody @Valid VehiculeSocieteDto vehiculeDto) {
 
 		return this.vehiculeService.postVehicule(vehiculeDto);
+	}
+
+	/**
+	 * Réceptionne une requete post sur l'url back_url/vehicule/disponibilite
+	 * contenant dans le body une periode et renvoie une liste contenant la
+	 * disponibilité de chaque véhicules en fonction de cette période
+	 * 
+	 * @param periodeDto
+	 * @return List<DisponibiliteDto>
+	 */
+	@PostMapping("disponibilite")
+	public List<DisponibiliteDto> disponibilitesVehicules(@RequestBody @Valid PeriodeDto periodeDto) {
+
+		return this.vehiculeService.disponibilitesVehicules(periodeDto);
 	}
 }

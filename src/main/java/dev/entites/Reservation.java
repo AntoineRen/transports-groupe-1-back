@@ -1,19 +1,21 @@
 package dev.entites;
 
-import javax.persistence.Embedded;
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import dev.entites.utiles.StatutDemandeChauffeur;
 import dev.entites.utiles.StatutReservation;
 
 @Entity
 public class Reservation extends BaseEntite {
 
-	@Embedded
-	private Itineraire itineraire;
+	private LocalDateTime dateDepart;
+	private LocalDateTime dateArrivee;
 	@ManyToOne
 	@JoinColumn(name = "RESPONSABLE")
 	private Collegue responsable;
@@ -25,6 +27,8 @@ public class Reservation extends BaseEntite {
 	@ManyToOne
 	@JoinColumn(name = "VEHICULE")
 	private VehiculeSociete vehicule;
+	@Enumerated(EnumType.STRING)
+	private StatutDemandeChauffeur statutDemandeChauffeur;
 
 	/**
 	 * Constructeur
@@ -37,35 +41,64 @@ public class Reservation extends BaseEntite {
 	/**
 	 * Constructor
 	 *
-	 * @param itineraire
+	 * @param dateDepart
+	 * @param dateArrivee
 	 * @param responsable
-	 * @param chauffeurId
-	 * @param listPassagers
+	 * @param chauffeur
 	 * @param statut
-	 * @param vehiculeId
+	 * @param vehicule
 	 */
-	public Reservation(Itineraire itineraire, Collegue responsable, Collegue chauffeur, StatutReservation statut,
-			VehiculeSociete vehicule) {
+	public Reservation(LocalDateTime dateDepart, LocalDateTime dateArrivee, Collegue responsable, Collegue chauffeur,
+			StatutReservation statut, VehiculeSociete vehicule, StatutDemandeChauffeur statutDemandeChauffeur) {
 		super();
-		this.itineraire = itineraire;
+		this.dateDepart = dateDepart;
+		this.dateArrivee = dateArrivee;
 		this.responsable = responsable;
 		this.chauffeur = chauffeur;
 		this.statut = statut;
 		this.vehicule = vehicule;
+		this.statutDemandeChauffeur = statutDemandeChauffeur;
 	}
 
 	/**
 	 * Getter
-	 * 
-	 * @return the itineraire
+	 *
+	 * @return the dateDepart
 	 */
-	public Itineraire getItineraire() {
-		return itineraire;
+	public LocalDateTime getDateDepart() {
+		return dateDepart;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param dateDepart the dateDepart to set
+	 */
+	public void setDateDepart(LocalDateTime dateDepart) {
+		this.dateDepart = dateDepart;
 	}
 
 	/**
 	 * Getter
-	 * 
+	 *
+	 * @return the dateArrivee
+	 */
+	public LocalDateTime getDateArrivee() {
+		return dateArrivee;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param dateArrivee the dateArrivee to set
+	 */
+	public void setDateArrivee(LocalDateTime dateArrivee) {
+		this.dateArrivee = dateArrivee;
+	}
+
+	/**
+	 * Getter
+	 *
 	 * @return the responsable
 	 */
 	public Collegue getResponsable() {
@@ -73,57 +106,12 @@ public class Reservation extends BaseEntite {
 	}
 
 	/**
-	 * Getter
-	 * 
-	 * @return the chauffeurId
-	 */
-	public Collegue getChauffeurId() {
-		return chauffeur;
-	}
-
-	/**
 	 * Setter
-	 * 
-	 * @param itineraire the itineraire to set
-	 */
-	public void setItineraire(Itineraire itineraire) {
-		this.itineraire = itineraire;
-	}
-
-	/**
-	 * Setter
-	 * 
+	 *
 	 * @param responsable the responsable to set
 	 */
 	public void setResponsable(Collegue responsable) {
 		this.responsable = responsable;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param chauffeurId the chauffeurId to set
-	 */
-	public void setChauffeurId(Collegue chauffeur) {
-		this.chauffeur = chauffeur;
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return the statut
-	 */
-	public StatutReservation getStatut() {
-		return statut;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param statut the statut to set
-	 */
-	public void setStatut(StatutReservation statut) {
-		this.statut = statut;
 	}
 
 	/**
@@ -147,6 +135,24 @@ public class Reservation extends BaseEntite {
 	/**
 	 * Getter
 	 *
+	 * @return the statut
+	 */
+	public StatutReservation getStatut() {
+		return statut;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param statut the statut to set
+	 */
+	public void setStatut(StatutReservation statut) {
+		this.statut = statut;
+	}
+
+	/**
+	 * Getter
+	 *
 	 * @return the vehicule
 	 */
 	public VehiculeSociete getVehicule() {
@@ -160,6 +166,24 @@ public class Reservation extends BaseEntite {
 	 */
 	public void setVehicule(VehiculeSociete vehicule) {
 		this.vehicule = vehicule;
+	}
+
+	/**
+	 * Getter
+	 *
+	 * @return the statutDemandeChauffeur
+	 */
+	public StatutDemandeChauffeur getStatutDemandeChauffeur() {
+		return statutDemandeChauffeur;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param statutDemandeChauffeur the statutDemandeChauffeur to set
+	 */
+	public void setStatutDemandeChauffeur(StatutDemandeChauffeur statutDemandeChauffeur) {
+		this.statutDemandeChauffeur = statutDemandeChauffeur;
 	}
 
 }

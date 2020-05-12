@@ -2,11 +2,9 @@ package dev.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.io.Console;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +19,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import dev.entites.Annonce;
 import dev.entites.Collegue;
 import dev.entites.Itineraire;
-import dev.entites.Reservation;
-import dev.entites.utiles.StatutReservation;
 import dev.exceptions.CollegueNonTrouveException;
 import dev.repository.AnnonceRepository;
 import dev.repository.CollegueRepository;
@@ -146,11 +142,11 @@ class AnnonceServiceTest {
 
 	}
 
-	@Test
-	void testGetHistoriqueAnnonce() {
-		assertEquals(3, this.annonceService.getHistoriqueAnnonce(listAnnoncesTime).size());
-		assertThat(this.annonceService.getAnnonceEnCours(listAnnoncesTime).contains(annonceFuture));
-	}
+//	@Test
+//	void testGetHistoriqueAnnonce() {
+//		assertEquals(3, this.annonceService.getHistoriqueAnnonce(listAnnoncesTime).size());
+//		assertThat(this.annonceService.getAnnonceEnCours(listAnnoncesTime).contains(annonceFuture));
+//	}
 //TODO
 //	@Test
 //	void GetAllAnnoncesByCollegue() {
