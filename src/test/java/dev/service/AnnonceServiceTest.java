@@ -149,7 +149,7 @@ class AnnonceServiceTest {
 
 	@Test
 	void testGetHistoriqueAnnonce() {
-		//LOGGER.info("testGetHistoriqueAnnonce {}", listAnnoncesTime);
+		LOGGER.info("testGetHistoriqueAnnonce {}", this.annonceService.getHistoriqueAnnonce(listAnnoncesTime));
 		assertEquals(3, this.annonceService.getHistoriqueAnnonce(listAnnoncesTime).size());
 		assertThat(this.annonceService.getAnnonceEnCours(listAnnoncesTime).contains(annonceFuture));
 	}
