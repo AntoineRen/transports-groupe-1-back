@@ -9,7 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import dev.entites.utiles.StatutDemandeChauffeur;
-import dev.entites.utiles.StatutReservation;
 
 @Entity
 public class Reservation extends BaseEntite {
@@ -22,8 +21,6 @@ public class Reservation extends BaseEntite {
 	@ManyToOne
 	@JoinColumn(name = "CHAUFFEUR")
 	private Collegue chauffeur;
-	@Enumerated(EnumType.STRING)
-	private StatutReservation statut;
 	@ManyToOne
 	@JoinColumn(name = "VEHICULE")
 	private VehiculeSociete vehicule;
@@ -49,13 +46,12 @@ public class Reservation extends BaseEntite {
 	 * @param vehicule
 	 */
 	public Reservation(LocalDateTime dateDepart, LocalDateTime dateArrivee, Collegue responsable, Collegue chauffeur,
-			StatutReservation statut, VehiculeSociete vehicule, StatutDemandeChauffeur statutDemandeChauffeur) {
+			VehiculeSociete vehicule, StatutDemandeChauffeur statutDemandeChauffeur) {
 		super();
 		this.dateDepart = dateDepart;
 		this.dateArrivee = dateArrivee;
 		this.responsable = responsable;
 		this.chauffeur = chauffeur;
-		this.statut = statut;
 		this.vehicule = vehicule;
 		this.statutDemandeChauffeur = statutDemandeChauffeur;
 	}
@@ -132,23 +128,6 @@ public class Reservation extends BaseEntite {
 		this.chauffeur = chauffeur;
 	}
 
-	/**
-	 * Getter
-	 *
-	 * @return the statut
-	 */
-	public StatutReservation getStatut() {
-		return statut;
-	}
-
-	/**
-	 * Setter
-	 *
-	 * @param statut the statut to set
-	 */
-	public void setStatut(StatutReservation statut) {
-		this.statut = statut;
-	}
 
 	/**
 	 * Getter

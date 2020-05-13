@@ -19,6 +19,8 @@ import dev.entites.Annonce;
 import dev.entites.Collegue;
 import dev.entites.Itineraire;
 import dev.entites.dto.AnnonceDto;
+import dev.entites.utiles.StatutAnnonce;
+import dev.exceptions.AnnonceNonTrouveException;
 import dev.exceptions.CollegueNonTrouveException;
 import dev.repository.AnnonceRepository;
 import dev.repository.CollegueRepository;
@@ -115,27 +117,50 @@ public class AnnonceService {
 
 		return allAnnonce;
 	}
+	
+	/**
+     * @param id
+     * @return une annonce par son id
+     */
+    public Annonce getAnnonceById(Long id) {
+        Optional<Annonce> annonce = annonceRepository.findById(id);
+        if (annonce.isPresent()) {
+            return annonce.get();
+        } else {
+            // TODO creer exception adaptée
+            throw new AnnonceNonTrouveException("Aucune annonce trouvé avec cet id : " + id);
+        }
+    }
 
 	@Transactional
-	public Annonce postAnnonce(@Valid AnnonceDto annonceDto) {
+	public Annonce postAnnonce(String email ,@Valid AnnonceDto annonceDto) {
 		Annonce annonce = null;
+		// find collegue en tant que responsable
+		Optional<Collegue> responsable = this.collegueRepository.findOneByEmail(email);
 
 		Itineraire itineraire = new Itineraire(annonceDto.getDateDepart(), annonceDto.getDateArrivee(),
 				annonceDto.getLieuDepart(), annonceDto.getLieuDestination(), annonceDto.getDureeTrajet(),
 				annonceDto.getDistance());
 
-		// find collegue en tant que responsable
-		Optional<Collegue> responsable = this.collegueRepository.findById(annonceDto.getResponsable_id());
-
 		if (responsable.isPresent()) {
 			annonce = new Annonce(itineraire, responsable.get(), annonceDto.getImmatriculation(),
-					annonceDto.getMarque(), annonceDto.getModele(), annonceDto.getNbPlace());
+					annonceDto.getMarque(), annonceDto.getModele(), annonceDto.getNbPlace(), StatutAnnonce.STATUT_EN_COURS);
 			this.annonceRepository.save(annonce);
 
 			return annonce;
 		} else {
-			throw new RuntimeException(); // TODO creer exception responsable non trouvé
+			throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
 		}
+	}
+	
+	public Annonce annulerAnnonce(Long id) {
+		
+		//récuperer une annonce by son id
+		Annonce annonce = this.getAnnonceById(id);
+		
+		annonce.setStatut(StatutAnnonce.STATUT_ANNULE);
+		this.annonceRepository.save(annonce);
+		return annonce;
 	}
 
 }

@@ -5,9 +5,13 @@ import java.util.List;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+import dev.entites.utiles.StatutAnnonce;
 
 @Entity
 public class Annonce extends BaseEntite {
@@ -22,6 +26,8 @@ public class Annonce extends BaseEntite {
 	private String marque;
 	private String modele;
 	private Integer nbPlace;
+	@Enumerated(EnumType.STRING)
+	private StatutAnnonce statut;
 
 	/**
 	 * Constructeur
@@ -42,7 +48,7 @@ public class Annonce extends BaseEntite {
 	 * @param nbPlace
 	 */
 	public Annonce(Itineraire itineraire, Collegue responsable, String immatriculation, String marque, String modele,
-			Integer nbPlace) {
+			Integer nbPlace, StatutAnnonce statut) {
 		super();
 		this.itineraire = itineraire;
 		this.responsable = responsable;
@@ -51,6 +57,7 @@ public class Annonce extends BaseEntite {
 		this.marque = marque;
 		this.modele = modele;
 		this.nbPlace = nbPlace;
+		this.statut = statut;
 	}
 
 	/**
@@ -179,4 +186,21 @@ public class Annonce extends BaseEntite {
 		this.nbPlace = nbPlace;
 	}
 
+	/**
+	 * Getter
+	 *
+	 * @return the statut
+	 */
+	public StatutAnnonce getStatut() {
+		return statut;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param statut the statut to set
+	 */
+	public void setStatut(StatutAnnonce statut) {
+		this.statut = statut;
+	}
 }

@@ -36,11 +36,9 @@ public class AnnonceDto {
 	@Positive
 	private Double distance;
 
-	@NotNull
 	private Long responsable_id;
 
 	@NotBlank
-	@Size(min = 9, max = 10)
 	private String immatriculation;
 	
 	@NotBlank
