@@ -143,7 +143,16 @@ public class Itineraire{
 	public void setDistance(Double distance) {
 		this.distance = distance;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "Itineraire{" +
+				"dateDepart=" + dateDepart +
+				", dateArrivee=" + dateArrivee +
+				", lieuDepart='" + lieuDepart + '\'' +
+				", lieuDestination='" + lieuDestination + '\'' +
+				", dureeTrajet=" + dureeTrajet +
+				", distance=" + distance +
+				'}';
+	}
 }
