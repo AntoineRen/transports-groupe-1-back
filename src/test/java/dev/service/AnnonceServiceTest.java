@@ -151,6 +151,13 @@ class AnnonceServiceTest {
 		assertEquals(3, this.annonceService.getHistoriqueAnnonce(listAnnoncesTime).size());
 		assertThat(this.annonceService.getAnnonceEnCours(listAnnoncesTime).contains(annonceFuture));
 	}
+
+	@Test
+	void testGetallAnnonceEnCours() {
+		when(this.annonceService.getAllAnnoncesEnCours()).thenReturn(listAnnoncesTime);
+		assertThat(this.annonceService.getAllAnnoncesEnCours().contains(annonceFuture));
+		//la methode testé n'est qu'un passe plat
+	}
 //TODO
 //	@Test
 //	void GetAllAnnoncesByCollegue() {

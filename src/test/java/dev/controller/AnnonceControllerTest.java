@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,13 +66,13 @@ class AnnonceControllerTest {
 	Collegue passagerTest;
 	List<Annonce> listAnnoncesResponsable = new ArrayList<>();
 	List<Annonce> listAnnoncesPassager = new ArrayList<>();
-
+	List<Annonce> listAnnonceEnCours = new ArrayList<>();
 
 
 	@BeforeEach
 	public void init() {
 
-		// Valorisation Collegue
+	
 
 		responcableTest = new Collegue("MonsieurResponcebleTest", "ResponcableTest", "testResponsable@test.fr",
 				"MdpResponcabletest", "00000000");
@@ -92,6 +93,11 @@ class AnnonceControllerTest {
 		listAnnoncesPassager.add(annonceTestPassager);
 
 
+	
+		listAnnonceEnCours.add(new Annonce(new Itineraire(LocalDateTime.now().plusDays(5),
+				LocalDateTime.now().plusDays(6), "test", "test", 100, 100D), responcableTest, "TT-666-TT", "Test",
+				"test", 4));
+		
 	}
 
 	@Test
@@ -125,10 +131,9 @@ class AnnonceControllerTest {
 		when(this.annonceService.getAnnonceEnCours(listAnnoncesPassager)).thenReturn(listAnnoncesPassager);
 		when(this.annonceService.getAllAnnoncesByCollegue(emailPassagerTest)).thenReturn(listAnnoncesPassager);
 
-		mockMvc.perform(get(baseUrl + "/listAnnonceEnCours")).andExpect(status().is(200))
-				.andExpect(jsonPath("$[0].responsable.nom").value("MonsieurPassagerTest"))
-				.andExpect(jsonPath("$[0].itineraire.distance").value(100))
-				.andExpect(jsonPath("$[0].immatriculation").value("TT-666-TT"));
+		mockMvc.perform(get(baseUrl + "/listAnnonceEnCours")).andExpect(status().is(200));
+//				.andExpect(LocalDate.parse(jsonPath("$[0].itineraire.dateDepart").toString()).isAfter(LocalDate.now())); 
+
 	}
 
 	@Test
@@ -140,6 +145,16 @@ class AnnonceControllerTest {
 		mockMvc.perform(get(baseUrl + "/listAnnonceHistorique")).andExpect(status().is(200))
 				.andExpect(jsonPath("$[0].responsable.nom").value("MonsieurPassagerTest"))
 				.andExpect(jsonPath("$[0].itineraire.distance").value(100))
+				.andExpect(jsonPath("$[0].immatriculation").value("TT-666-TT"));
+	}
+	@Test
+	@WithMockUser(username = "testPassager@test.fr")
+	void testgetAllAnnoncesEnCours() throws Exception {
+		when(this.annonceService.getAllAnnoncesEnCours()).thenReturn(listAnnonceEnCours);
+		
+
+		mockMvc.perform(get(baseUrl + "/listAllAnnonce")).andExpect(status().is(200))
+				.andExpect(jsonPath("$[0].itineraire.da").value(100))
 				.andExpect(jsonPath("$[0].immatriculation").value("TT-666-TT"));
 	}
 
