@@ -142,17 +142,17 @@ class AnnonceServiceTest {
 
 	}
 
-//	@Test
-//	void testGetHistoriqueAnnonce() {
-//		assertEquals(3, this.annonceService.getHistoriqueAnnonce(listAnnoncesTime).size());
-//		assertThat(this.annonceService.getAnnonceEnCours(listAnnoncesTime).contains(annonceFuture));
-//	}
+	@Test
+	void testGetHistoriqueAnnonce() {
+		assertEquals(3, this.annonceService.getHistoriqueAnnonce(listAnnoncesTime).size());
+		assertThat(this.annonceService.getAnnonceEnCours(listAnnoncesTime).contains(annonceFuture));
+	}
 //TODO
-//	@Test
-//	void GetAllAnnoncesByCollegue() {
-//		when(annonceService.getAnnoncesByResponcable(emailResponsableTest)).thenReturn(listAnnonces);
-//		when(annonceService.getAnnonceByPassager(emailResponsableTest)).thenReturn(listAnnonces);
-//		assertEquals(2, this.annonceService.getAllAnnoncesByCollegue(emailResponsableTest));
-//	}
+	@Test
+	void GetAllAnnoncesByCollegue() {
+		when(annonceService.getAnnoncesByResponcable(emailResponsableTest)).thenReturn(listAnnonces);
+		when(annonceService.getAnnonceByPassager(emailResponsableTest)).thenReturn(listAnnonces);
+		assertEquals(2, this.annonceService.getAllAnnoncesByCollegue(emailResponsableTest));
+	}
 
 }
