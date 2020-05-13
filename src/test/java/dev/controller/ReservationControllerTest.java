@@ -31,7 +31,6 @@ import dev.entites.VehiculeSociete;
 import dev.entites.dto.ReservationDto;
 import dev.entites.utiles.Categorie;
 import dev.entites.utiles.StatutDemandeChauffeur;
-import dev.entites.utiles.StatutReservation;
 import dev.entites.utiles.StatutVehiculeSociete;
 import dev.exceptions.CollegueNonTrouveException;
 import dev.security.JWTAuthenticationSuccessHandler;
@@ -81,10 +80,10 @@ class ReservationControllerTest {
 		vehiculeTest2 = new VehiculeSociete("immatriculationTest2", "marqueTest", "modeleTest", Categorie.CATEGORIE_BTL,
 				5, StatutVehiculeSociete.EN_SERVICE, null);
 		reservationEnCoursTest = new Reservation(LocalDateTime.now().plusDays(5), LocalDateTime.now().plusDays(5),
-				collegueTest, null, StatutReservation.STATUT_EN_COURS, vehiculeTest1,
+				collegueTest, null, vehiculeTest1,
 				StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		Reservation reservationHistoTest = new Reservation(LocalDateTime.now().minusDays(5),
-				LocalDateTime.now().minusDays(5), collegueTest, null, StatutReservation.STATUT_EN_COURS, vehiculeTest2,
+				LocalDateTime.now().minusDays(5), collegueTest, null, vehiculeTest2,
 				StatutDemandeChauffeur.SANS_CHAUFFEUR);
 
 		reservationsEnCoursTest = new ArrayList<>();
