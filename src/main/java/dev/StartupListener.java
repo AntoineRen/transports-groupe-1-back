@@ -20,7 +20,6 @@ import dev.entites.VehiculeSociete;
 import dev.entites.utiles.Categorie;
 import dev.entites.utiles.Role;
 import dev.entites.utiles.StatutDemandeChauffeur;
-import dev.entites.utiles.StatutReservation;
 import dev.entites.utiles.StatutVehiculeSociete;
 import dev.entites.utiles.Version;
 import dev.repository.AnnonceRepository;
@@ -110,43 +109,43 @@ public class StartupListener {
 
 		// Création de 10 réservations pour admin
 		Reservation res1 = new Reservation(LocalDateTime.of(2020, 5, 15, 13, 30), LocalDateTime.of(2020, 5, 25, 16, 50),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi1, StatutDemandeChauffeur.EN_ATTENTE);
+				col1, null,vehi1, StatutDemandeChauffeur.EN_ATTENTE);
 		this.reservationRepo.save(res1);
 
 		Reservation res2 = new Reservation(LocalDateTime.of(2020, 5, 8, 16, 50), LocalDateTime.of(2020, 5, 28, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi2, StatutDemandeChauffeur.SANS_CHAUFFEUR);
+				col1, null, vehi2, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		this.reservationRepo.save(res2);
 
 		Reservation res3 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi2, StatutDemandeChauffeur.SANS_CHAUFFEUR);
+				col1, null, vehi2, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		this.reservationRepo.save(res3);
 
 		Reservation res4 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi3, StatutDemandeChauffeur.SANS_CHAUFFEUR);
+				col1, null, vehi3, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		this.reservationRepo.save(res4);
 
 		Reservation res5 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
-				col1, col3, StatutReservation.STATUT_EN_COURS, vehi3, StatutDemandeChauffeur.AVEC_CHAUFFEUR);
+				col1, col3, vehi3, StatutDemandeChauffeur.AVEC_CHAUFFEUR);
 		this.reservationRepo.save(res5);
 
 		Reservation res6 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi2, StatutDemandeChauffeur.SANS_CHAUFFEUR);
+				col1, null, vehi2, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		this.reservationRepo.save(res6);
 
 		Reservation res7 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi1, StatutDemandeChauffeur.SANS_CHAUFFEUR);
+				col1, null, vehi1, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		this.reservationRepo.save(res7);
 
 		Reservation res8 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi3, StatutDemandeChauffeur.SANS_CHAUFFEUR);
+				col1, null, vehi3, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		this.reservationRepo.save(res8);
 
 		Reservation res9 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi1, StatutDemandeChauffeur.SANS_CHAUFFEUR);
+				col1, null, vehi1, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		this.reservationRepo.save(res9);
 
 		Reservation res10 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi2, StatutDemandeChauffeur.SANS_CHAUFFEUR);
+				col1, null, vehi2, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		this.reservationRepo.save(res10);
 
 		// itineraire

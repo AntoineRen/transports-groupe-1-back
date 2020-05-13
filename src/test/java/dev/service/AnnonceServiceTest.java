@@ -19,6 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import dev.entites.Annonce;
 import dev.entites.Collegue;
 import dev.entites.Itineraire;
+import dev.entites.utiles.StatutAnnonce;
 import dev.exceptions.CollegueNonTrouveException;
 import dev.repository.AnnonceRepository;
 import dev.repository.CollegueRepository;
@@ -63,11 +64,11 @@ class AnnonceServiceTest {
 
 		annonceTest = new Annonce(
 				new Itineraire(LocalDateTime.now(), LocalDateTime.now().plusDays(5), "test", "test", 100, 100D),
-				responcableTest, "TT-666-TT", "Test", "test", 4);
+				responcableTest, "TT-666-TT", "Test", "test", 4, StatutAnnonce.STATUT_EN_COURS);
 
 		annoncePassagerTest = new Annonce(
 				new Itineraire(LocalDateTime.now(), LocalDateTime.now().plusDays(5), "test", "test", 100, 100D),
-				passagerTest, "TT-666-TT", "Test", "test", 4);
+				passagerTest, "TT-666-TT", "Test", "test", 4, StatutAnnonce.STATUT_EN_COURS);
 
 		listAnnonces = new ArrayList<>();
 		listAnnonces.add(annonceTest);
@@ -86,14 +87,14 @@ class AnnonceServiceTest {
 
 		// Valorosation Annonce
 		annoncePast = new Annonce(new Itineraire(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1),
-				"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4);
+				"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4, StatutAnnonce.STATUT_EN_COURS);
 		annonceFuture = new Annonce(new Itineraire(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1),
-				"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4);
+				"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4, StatutAnnonce.STATUT_EN_COURS);
 
-		listAnnoncesTime.add(new Annonce(itinerairePast, passagerTest, "TT-666-TT", "Test", "test", 4));
-		listAnnoncesTime.add(new Annonce(itineraireProxPast, passagerTest, "TT-666-TT", "Test", "test", 4));
-		listAnnoncesTime.add(new Annonce(itineraireProxFuture, passagerTest, "TT-666-TT", "Test", "test", 4));
-		listAnnoncesTime.add(new Annonce(itineraireFuture, passagerTest, "TT-666-TT", "Test", "test", 4));
+		listAnnoncesTime.add(new Annonce(itinerairePast, passagerTest, "TT-666-TT", "Test", "test", 4,StatutAnnonce.STATUT_EN_COURS));
+		listAnnoncesTime.add(new Annonce(itineraireProxPast, passagerTest, "TT-666-TT", "Test", "test", 4,StatutAnnonce.STATUT_EN_COURS));
+		listAnnoncesTime.add(new Annonce(itineraireProxFuture, passagerTest, "TT-666-TT", "Test", "test", 4,StatutAnnonce.STATUT_EN_COURS));
+		listAnnoncesTime.add(new Annonce(itineraireFuture, passagerTest, "TT-666-TT", "Test", "test", 4,StatutAnnonce.STATUT_EN_COURS));
 
 	}
 
