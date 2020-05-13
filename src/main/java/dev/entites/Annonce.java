@@ -179,4 +179,16 @@ public class Annonce extends BaseEntite {
 		this.nbPlace = nbPlace;
 	}
 
+	@Override
+	public String toString() {
+		return "Annonce{" +
+				"itineraire=" + itineraire +
+				", responsable=" + responsable +
+				", listPassagers=" + listPassagers +
+				", immatriculation='" + immatriculation + '\'' +
+				", marque='" + marque + '\'' +
+				", modele='" + modele + '\'' +
+				", nbPlace=" + nbPlace +
+				'}';
+	}
 }
