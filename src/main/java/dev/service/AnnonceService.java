@@ -99,7 +99,7 @@ public class AnnonceService {
 	 *            actuel, utilisé en historique
 	 */
 	public List<Annonce> getHistoriqueAnnonce(List<Annonce> listAnnonces) {
-		LOGGER.info("getHistoriqueAnnonce {} LocalDateTime.now().plusMinutes(5)", LocalDateTime.now().plusMinutes(5));
+		//LOGGER.info("getHistoriqueAnnonce {} LocalDateTime.now().plusMinutes(5)", LocalDateTime.now().plusMinutes(5));
 		List<Annonce> annonceEncours = listAnnonces.stream().filter(
 				annonce -> annonce.getItineraire().getDateArrivee().isBefore(LocalDateTime.now().plusMinutes(5)))
 				.sorted((a, b) -> a.getItineraire().getDateDepart().compareTo((b.getItineraire().getDateDepart())))
