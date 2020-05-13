@@ -12,8 +12,6 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -27,9 +25,6 @@ import dev.repository.CollegueRepository;
 
 @SpringJUnitConfig(AnnonceService.class)
 class AnnonceServiceTest {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(AnnonceServiceTest.class);
-
 
 	// Mock
 	@Autowired
@@ -149,7 +144,6 @@ class AnnonceServiceTest {
 
 	@Test
 	void testGetHistoriqueAnnonce() {
-		LOGGER.info("testGetHistoriqueAnnonce {}", listAnnoncesTime);
 		assertEquals(3, this.annonceService.getHistoriqueAnnonce(listAnnoncesTime).size());
 		assertThat(this.annonceService.getAnnonceEnCours(listAnnoncesTime).contains(annonceFuture));
 	}

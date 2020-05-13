@@ -11,8 +11,6 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.aspectj.weaver.patterns.ThrowsPattern;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -32,8 +30,6 @@ import net.bytebuddy.implementation.bytecode.Throw;
  */
 @Service
 public class AnnonceService {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(AnnonceService.class);
 
 	private AnnonceRepository annonceRepository;
 	private CollegueRepository collegueRepository;
@@ -99,7 +95,6 @@ public class AnnonceService {
 	 *            actuel, utilisé en historique
 	 */
 	public List<Annonce> getHistoriqueAnnonce(List<Annonce> listAnnonces) {
-		LOGGER.info("getHistoriqueAnnonce {} LocalDateTime.now().plusMinutes(5)", LocalDateTime.now().plusMinutes(5));
 		List<Annonce> annonceEncours = listAnnonces.stream().filter(
 				annonce -> annonce.getItineraire().getDateArrivee().isBefore(LocalDateTime.now().plusMinutes(5)))
 				.sorted((a, b) -> a.getItineraire().getDateDepart().compareTo((b.getItineraire().getDateDepart())))
