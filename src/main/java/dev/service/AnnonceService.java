@@ -104,7 +104,9 @@ public class AnnonceService {
 		return annonceEncours;
 	}
 
-	/**TODO soit disparaitre
+	/**
+	 * TODO soit disparaitre
+	 * 
 	 * @param email
 	 * @return Liste d'annonces en tant que passager ou responcable grace à son mail
 	 *         si l'email ne correspond a aucun collegue renvois une exception
@@ -118,19 +120,14 @@ public class AnnonceService {
 		return allAnnonce;
 	}
 	
+
 	/**
-     * @param id
-     * @return une annonce par son id
-     */
-    public Annonce getAnnonceById(Long id) {
-        Optional<Annonce> annonce = annonceRepository.findById(id);
-        if (annonce.isPresent()) {
-            return annonce.get();
-        } else {
-            // TODO creer exception adaptée
-            throw new AnnonceNonTrouveException("Aucune annonce trouvé avec cet id : " + id);
-        }
-    }
+	 * @return une liste de toute les reservation au statut en cours
+	 */
+	public List<Annonce> getAllAnnoncesEnCours() {
+		List<Annonce> allAnnonce = this.getAnnonceEnCours(this.annonceRepository.findAll());
+		return allAnnonce;
+	}
 
 	@Transactional
 	public Annonce postAnnonce(String email ,@Valid AnnonceDto annonceDto) {
@@ -161,6 +158,51 @@ public class AnnonceService {
 		annonce.setStatut(StatutAnnonce.STATUT_ANNULE);
 		this.annonceRepository.save(annonce);
 		return annonce;
+	}
+
+	/**
+	 * @param id
+	 * @return une annonce par son id
+	 */
+	public Annonce getAnnonceById(Long id) {
+		Optional<Annonce> annonce = annonceRepository.findById(id);
+		if (annonce.isPresent()) {
+			return annonce.get();
+		} else {
+			// TODO creer exception adaptée
+			throw new AnnonceNonTrouveException("Aucune annonce trouvé avec cet id : " + id);
+		}
+	}
+
+	/**
+	 * Methode permettant l'update de l'annonce, soit le retrait d'un place dans
+	 * nbPlace de l'annonce et ajout du Collegue passager dans la liste des
+	 * passagers
+	 * 
+	 * @param id    de l'annonce
+	 * @param email du passager (Collegue)
+	 * @return l'annonce mise à jour
+	 */
+	public Annonce putReservation(Long id, String email) {
+		// Réccuperation de l'annonce sujet de la réservationCovoit
+		Annonce annonceResa = this.getAnnonceById(id);
+		// reccuperation du passager grace a l'email envoyé dans le body de la requete
+		Optional<Collegue> passager = collegueRepository.findOneByEmail(email);
+		// verification de l'optionnal
+		if (passager.isPresent()) {
+			// Mise a Jour du nombre de place disponible
+			annonceResa.setNbPlace(annonceResa.getNbPlace() - 1);
+			// ajout du passager dans l'annonce
+			annonceResa.getListPassagers().add(passager.get());
+			//update de la base de donnée
+			annonceRepository.save(annonceResa);
+			
+			return annonceResa;
+		} else {
+			// TODO creer exception adaptée
+			throw new CollegueNonTrouveException("Aucun passager trouvé avec cet email : " + email);
+		}
+
 	}
 
 }

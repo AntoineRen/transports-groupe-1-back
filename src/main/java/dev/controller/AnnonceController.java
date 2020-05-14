@@ -25,7 +25,6 @@ import dev.service.AnnonceService;
 public class AnnonceController {
 
 	private AnnonceService annonceService;
-	
 
 	public AnnonceController(AnnonceService annonceService) {
 		this.annonceService = annonceService;
@@ -71,11 +70,18 @@ public class AnnonceController {
 		return listAnnonceCollegue;
 	}
 
-	@PostMapping()
-	public Annonce postAnnonce(@RequestBody @Valid AnnonceDto annonceDto) {
-		
-		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
+	@GetMapping("listAllAnnonce")
+	public List<Annonce> getAllAnnoncesEnCours() {
+		List<Annonce> listAnnonceCollegue = annonceService
+				.getAllAnnoncesEnCours();
+		return listAnnonceCollegue;
+
+	}
+
+	@PostMapping
+	public Annonce postAnnonce(@RequestBody @Valid AnnonceDto annonceDto) {
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		return this.annonceService.postAnnonce(email, annonceDto);
 	}
 	
@@ -84,6 +90,14 @@ public class AnnonceController {
 
 		return this.annonceService.annulerAnnonce(id);
 	}
+	
+	@PutMapping("reservationCovoit")
+	public Annonce putAnnonce(@RequestBody Long id) {
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		return this.annonceService.putReservation(id,email);
+		
+	}
+
 	/**
 	 * Catche l'exception throw par le service si aucun collègue n'a été trouvé a et
 	 * renvoie une ResponseEntity avec le statut 404 et le message de lexception
@@ -93,7 +107,6 @@ public class AnnonceController {
 	 */
 	@ExceptionHandler(CollegueNonTrouveException.class)
 	public ResponseEntity<String> onCollegueNonTrouveException(CollegueNonTrouveException e) {
-
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	}
 }

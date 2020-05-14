@@ -27,13 +27,13 @@ public class AnnonceDto {
 	private String lieuDestination;
 
 	/** dureeTrajet : La duree du trajet exprimée en minute */
-	@NotNull
-	@Positive
+//	@NotNull
+//	@Positive
 	private Integer dureeTrajet;
 
 	/** distance : La distance est exprimée en Kilometre */
-	@NotNull
-	@Positive
+//	@NotNull
+//	@Positive
 	private Double distance;
 
 	private Long responsable_id;

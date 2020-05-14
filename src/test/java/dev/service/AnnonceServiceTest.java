@@ -81,7 +81,7 @@ class AnnonceServiceTest {
 		Itineraire itineraireProxPast = new Itineraire(LocalDateTime.now().minusHours(2),
 				LocalDateTime.now().minusMinutes(4), "test", "test", 100, 100D);
 		Itineraire itineraireProxFuture = new Itineraire(LocalDateTime.now().plusMinutes(6),
-				LocalDateTime.now().plusMinutes(5), "test", "test", 100, 100D);
+				LocalDateTime.now().plusMinutes(10), "test", "test", 100, 100D);
 		Itineraire itineraireFuture = new Itineraire(LocalDateTime.now().plusDays(5), LocalDateTime.now().plusDays(5),
 				"test", "test", 100, 100D);
 
@@ -143,17 +143,19 @@ class AnnonceServiceTest {
 
 	}
 
+
+	@Test
+	void testGetHistoriqueAnnonce() {
+		assertEquals(2, this.annonceService.getHistoriqueAnnonce(listAnnoncesTime).size());
+		assertThat(this.annonceService.getAnnonceEnCours(listAnnoncesTime).contains(annonceFuture));
+	}
+
 //	@Test
-//	void testGetHistoriqueAnnonce() {
-//		assertEquals(3, this.annonceService.getHistoriqueAnnonce(listAnnoncesTime).size());
-//		assertThat(this.annonceService.getAnnonceEnCours(listAnnoncesTime).contains(annonceFuture));
+//	void testGetallAnnonceEnCours() {
+//		when(this.annonceService.getAllAnnoncesEnCours()).thenReturn(listAnnoncesTime);
+//		assertThat(this.annonceService.getAllAnnoncesEnCours().contains(annonceFuture));
+//		//la methode testé n'est qu'un passe plat
 //	}
-//TODO
-//	@Test
-//	void GetAllAnnoncesByCollegue() {
-//		when(annonceService.getAnnoncesByResponcable(emailResponsableTest)).thenReturn(listAnnonces);
-//		when(annonceService.getAnnonceByPassager(emailResponsableTest)).thenReturn(listAnnonces);
-//		assertEquals(2, this.annonceService.getAllAnnoncesByCollegue(emailResponsableTest));
-//	}
+////TODO
 
 }
