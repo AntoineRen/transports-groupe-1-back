@@ -108,6 +108,16 @@ public class StartupListener {
 				"https://images.unsplash.com/photo-1579571274591-51ace815723a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1367&q=80");
 		this.vehiculeRepo.save(vehi3);
 
+		// Reservation Test Planning
+		Reservation resSansChauffeur = new Reservation(LocalDateTime.now().withHour(14),
+				LocalDateTime.now().withHour(16), col1, null, StatutReservation.STATUT_EN_COURS, vehi1,
+				StatutDemandeChauffeur.EN_ATTENTE);
+		this.reservationRepo.save(resSansChauffeur);
+		Reservation resAvecChauffeur = new Reservation(LocalDateTime.now().withHour(14),
+				LocalDateTime.now().withHour(16), col1, col3, StatutReservation.STATUT_EN_COURS, vehi2,
+				StatutDemandeChauffeur.AVEC_CHAUFFEUR);
+		this.reservationRepo.save(resAvecChauffeur);
+
 		// Création de 10 réservations pour admin
 		Reservation res1 = new Reservation(LocalDateTime.of(2020, 5, 15, 13, 30), LocalDateTime.of(2020, 5, 25, 16, 50),
 				col1, null, StatutReservation.STATUT_EN_COURS, vehi1, StatutDemandeChauffeur.EN_ATTENTE);

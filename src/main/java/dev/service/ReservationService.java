@@ -17,6 +17,7 @@ import dev.entites.dto.ReservationDto;
 import dev.entites.utiles.StatutDemandeChauffeur;
 import dev.entites.utiles.StatutReservation;
 import dev.exceptions.CollegueNonTrouveException;
+import dev.exceptions.NonChauffeurException;
 import dev.exceptions.ReservationHoraireIncompatibleException;
 import dev.exceptions.VehiculeNonTrouveException;
 import dev.repository.CollegueRepository;
@@ -182,6 +183,42 @@ public class ReservationService {
 		} else {
 			throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
 		}
+	}
+
+	/**
+	 * A partir d'un email verifie qu'un chauffeur existe avec cet email et renvoie
+	 * la liste des reservations dont il est le chauffeur
+	 * 
+	 * @param email
+	 * @return List<Reservation>
+	 */
+	public List<Reservation> getReservationsByChauffeur(String email) {
+
+		Optional<Collegue> chauffeur = this.collegueRepository.findOneByEmail(email);
+		List<Reservation> reservations = null;
+
+		if (chauffeur.isPresent() && chauffeur.get().isChauffeur()) {
+
+			reservations = this.reservationRepository.findAllByChauffeur(chauffeur.get());
+
+			return reservations;
+		} else {
+			if (chauffeur.isEmpty()) {
+				throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
+			} else {
+				throw new NonChauffeurException("Vous n'avez pas le role de chauffeur.");
+			}
+		}
+	}
+
+	/**
+	 * Renvoie la liste des réservations en attentes
+	 * 
+	 * @return List<Reservation>
+	 */
+	public List<Reservation> getReservationsEnAttentes() {
+
+		return this.reservationRepository.findAllByStatutDemandeChauffeur(StatutDemandeChauffeur.EN_ATTENTE);
 	}
 
 }

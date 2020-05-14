@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.entites.Reservation;
 import dev.entites.dto.ReservationDto;
 import dev.exceptions.CollegueNonTrouveException;
+import dev.exceptions.NonChauffeurException;
 import dev.exceptions.ReservationHoraireIncompatibleException;
 import dev.exceptions.VehiculeNonTrouveException;
 import dev.service.ReservationService;
@@ -87,7 +88,7 @@ public class ReservationController {
 	}
 
 	/**
-	 * Catche l'exception throw par le service si aucun collègue n'a été trouvé et
+	 * Catch l'exception throw par le service si aucun collègue n'a été trouvé et
 	 * renvoie une ResponseEntity avec le statut 404 et le message de l'exception
 	 * 
 	 * @param e
@@ -100,7 +101,7 @@ public class ReservationController {
 	}
 
 	/**
-	 * Catche l'exception throw par le service si aucun véchicule n'a été trouvé et
+	 * Catch l'exception throw par le service si aucun véchicule n'a été trouvé et
 	 * renvoie une ResponseEntity avec le statut 404 et le message de l'exception
 	 * 
 	 * @param e
@@ -113,7 +114,7 @@ public class ReservationController {
 	}
 
 	/**
-	 * Catche l'exception throw par le service si les horaires de la réservation à
+	 * Catch l'exception throw par le service si les horaires de la réservation à
 	 * crée sont incompatibles avec les reservations présentes en base de données et
 	 * renvoie une ResponseEntity avec le statut 404 et le message de l'exception
 	 * 
@@ -126,4 +127,42 @@ public class ReservationController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	}
 
+	/**
+	 * Réceptionne une requete get sur l'url back_url/reservation/chauffeur" et
+	 * renvoie la liste des réservations dont le collègue connecté est le chauffeur
+	 * 
+	 * @return List<Reservation>
+	 */
+	@GetMapping("chauffeur")
+	public List<Reservation> getReservationsByChauffeur() {
+
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		return this.reservationService.getReservationsByChauffeur(email);
+	}
+
+	/**
+	 * Catch l'exception throw par le service si un collegue n'a pas le statut
+	 * chauffeur
+	 * 
+	 * @param e
+	 * @return ResponseEntity<String>
+	 */
+	@ExceptionHandler(NonChauffeurException.class)
+	public ResponseEntity<String> onNonChauffeurException(NonChauffeurException e) {
+
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+	}
+
+	/**
+	 * Réceptionne une requete get sur l'url back_url/reservation/enattente" et
+	 * renvoie la liste des réservations en attente d'un chauffeur
+	 * 
+	 * @return List<Reservation>
+	 */
+	@GetMapping("enattente")
+	public List<Reservation> getReservationsEnAttentes() {
+
+		return this.reservationService.getReservationsEnAttentes();
+	}
 }

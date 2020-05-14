@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import dev.entites.utiles.Role;
+
 @Entity
 public class Collegue extends BaseEntite {
 
@@ -29,8 +31,8 @@ public class Collegue extends BaseEntite {
 	private List<RoleCollegue> roles;
 
 	@ManyToMany
-	private List<Annonce> listCovoiturageAnnonces ; 
-	
+	private List<Annonce> listCovoiturageAnnonces;
+
 	/**
 	 * Constructeur
 	 * 
@@ -87,6 +89,23 @@ public class Collegue extends BaseEntite {
 		this.motDePasse = motDePasse;
 		this.numTelephone = numTelephone;
 		this.roles = new ArrayList<>();
+	}
+
+	/**
+	 * Si un collegue a le role de chauffeur
+	 * 
+	 * @return boolean
+	 */
+	public boolean isChauffeur() {
+
+		for (RoleCollegue role : this.getRoles()) {
+
+			if (role.getRole().equals(Role.ROLE_CHAUFFEUR)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
