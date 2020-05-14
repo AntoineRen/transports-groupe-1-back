@@ -21,7 +21,7 @@ import dev.entites.Reservation;
 import dev.entites.VehiculeSociete;
 import dev.entites.dto.ReservationDto;
 import dev.entites.utiles.Categorie;
-import dev.entites.utiles.StatutReservation;
+import dev.entites.utiles.StatutDemandeChauffeur;
 import dev.entites.utiles.StatutVehiculeSociete;
 import dev.exceptions.CollegueNonTrouveException;
 import dev.exceptions.ReservationHoraireIncompatibleException;
@@ -64,15 +64,17 @@ class ReservationServiceTest {
 		vehiculeTest = new VehiculeSociete("immatriculationTest", "marqueTest", "modeleTest", Categorie.CATEGORIE_BTL,
 				5, StatutVehiculeSociete.EN_SERVICE, null);
 		reservationEnCoursTest = new Reservation(LocalDateTime.now().plusDays(5), LocalDateTime.now().plusDays(5),
-				collegueTest, null, StatutReservation.STATUT_EN_COURS, vehiculeTest);
+				collegueTest, null, vehiculeTest,
+				StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		reservationHistoTest = new Reservation(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(5),
-				collegueTest, null, StatutReservation.STATUT_EN_COURS, vehiculeTest);
+				collegueTest, null, vehiculeTest,
+				StatutDemandeChauffeur.SANS_CHAUFFEUR);
 
 		reservations = new ArrayList<>();
 		reservations.add(reservationEnCoursTest);
 		reservations.add(reservationHistoTest);
 
-		reservationDto = new ReservationDto(LocalDateTime.now(), LocalDateTime.now(), 1L);
+		reservationDto = new ReservationDto(LocalDateTime.now(), LocalDateTime.now(), 1L, false);
 
 	}
 
@@ -121,7 +123,7 @@ class ReservationServiceTest {
 	void testPostReservation() {
 
 		when(this.collegueRepository.findOneByEmail(emailTest)).thenReturn(Optional.of(collegueTest));
-		when(this.vehiculeRepository.findById(reservationDto.getVehicule_id())).thenReturn(Optional.of(vehiculeTest));
+		when(this.vehiculeRepository.findById(reservationDto.getVehiculeId())).thenReturn(Optional.of(vehiculeTest));
 		when(this.reservationRepository.findAllByVehicule(vehiculeTest)).thenReturn(reservations);
 
 		assertThat(this.reservationService.postReservation(emailTest, reservationDto).getVehicule())
@@ -144,7 +146,7 @@ class ReservationServiceTest {
 	void testPostReservationVehiculeNonTrouve() {
 
 		when(this.collegueRepository.findOneByEmail(emailTest)).thenReturn(Optional.of(collegueTest));
-		when(this.vehiculeRepository.findById(reservationDto.getVehicule_id())).thenReturn(Optional.empty());
+		when(this.vehiculeRepository.findById(reservationDto.getVehiculeId())).thenReturn(Optional.empty());
 
 		assertThatExceptionOfType(VehiculeNonTrouveException.class)
 				.isThrownBy(() -> this.reservationService.postReservation(emailTest, reservationDto))
@@ -155,7 +157,7 @@ class ReservationServiceTest {
 	void testPostReservationReservationHoraireImcompatible() {
 
 		when(this.collegueRepository.findOneByEmail(emailTest)).thenReturn(Optional.of(collegueTest));
-		when(this.vehiculeRepository.findById(reservationDto.getVehicule_id())).thenReturn(Optional.of(vehiculeTest));
+		when(this.vehiculeRepository.findById(reservationDto.getVehiculeId())).thenReturn(Optional.of(vehiculeTest));
 		when(this.reservationRepository.findAllByVehicule(vehiculeTest))
 				.thenReturn(Arrays.asList(new Reservation(reservationDto.getDateDepart(),
 						reservationDto.getDateArrivee(), null, null, null, null)));

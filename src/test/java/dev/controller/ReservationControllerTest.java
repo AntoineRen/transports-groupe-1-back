@@ -30,7 +30,7 @@ import dev.entites.Reservation;
 import dev.entites.VehiculeSociete;
 import dev.entites.dto.ReservationDto;
 import dev.entites.utiles.Categorie;
-import dev.entites.utiles.StatutReservation;
+import dev.entites.utiles.StatutDemandeChauffeur;
 import dev.entites.utiles.StatutVehiculeSociete;
 import dev.exceptions.CollegueNonTrouveException;
 import dev.security.JWTAuthenticationSuccessHandler;
@@ -80,9 +80,11 @@ class ReservationControllerTest {
 		vehiculeTest2 = new VehiculeSociete("immatriculationTest2", "marqueTest", "modeleTest", Categorie.CATEGORIE_BTL,
 				5, StatutVehiculeSociete.EN_SERVICE, null);
 		reservationEnCoursTest = new Reservation(LocalDateTime.now().plusDays(5), LocalDateTime.now().plusDays(5),
-				collegueTest, null, StatutReservation.STATUT_EN_COURS, vehiculeTest1);
+				collegueTest, null, vehiculeTest1,
+				StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		Reservation reservationHistoTest = new Reservation(LocalDateTime.now().minusDays(5),
-				LocalDateTime.now().minusDays(5), collegueTest, null, StatutReservation.STATUT_EN_COURS, vehiculeTest2);
+				LocalDateTime.now().minusDays(5), collegueTest, null, vehiculeTest2,
+				StatutDemandeChauffeur.SANS_CHAUFFEUR);
 
 		reservationsEnCoursTest = new ArrayList<>();
 		reservationsEnCoursTest.add(reservationEnCoursTest);
@@ -91,8 +93,8 @@ class ReservationControllerTest {
 		reservationsHistoTest.add(reservationHistoTest);
 
 		reservationDto = new ReservationDto(LocalDateTime.of(2020, 5, 12, 12, 0), LocalDateTime.of(2020, 5, 12, 15, 0),
-				1L);
-		jsonResaDto = "{\"dateDepart\":\"2020-05-12T12:00\",\"dateArrivee\":\"2020-05-12T12:00\",\"vehiculeId\":1}";
+				1L, false);
+		jsonResaDto = "{\"dateDepart\":\"2020-05-12T12:00\",\"dateArrivee\":\"2020-05-12T12:00\",\"vehiculeId\":1,\"avecChauffeur\":false}";
 	}
 
 	@Test

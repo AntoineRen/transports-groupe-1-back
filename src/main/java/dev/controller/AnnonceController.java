@@ -61,6 +61,15 @@ public class AnnonceController {
 				.getHistoriqueAnnonce(annonceService.getAllAnnoncesByCollegue(email));
 		return listAnnonceCollegue;
 	}
+	
+	@GetMapping("listAnnonceByResponsableHistorique")
+	public List<Annonce> getHistoriqueAnnoncesByResponsableEmail() {
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		List<Annonce> listAnnonceCollegue = annonceService
+				.getHistoriqueAnnonce(annonceService.getAnnoncesByResponcable(email));
+		return listAnnonceCollegue;
+	}
+
 
 	@GetMapping("listAllAnnonce")
 	public List<Annonce> getAllAnnoncesEnCours() {
@@ -72,7 +81,14 @@ public class AnnonceController {
 
 	@PostMapping
 	public Annonce postAnnonce(@RequestBody @Valid AnnonceDto annonceDto) {
-		return this.annonceService.postAnnonce(annonceDto);
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		return this.annonceService.postAnnonce(email, annonceDto);
+	}
+	
+	@PutMapping("annuler")
+	public Annonce annulerAnnonce(@RequestBody @Valid Long id) {
+
+		return this.annonceService.annulerAnnonce(id);
 	}
 	
 	@PutMapping("reservationCovoit")
@@ -91,7 +107,6 @@ public class AnnonceController {
 	 */
 	@ExceptionHandler(CollegueNonTrouveException.class)
 	public ResponseEntity<String> onCollegueNonTrouveException(CollegueNonTrouveException e) {
-
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	}
 }

@@ -14,7 +14,7 @@ import dev.entites.Collegue;
 import dev.entites.Reservation;
 import dev.entites.VehiculeSociete;
 import dev.entites.dto.ReservationDto;
-import dev.entites.utiles.StatutReservation;
+import dev.entites.utiles.StatutDemandeChauffeur;
 import dev.exceptions.CollegueNonTrouveException;
 import dev.exceptions.ReservationHoraireIncompatibleException;
 import dev.exceptions.VehiculeNonTrouveException;
@@ -26,8 +26,8 @@ import dev.repository.VehiculeSocieteRepository;
 public class ReservationService {
 
 	private ReservationRepository reservationRepository;
-	private CollegueRepository collegueRepository; // TODO voir si appeller un service au lieu du repo
-	private VehiculeSocieteRepository vehiculeRepository; // TODO voir si appeller un service au lieu du repo
+	private CollegueRepository collegueRepository;
+	private VehiculeSocieteRepository vehiculeRepository;
 
 	/**
 	 * Constructor
@@ -63,7 +63,7 @@ public class ReservationService {
 		// find collegue en tant que responsable
 		Optional<Collegue> responsable = this.collegueRepository.findOneByEmail(email);
 		// find vehicule
-		Optional<VehiculeSociete> vehicule = this.vehiculeRepository.findById(reservationDto.getVehicule_id());
+		Optional<VehiculeSociete> vehicule = this.vehiculeRepository.findById(reservationDto.getVehiculeId());
 
 		// si responsable + vehicule
 		if (responsable.isPresent() && vehicule.isPresent()) {
@@ -74,8 +74,17 @@ public class ReservationService {
 			if (this.vechiculeDispoInReservations(reservations, reservationDto.getDateDepart(),
 					reservationDto.getDateArrivee())) {
 
-				reservation = new Reservation(reservationDto.getDateDepart(), reservationDto.getDateArrivee(),
-						responsable.get(), null, StatutReservation.STATUT_EN_COURS, vehicule.get());
+				// si demande de chauffeur
+				if (reservationDto.getAvecChauffeur()) {
+					reservation = new Reservation(reservationDto.getDateDepart(), reservationDto.getDateArrivee(),
+							responsable.get(), null, vehicule.get(),
+							StatutDemandeChauffeur.EN_ATTENTE);
+				} else {
+					reservation = new Reservation(reservationDto.getDateDepart(), reservationDto.getDateArrivee(),
+							responsable.get(), null, vehicule.get(),
+							StatutDemandeChauffeur.SANS_CHAUFFEUR);
+				}
+
 			} else {
 				throw new ReservationHoraireIncompatibleException(
 						"Impossible de créer la réservation du fait d'horraires incompatibles.");
@@ -86,7 +95,7 @@ public class ReservationService {
 				throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
 			} else {
 				throw new VehiculeNonTrouveException(
-						"Aucun véhicule trouvé avec cet id : " + reservationDto.getVehicule_id());
+						"Aucun véhicule trouvé avec cet id : " + reservationDto.getVehiculeId());
 			}
 		}
 

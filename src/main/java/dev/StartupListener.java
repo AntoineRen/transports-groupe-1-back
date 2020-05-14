@@ -19,7 +19,7 @@ import dev.entites.RoleCollegue;
 import dev.entites.VehiculeSociete;
 import dev.entites.utiles.Categorie;
 import dev.entites.utiles.Role;
-import dev.entites.utiles.StatutReservation;
+import dev.entites.utiles.StatutDemandeChauffeur;
 import dev.entites.utiles.StatutVehiculeSociete;
 import dev.entites.utiles.Version;
 import dev.repository.AnnonceRepository;
@@ -109,43 +109,43 @@ public class StartupListener {
 
 		// Création de 10 réservations pour admin
 		Reservation res1 = new Reservation(LocalDateTime.of(2020, 5, 15, 13, 30), LocalDateTime.of(2020, 5, 25, 16, 50),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi1);
+				col1, null,vehi1, StatutDemandeChauffeur.EN_ATTENTE);
 		this.reservationRepo.save(res1);
 
 		Reservation res2 = new Reservation(LocalDateTime.of(2020, 5, 8, 16, 50), LocalDateTime.of(2020, 5, 28, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi2);
+				col1, null, vehi2, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		this.reservationRepo.save(res2);
 
 		Reservation res3 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi2);
+				col1, null, vehi2, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		this.reservationRepo.save(res3);
 
 		Reservation res4 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi3);
+				col1, null, vehi3, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		this.reservationRepo.save(res4);
 
 		Reservation res5 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi3);
+				col1, col3, vehi3, StatutDemandeChauffeur.AVEC_CHAUFFEUR);
 		this.reservationRepo.save(res5);
 
 		Reservation res6 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi2);
+				col1, null, vehi2, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		this.reservationRepo.save(res6);
 
 		Reservation res7 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi1);
+				col1, null, vehi1, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		this.reservationRepo.save(res7);
 
 		Reservation res8 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi3);
+				col1, null, vehi3, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		this.reservationRepo.save(res8);
 
 		Reservation res9 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi1);
+				col1, null, vehi1, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		this.reservationRepo.save(res9);
 
 		Reservation res10 = new Reservation(LocalDateTime.of(2020, 4, 8, 16, 50), LocalDateTime.of(2020, 4, 12, 15, 30),
-				col1, null, StatutReservation.STATUT_EN_COURS, vehi2);
+				col1, null, vehi2, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		this.reservationRepo.save(res10);
 
 		// itineraire
@@ -166,6 +166,15 @@ public class StartupListener {
 		ite2.setLieuDestination("La montagne solitaire");
 		ite2.setDureeTrajet(200);
 		ite2.setDistance(202D);
+		
+		Itineraire ite3 = new Itineraire();
+		LocalDateTime dt2 = LocalDateTime.of(2022, 05, 30, 00, 00);
+		ite3.setDateArrivee(dt2);
+		ite3.setDateDepart(dt2);
+		ite3.setLieuDepart("Cul de sac1");
+		ite3.setLieuDestination("La montagne solitaire1");
+		ite3.setDureeTrajet(200);
+		ite3.setDistance(202D);
 
 		// Annonce
 		Annonce annonce1 = new Annonce();
@@ -260,8 +269,46 @@ public class StartupListener {
 		annonce8.setMarque("faucon millenium");
 		annonce8.setModele("1100KK");
 		annonce8.setNbPlace(2);
-		List<Collegue> listPassagersfutur = Arrays.asList(col1, col2, col3);
-		annonce8.setListPassagers(listPassagersSansCollab);
-		this.annonceRepo.save(annonce8);
+		List<Collegue> listPassagersfutur = Arrays.asList(col1,col2,col3);
+		annonce8.setListPassagers(listPassagersfutur);
+		this.annonceRepo.save(annonce9);
+		
+		// Annonce
+		Annonce annonce10 = new Annonce();
+		annonce10.setItineraire(ite2);
+		annonce10.setResponsable(col1);
+		annonce10.setListPassagers(new ArrayList());
+		annonce10.setImmatriculation("JD-666-JD");
+		annonce10.setMarque("Dragon");
+		annonce10.setModele("magnar a pointe");
+		List<Collegue> listPassagers1 = Arrays.asList(col1, col2, col3);
+		annonce10.setListPassagers(listPassagers1);
+		annonce10.setNbPlace(2);
+		this.annonceRepo.save(annonce10);
+		
+		Annonce annonce11 = new Annonce();
+		annonce11.setItineraire(ite2);
+		annonce11.setResponsable(col1);
+		annonce11.setListPassagers(new ArrayList());
+		annonce11.setImmatriculation("JD-666-JD");
+		annonce11.setMarque("Dragon");
+		annonce11.setModele("magnar a pointe");
+		List<Collegue> listPassagers2 = Arrays.asList(col1, col2, col3);
+		annonce11.setListPassagers(listPassagers2);
+		annonce11.setNbPlace(2);
+		this.annonceRepo.save(annonce11);
+		
+		Annonce annonce12 = new Annonce();
+		annonce12.setItineraire(ite3);
+		annonce12.setResponsable(col1);
+		annonce12.setListPassagers(new ArrayList());
+		annonce12.setImmatriculation("JD-666-JD");
+		annonce12.setMarque("Dragon");
+		annonce12.setModele("magnar a pointe");
+		List<Collegue> listPassagers3 = Arrays.asList(col1, col2, col3);
+		annonce12.setListPassagers(listPassagers3);
+		annonce12.setNbPlace(2);
+		this.annonceRepo.save(annonce12);
+
 	}
 }

@@ -36,7 +36,6 @@ public class AnnonceDto {
 //	@Positive
 	private Double distance;
 
-	@NotNull
 	private Long responsable_id;
 
 	@NotBlank

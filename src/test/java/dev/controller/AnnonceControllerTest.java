@@ -29,7 +29,7 @@ import dev.entites.Itineraire;
 import dev.entites.Reservation;
 import dev.entites.VehiculeSociete;
 import dev.entites.utiles.Categorie;
-import dev.entites.utiles.StatutReservation;
+import dev.entites.utiles.StatutAnnonce;
 import dev.entites.utiles.StatutVehiculeSociete;
 import dev.security.JWTAuthenticationSuccessHandler;
 import dev.service.AnnonceService;
@@ -79,7 +79,7 @@ class AnnonceControllerTest {
 
 		annonceTestResponcable = new Annonce(new Itineraire(LocalDateTime.now().plusDays(5),
 				LocalDateTime.now().plusDays(6), "test", "test", 100, 100D), responcableTest, "TT-666-TT", "Test",
-				"test", 4);
+				"test", 4, StatutAnnonce.STATUT_EN_COURS);
 
 		listAnnoncesResponsable = new ArrayList<>();
 		listAnnoncesResponsable.add(annonceTestResponcable);
@@ -88,7 +88,7 @@ class AnnonceControllerTest {
 
 		annonceTestPassager = new Annonce(new Itineraire(LocalDateTime.now().plusDays(5),
 				LocalDateTime.now().plusDays(6), "test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test",
-				4);
+				4, StatutAnnonce.STATUT_EN_COURS);
 		listAnnoncesPassager = new ArrayList<>();
 		listAnnoncesPassager.add(annonceTestPassager);
 
@@ -96,7 +96,7 @@ class AnnonceControllerTest {
 	
 		listAnnonceEnCours.add(new Annonce(new Itineraire(LocalDateTime.now().plusDays(5),
 				LocalDateTime.now().plusDays(6), "test", "test", 100, 100D), responcableTest, "TT-666-TT", "Test",
-				"test", 4));
+				"test", 4,StatutAnnonce.STATUT_EN_COURS));
 		
 	}
 
