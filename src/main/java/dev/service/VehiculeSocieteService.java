@@ -55,7 +55,7 @@ public class VehiculeSocieteService {
 
 		VehiculeSociete vehicule = new VehiculeSociete(vehiculeDto.getImmatriculation(), vehiculeDto.getMarque(),
 				vehiculeDto.getModele(), Categorie.getName(vehiculeDto.getCategorie()), vehiculeDto.getNbPlace(),
-				StatutVehiculeSociete.EN_SERVICE, null);
+				StatutVehiculeSociete.EN_SERVICE, vehiculeDto.getPhotoUrl());
 
 		this.vehiculeRepository.save(vehicule);
 
