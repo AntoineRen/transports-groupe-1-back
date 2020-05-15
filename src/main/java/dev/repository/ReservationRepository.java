@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import dev.entites.Collegue;
 import dev.entites.Reservation;
 import dev.entites.VehiculeSociete;
+import dev.entites.utiles.StatutDemandeChauffeur;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
@@ -15,5 +16,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 	List<Reservation> findAllByResponsable(Collegue collegue);
 
 	List<Reservation> findAllByVehicule(VehiculeSociete vehicule);
+
+	List<Reservation> findAllByChauffeur(Collegue collegue);
+
+	List<Reservation> findAllByStatutDemandeChauffeur(StatutDemandeChauffeur enAttente);
 
 }

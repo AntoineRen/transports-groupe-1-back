@@ -4,7 +4,7 @@ package dev.exceptions;
  * @author Antoine Renou
  *
  */
-public class VehiculeNonTrouveException extends RuntimeException {
+public class VehiculeNonTrouveException extends ApplicationException {
 
 	/**
 	 * Constructor
