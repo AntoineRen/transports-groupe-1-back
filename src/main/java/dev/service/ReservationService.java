@@ -19,6 +19,7 @@ import dev.entites.utiles.StatutReservation;
 import dev.exceptions.CollegueNonTrouveException;
 import dev.exceptions.NonChauffeurException;
 import dev.exceptions.ReservationHoraireIncompatibleException;
+import dev.exceptions.ReservationNonTrouveException;
 import dev.exceptions.VehiculeNonTrouveException;
 import dev.repository.CollegueRepository;
 import dev.repository.ReservationRepository;
@@ -219,6 +220,44 @@ public class ReservationService {
 	public List<Reservation> getReservationsEnAttentes() {
 
 		return this.reservationRepository.findAllByStatutDemandeChauffeur(StatutDemandeChauffeur.EN_ATTENTE);
+	}
+
+	/**
+	 * Passe le statut d'une réservation à avec_chauffeur et lui ajoute un chauffeur
+	 * 
+	 * @param email
+	 * @param id
+	 * @return Reservation
+	 */
+	@Transactional
+	public Reservation AcceptReservation(String email, String id) {
+
+		Optional<Collegue> chauffeur = this.collegueRepository.findOneByEmail(email);
+		Optional<Reservation> reservation = null;
+
+		if (chauffeur.isPresent() && chauffeur.get().isChauffeur()) {
+
+			reservation = this.reservationRepository.findById(Long.parseLong(id));
+
+			if (reservation.isPresent()) {
+
+				reservation.get().setChauffeur(chauffeur.get());
+				reservation.get().setStatutDemandeChauffeur(StatutDemandeChauffeur.AVEC_CHAUFFEUR);
+
+				this.reservationRepository.save(reservation.get());
+
+				return reservation.get();
+			} else {
+				throw new ReservationNonTrouveException("Aucune réservation trouvé avec cet id : " + id);
+			}
+
+		} else {
+			if (chauffeur.isEmpty()) {
+				throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
+			} else {
+				throw new NonChauffeurException("Vous n'avez pas le role de chauffeur.");
+			}
+		}
 	}
 
 }

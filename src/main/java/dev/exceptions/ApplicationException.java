@@ -4,13 +4,13 @@ package dev.exceptions;
  * @author Antoine Renou
  *
  */
-public class AnnonceNonTrouveException extends ApplicationException {
+public class ApplicationException extends RuntimeException {
 
 	/**
 	 * Constructor
 	 *
 	 */
-	public AnnonceNonTrouveException() {
+	public ApplicationException() {
 		super();
 	}
 
@@ -22,7 +22,7 @@ public class AnnonceNonTrouveException extends ApplicationException {
 	 * @param enableSuppression
 	 * @param writableStackTrace
 	 */
-	public AnnonceNonTrouveException(String message, Throwable cause, boolean enableSuppression,
+	public ApplicationException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
@@ -33,7 +33,7 @@ public class AnnonceNonTrouveException extends ApplicationException {
 	 * @param message
 	 * @param cause
 	 */
-	public AnnonceNonTrouveException(String message, Throwable cause) {
+	public ApplicationException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
@@ -42,7 +42,7 @@ public class AnnonceNonTrouveException extends ApplicationException {
 	 *
 	 * @param message
 	 */
-	public AnnonceNonTrouveException(String message) {
+	public ApplicationException(String message) {
 		super(message);
 	}
 
@@ -51,7 +51,7 @@ public class AnnonceNonTrouveException extends ApplicationException {
 	 *
 	 * @param cause
 	 */
-	public AnnonceNonTrouveException(Throwable cause) {
+	public ApplicationException(Throwable cause) {
 		super(cause);
 	}
 

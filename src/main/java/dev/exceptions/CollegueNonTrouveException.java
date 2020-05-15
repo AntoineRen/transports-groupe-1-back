@@ -4,7 +4,7 @@ package dev.exceptions;
  * @author Antoine Renou
  *
  */
-public class CollegueNonTrouveException extends RuntimeException {
+public class CollegueNonTrouveException extends ApplicationException {
 
 	/**
 	 * Constructor

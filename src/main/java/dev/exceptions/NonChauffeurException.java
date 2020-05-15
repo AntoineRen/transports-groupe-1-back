@@ -4,7 +4,7 @@ package dev.exceptions;
  * @author Antoine Renou
  *
  */
-public class NonChauffeurException extends RuntimeException {
+public class NonChauffeurException extends ApplicationException {
 
 	/**
 	 * Constructor

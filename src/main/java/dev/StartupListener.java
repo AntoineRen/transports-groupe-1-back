@@ -69,6 +69,7 @@ public class StartupListener {
 		Collegue col1 = new Collegue();
 		col1.setNom("Admin");
 		col1.setPrenom("DEV");
+		col1.setNumTelephone("06 62 85 45 36");
 		col1.setEmail("admin@dev.fr");
 		col1.setMotDePasse(passwordEncoder.encode("superpass"));
 		col1.setRoles(Arrays.asList(new RoleCollegue(col1, Role.ROLE_ADMINISTRATEUR),
@@ -78,6 +79,7 @@ public class StartupListener {
 		Collegue col2 = new Collegue();
 		col2.setNom("Collaborateur");
 		col2.setPrenom("DEV");
+		col2.setNumTelephone("06 85 36 95 47");
 		col2.setEmail("collaborateur@dev.fr");
 		col2.setMotDePasse(passwordEncoder.encode("superpass"));
 		col2.setRoles(Arrays.asList(new RoleCollegue(col2, Role.ROLE_COLLABORATEUR)));
@@ -113,13 +115,22 @@ public class StartupListener {
 				LocalDateTime.now().withHour(16), col1, null, StatutReservation.STATUT_EN_COURS, vehi1,
 				StatutDemandeChauffeur.EN_ATTENTE);
 		this.reservationRepo.save(resSansChauffeur);
-		Reservation resAvecChauffeur = new Reservation(LocalDateTime.now().withHour(14),
-				LocalDateTime.now().withHour(16), col1, col3, StatutReservation.STATUT_EN_COURS, vehi2,
+		Reservation resAvecChauffeur = new Reservation(LocalDateTime.now().withHour(8),
+				LocalDateTime.now().withHour(10), col1, col3, StatutReservation.STATUT_EN_COURS, vehi2,
 				StatutDemandeChauffeur.AVEC_CHAUFFEUR);
 		this.reservationRepo.save(resAvecChauffeur);
 
+		Reservation resSansChauffeurDemain1 = new Reservation(LocalDateTime.now().plusDays(1).withHour(14),
+				LocalDateTime.now().plusDays(1).withHour(16), col1, null, StatutReservation.STATUT_EN_COURS, vehi1,
+				StatutDemandeChauffeur.EN_ATTENTE);
+		this.reservationRepo.save(resSansChauffeurDemain1);
+		Reservation resSansChauffeurDemain2 = new Reservation(LocalDateTime.now().plusDays(1).withHour(14),
+				LocalDateTime.now().plusDays(1).withHour(16), col2, null, StatutReservation.STATUT_EN_COURS, vehi2,
+				StatutDemandeChauffeur.EN_ATTENTE);
+		this.reservationRepo.save(resSansChauffeurDemain2);
+
 		// Création de 10 réservations pour admin
-		Reservation res1 = new Reservation(LocalDateTime.of(2020, 5, 15, 13, 30), LocalDateTime.of(2020, 5, 25, 16, 50),
+		Reservation res1 = new Reservation(LocalDateTime.of(2020, 5, 25, 13, 30), LocalDateTime.of(2020, 5, 25, 16, 50),
 				col1, null, StatutReservation.STATUT_EN_COURS, vehi1, StatutDemandeChauffeur.EN_ATTENTE);
 		this.reservationRepo.save(res1);
 
