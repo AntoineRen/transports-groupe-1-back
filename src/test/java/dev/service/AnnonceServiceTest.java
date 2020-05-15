@@ -19,6 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import dev.entites.Annonce;
 import dev.entites.Collegue;
 import dev.entites.Itineraire;
+import dev.entites.utiles.StatutAnnonce;
 import dev.exceptions.CollegueNonTrouveException;
 import dev.repository.AnnonceRepository;
 import dev.repository.CollegueRepository;
@@ -63,11 +64,11 @@ class AnnonceServiceTest {
 
 		annonceTest = new Annonce(
 				new Itineraire(LocalDateTime.now(), LocalDateTime.now().plusDays(5), "test", "test", 100, 100D),
-				responcableTest, "TT-666-TT", "Test", "test", 4);
+				responcableTest, "TT-666-TT", "Test", "test", 4, StatutAnnonce.STATUT_EN_COURS);
 
 		annoncePassagerTest = new Annonce(
 				new Itineraire(LocalDateTime.now(), LocalDateTime.now().plusDays(5), "test", "test", 100, 100D),
-				passagerTest, "TT-666-TT", "Test", "test", 4);
+				passagerTest, "TT-666-TT", "Test", "test", 4, StatutAnnonce.STATUT_EN_COURS);
 
 		listAnnonces = new ArrayList<>();
 		listAnnonces.add(annonceTest);
@@ -80,20 +81,20 @@ class AnnonceServiceTest {
 		Itineraire itineraireProxPast = new Itineraire(LocalDateTime.now().minusHours(2),
 				LocalDateTime.now().minusMinutes(4), "test", "test", 100, 100D);
 		Itineraire itineraireProxFuture = new Itineraire(LocalDateTime.now().plusMinutes(6),
-				LocalDateTime.now().plusMinutes(5), "test", "test", 100, 100D);
+				LocalDateTime.now().plusMinutes(10), "test", "test", 100, 100D);
 		Itineraire itineraireFuture = new Itineraire(LocalDateTime.now().plusDays(5), LocalDateTime.now().plusDays(5),
 				"test", "test", 100, 100D);
 
 		// Valorosation Annonce
 		annoncePast = new Annonce(new Itineraire(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1),
-				"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4);
+				"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4, StatutAnnonce.STATUT_EN_COURS);
 		annonceFuture = new Annonce(new Itineraire(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1),
-				"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4);
+				"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4, StatutAnnonce.STATUT_EN_COURS);
 
-		listAnnoncesTime.add(new Annonce(itinerairePast, passagerTest, "TT-666-TT", "Test", "test", 4));
-		listAnnoncesTime.add(new Annonce(itineraireProxPast, passagerTest, "TT-666-TT", "Test", "test", 4));
-		listAnnoncesTime.add(new Annonce(itineraireProxFuture, passagerTest, "TT-666-TT", "Test", "test", 4));
-		listAnnoncesTime.add(new Annonce(itineraireFuture, passagerTest, "TT-666-TT", "Test", "test", 4));
+		listAnnoncesTime.add(new Annonce(itinerairePast, passagerTest, "TT-666-TT", "Test", "test", 4,StatutAnnonce.STATUT_EN_COURS));
+		listAnnoncesTime.add(new Annonce(itineraireProxPast, passagerTest, "TT-666-TT", "Test", "test", 4,StatutAnnonce.STATUT_EN_COURS));
+		listAnnoncesTime.add(new Annonce(itineraireProxFuture, passagerTest, "TT-666-TT", "Test", "test", 4,StatutAnnonce.STATUT_EN_COURS));
+		listAnnoncesTime.add(new Annonce(itineraireFuture, passagerTest, "TT-666-TT", "Test", "test", 4,StatutAnnonce.STATUT_EN_COURS));
 
 	}
 
@@ -142,17 +143,19 @@ class AnnonceServiceTest {
 
 	}
 
+
+	@Test
+	void testGetHistoriqueAnnonce() {
+		assertEquals(2, this.annonceService.getHistoriqueAnnonce(listAnnoncesTime).size());
+		assertThat(this.annonceService.getAnnonceEnCours(listAnnoncesTime).contains(annonceFuture));
+	}
+
 //	@Test
-//	void testGetHistoriqueAnnonce() {
-//		assertEquals(3, this.annonceService.getHistoriqueAnnonce(listAnnoncesTime).size());
-//		assertThat(this.annonceService.getAnnonceEnCours(listAnnoncesTime).contains(annonceFuture));
+//	void testGetallAnnonceEnCours() {
+//		when(this.annonceService.getAllAnnoncesEnCours()).thenReturn(listAnnoncesTime);
+//		assertThat(this.annonceService.getAllAnnoncesEnCours().contains(annonceFuture));
+//		//la methode testé n'est qu'un passe plat
 //	}
-//TODO
-//	@Test
-//	void GetAllAnnoncesByCollegue() {
-//		when(annonceService.getAnnoncesByResponcable(emailResponsableTest)).thenReturn(listAnnonces);
-//		when(annonceService.getAnnonceByPassager(emailResponsableTest)).thenReturn(listAnnonces);
-//		assertEquals(2, this.annonceService.getAllAnnoncesByCollegue(emailResponsableTest));
-//	}
+////TODO
 
 }

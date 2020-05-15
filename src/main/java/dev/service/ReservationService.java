@@ -15,7 +15,6 @@ import dev.entites.Reservation;
 import dev.entites.VehiculeSociete;
 import dev.entites.dto.ReservationDto;
 import dev.entites.utiles.StatutDemandeChauffeur;
-import dev.entites.utiles.StatutReservation;
 import dev.exceptions.CollegueNonTrouveException;
 import dev.exceptions.NonChauffeurException;
 import dev.exceptions.ReservationHoraireIncompatibleException;
@@ -80,11 +79,11 @@ public class ReservationService {
 				// si demande de chauffeur
 				if (reservationDto.getAvecChauffeur()) {
 					reservation = new Reservation(reservationDto.getDateDepart(), reservationDto.getDateArrivee(),
-							responsable.get(), null, StatutReservation.STATUT_EN_COURS, vehicule.get(),
+							responsable.get(), null, vehicule.get(),
 							StatutDemandeChauffeur.EN_ATTENTE);
 				} else {
 					reservation = new Reservation(reservationDto.getDateDepart(), reservationDto.getDateArrivee(),
-							responsable.get(), null, StatutReservation.STATUT_EN_COURS, vehicule.get(),
+							responsable.get(), null, vehicule.get(),
 							StatutDemandeChauffeur.SANS_CHAUFFEUR);
 				}
 

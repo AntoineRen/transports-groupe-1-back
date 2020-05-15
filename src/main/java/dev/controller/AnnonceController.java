@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,6 @@ import dev.service.AnnonceService;
 public class AnnonceController {
 
 	private AnnonceService annonceService;
-	
 
 	public AnnonceController(AnnonceService annonceService) {
 		this.annonceService = annonceService;
@@ -61,11 +61,43 @@ public class AnnonceController {
 				.getHistoriqueAnnonce(annonceService.getAllAnnoncesByCollegue(email));
 		return listAnnonceCollegue;
 	}
+	
+	@GetMapping("listAnnonceByResponsableHistorique")
+	public List<Annonce> getHistoriqueAnnoncesByResponsableEmail() {
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		List<Annonce> listAnnonceCollegue = annonceService
+				.getHistoriqueAnnonce(annonceService.getAnnoncesByResponcable(email));
+		return listAnnonceCollegue;
+	}
+
+
+	@GetMapping("listAllAnnonce")
+	public List<Annonce> getAllAnnoncesEnCours() {
+		List<Annonce> listAnnonceCollegue = annonceService
+				.getAllAnnoncesEnCours();
+		return listAnnonceCollegue;
+
+	}
 
 	@PostMapping
 	public Annonce postAnnonce(@RequestBody @Valid AnnonceDto annonceDto) {
-		return this.annonceService.postAnnonce(annonceDto);
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		return this.annonceService.postAnnonce(email, annonceDto);
 	}
+	
+	@PutMapping("annuler")
+	public Annonce annulerAnnonce(@RequestBody @Valid Long id) {
+
+		return this.annonceService.annulerAnnonce(id);
+	}
+	
+	@PutMapping("reservationCovoit")
+	public Annonce putAnnonce(@RequestBody Long id) {
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		return this.annonceService.putReservation(id,email);
+		
+	}
+
 	/**
 	 * Catche l'exception throw par le service si aucun collègue n'a été trouvé a et
 	 * renvoie une ResponseEntity avec le statut 404 et le message de lexception
@@ -75,7 +107,6 @@ public class AnnonceController {
 	 */
 	@ExceptionHandler(CollegueNonTrouveException.class)
 	public ResponseEntity<String> onCollegueNonTrouveException(CollegueNonTrouveException e) {
-
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	}
 }

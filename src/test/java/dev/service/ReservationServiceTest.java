@@ -22,7 +22,6 @@ import dev.entites.VehiculeSociete;
 import dev.entites.dto.ReservationDto;
 import dev.entites.utiles.Categorie;
 import dev.entites.utiles.StatutDemandeChauffeur;
-import dev.entites.utiles.StatutReservation;
 import dev.entites.utiles.StatutVehiculeSociete;
 import dev.exceptions.CollegueNonTrouveException;
 import dev.exceptions.ReservationHoraireIncompatibleException;
@@ -65,10 +64,10 @@ class ReservationServiceTest {
 		vehiculeTest = new VehiculeSociete("immatriculationTest", "marqueTest", "modeleTest", Categorie.CATEGORIE_BTL,
 				5, StatutVehiculeSociete.EN_SERVICE, null);
 		reservationEnCoursTest = new Reservation(LocalDateTime.now().plusDays(5), LocalDateTime.now().plusDays(5),
-				collegueTest, null, StatutReservation.STATUT_EN_COURS, vehiculeTest,
+				collegueTest, null, vehiculeTest,
 				StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		reservationHistoTest = new Reservation(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(5),
-				collegueTest, null, StatutReservation.STATUT_EN_COURS, vehiculeTest,
+				collegueTest, null, vehiculeTest,
 				StatutDemandeChauffeur.SANS_CHAUFFEUR);
 
 		reservations = new ArrayList<>();
@@ -161,7 +160,7 @@ class ReservationServiceTest {
 		when(this.vehiculeRepository.findById(reservationDto.getVehiculeId())).thenReturn(Optional.of(vehiculeTest));
 		when(this.reservationRepository.findAllByVehicule(vehiculeTest))
 				.thenReturn(Arrays.asList(new Reservation(reservationDto.getDateDepart(),
-						reservationDto.getDateArrivee(), null, null, null, null, null)));
+						reservationDto.getDateArrivee(), null, null, null, null)));
 
 		assertThatExceptionOfType(ReservationHoraireIncompatibleException.class)
 				.isThrownBy(() -> this.reservationService.postReservation(emailTest, reservationDto))

@@ -19,6 +19,8 @@ import dev.entites.Annonce;
 import dev.entites.Collegue;
 import dev.entites.Itineraire;
 import dev.entites.dto.AnnonceDto;
+import dev.entites.utiles.StatutAnnonce;
+import dev.exceptions.AnnonceNonTrouveException;
 import dev.exceptions.CollegueNonTrouveException;
 import dev.repository.AnnonceRepository;
 import dev.repository.CollegueRepository;
@@ -102,7 +104,9 @@ public class AnnonceService {
 		return annonceEncours;
 	}
 
-	/**TODO soit disparaitre
+	/**
+	 * TODO soit disparaitre
+	 * 
 	 * @param email
 	 * @return Liste d'annonces en tant que passager ou responcable grace à son mail
 	 *         si l'email ne correspond a aucun collegue renvois une exception
@@ -115,27 +119,90 @@ public class AnnonceService {
 
 		return allAnnonce;
 	}
+	
+
+	/**
+	 * @return une liste de toute les reservation au statut en cours
+	 */
+	public List<Annonce> getAllAnnoncesEnCours() {
+		List<Annonce> allAnnonce = this.getAnnonceEnCours(this.annonceRepository.findAll());
+		return allAnnonce;
+	}
 
 	@Transactional
-	public Annonce postAnnonce(@Valid AnnonceDto annonceDto) {
+	public Annonce postAnnonce(String email ,@Valid AnnonceDto annonceDto) {
 		Annonce annonce = null;
+		// find collegue en tant que responsable
+		Optional<Collegue> responsable = this.collegueRepository.findOneByEmail(email);
 
 		Itineraire itineraire = new Itineraire(annonceDto.getDateDepart(), annonceDto.getDateArrivee(),
 				annonceDto.getLieuDepart(), annonceDto.getLieuDestination(), annonceDto.getDureeTrajet(),
 				annonceDto.getDistance());
 
-		// find collegue en tant que responsable
-		Optional<Collegue> responsable = this.collegueRepository.findById(annonceDto.getResponsable_id());
-
 		if (responsable.isPresent()) {
 			annonce = new Annonce(itineraire, responsable.get(), annonceDto.getImmatriculation(),
-					annonceDto.getMarque(), annonceDto.getModele(), annonceDto.getNbPlace());
+					annonceDto.getMarque(), annonceDto.getModele(), annonceDto.getNbPlace(), StatutAnnonce.STATUT_EN_COURS);
 			this.annonceRepository.save(annonce);
 
 			return annonce;
 		} else {
-			throw new RuntimeException(); // TODO creer exception responsable non trouvé
+			throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
 		}
+	}
+	
+	public Annonce annulerAnnonce(Long id) {
+		
+		//récuperer une annonce by son id
+		Annonce annonce = this.getAnnonceById(id);
+		
+		annonce.setStatut(StatutAnnonce.STATUT_ANNULE);
+		this.annonceRepository.save(annonce);
+		return annonce;
+	}
+
+	/**
+	 * @param id
+	 * @return une annonce par son id
+	 */
+	public Annonce getAnnonceById(Long id) {
+		Optional<Annonce> annonce = annonceRepository.findById(id);
+		if (annonce.isPresent()) {
+			return annonce.get();
+		} else {
+			// TODO creer exception adaptée
+			throw new AnnonceNonTrouveException("Aucune annonce trouvé avec cet id : " + id);
+		}
+	}
+
+	/**
+	 * Methode permettant l'update de l'annonce, soit le retrait d'un place dans
+	 * nbPlace de l'annonce et ajout du Collegue passager dans la liste des
+	 * passagers
+	 * 
+	 * @param id    de l'annonce
+	 * @param email du passager (Collegue)
+	 * @return l'annonce mise à jour
+	 */
+	public Annonce putReservation(Long id, String email) {
+		// Réccuperation de l'annonce sujet de la réservationCovoit
+		Annonce annonceResa = this.getAnnonceById(id);
+		// reccuperation du passager grace a l'email envoyé dans le body de la requete
+		Optional<Collegue> passager = collegueRepository.findOneByEmail(email);
+		// verification de l'optionnal
+		if (passager.isPresent()) {
+			// Mise a Jour du nombre de place disponible
+			annonceResa.setNbPlace(annonceResa.getNbPlace() - 1);
+			// ajout du passager dans l'annonce
+			annonceResa.getListPassagers().add(passager.get());
+			//update de la base de donnée
+			annonceRepository.save(annonceResa);
+			
+			return annonceResa;
+		} else {
+			// TODO creer exception adaptée
+			throw new CollegueNonTrouveException("Aucun passager trouvé avec cet email : " + email);
+		}
+
 	}
 
 }
