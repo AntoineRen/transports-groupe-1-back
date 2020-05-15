@@ -204,7 +204,7 @@ public class ReservationService {
 
 			return reservations;
 		} else {
-			if (chauffeur.isEmpty()) {
+			if (!chauffeur.isPresent()) {
 				throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
 			} else {
 				throw new NonChauffeurException("Vous n'avez pas le role de chauffeur.");
@@ -252,7 +252,7 @@ public class ReservationService {
 			}
 
 		} else {
-			if (chauffeur.isEmpty()) {
+			if (!chauffeur.isPresent()) {
 				throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
 			} else {
 				throw new NonChauffeurException("Vous n'avez pas le role de chauffeur.");
