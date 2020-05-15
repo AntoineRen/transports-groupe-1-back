@@ -79,12 +79,10 @@ public class ReservationService {
 				// si demande de chauffeur
 				if (reservationDto.getAvecChauffeur()) {
 					reservation = new Reservation(reservationDto.getDateDepart(), reservationDto.getDateArrivee(),
-							responsable.get(), null, vehicule.get(),
-							StatutDemandeChauffeur.EN_ATTENTE);
+							responsable.get(), null, vehicule.get(), StatutDemandeChauffeur.EN_ATTENTE);
 				} else {
 					reservation = new Reservation(reservationDto.getDateDepart(), reservationDto.getDateArrivee(),
-							responsable.get(), null, vehicule.get(),
-							StatutDemandeChauffeur.SANS_CHAUFFEUR);
+							responsable.get(), null, vehicule.get(), StatutDemandeChauffeur.SANS_CHAUFFEUR);
 				}
 
 			} else {
@@ -249,6 +247,36 @@ public class ReservationService {
 			} else {
 				throw new ReservationNonTrouveException("Aucune réservation trouvé avec cet id : " + id);
 			}
+
+		} else {
+			if (!chauffeur.isPresent()) {
+				throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
+			} else {
+				throw new NonChauffeurException("Vous n'avez pas le role de chauffeur.");
+			}
+		}
+	}
+
+	/**
+	 * Vérifie que le collègue connecté est un chauffeur et lui renvoie sa liste de
+	 * réservations de la période indiquée
+	 * 
+	 * @param email
+	 * @param debut
+	 * @param fin
+	 * @return List<Reservation>
+	 */
+	public List<Reservation> getReservationsByPeriode(String email, String debut, String fin) {
+
+		Optional<Collegue> chauffeur = this.collegueRepository.findOneByEmail(email);
+		List<Reservation> reservations = null;
+
+		if (chauffeur.isPresent() && chauffeur.get().isChauffeur()) {
+
+			reservations = this.reservationRepository.findAllInPeriode(LocalDateTime.parse(debut + "T00:00:00"),
+					LocalDateTime.parse(fin + "T23:59:59")); // TODO a améliorer
+
+			return reservations;
 
 		} else {
 			if (!chauffeur.isPresent()) {
