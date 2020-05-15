@@ -1,5 +1,6 @@
 package dev.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.entites.Annonce;
@@ -61,7 +63,7 @@ public class AnnonceController {
 				.getHistoriqueAnnonce(annonceService.getAllAnnoncesByCollegue(email));
 		return listAnnonceCollegue;
 	}
-	
+
 	@GetMapping("listAnnonceByResponsableHistorique")
 	public List<Annonce> getHistoriqueAnnoncesByResponsableEmail() {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -70,11 +72,9 @@ public class AnnonceController {
 		return listAnnonceCollegue;
 	}
 
-
 	@GetMapping("listAllAnnonce")
 	public List<Annonce> getAllAnnoncesEnCours() {
-		List<Annonce> listAnnonceCollegue = annonceService
-				.getAllAnnoncesEnCours();
+		List<Annonce> listAnnonceCollegue = annonceService.getAllAnnoncesEnCours();
 		return listAnnonceCollegue;
 
 	}
@@ -84,18 +84,18 @@ public class AnnonceController {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		return this.annonceService.postAnnonce(email, annonceDto);
 	}
-	
+
 	@PutMapping("annuler")
 	public Annonce annulerAnnonce(@RequestBody @Valid Long id) {
 
 		return this.annonceService.annulerAnnonce(id);
 	}
-	
+
 	@PutMapping("reservationCovoit")
 	public Annonce putAnnonce(@RequestBody Long id) {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		return this.annonceService.putReservation(id,email);
-		
+		return this.annonceService.putReservation(id, email);
+
 	}
 
 	/**
@@ -108,5 +108,43 @@ public class AnnonceController {
 	@ExceptionHandler(CollegueNonTrouveException.class)
 	public ResponseEntity<String> onCollegueNonTrouveException(CollegueNonTrouveException e) {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+	}
+
+	// NEEEWWW!!!!
+
+	@GetMapping("self/reservations")
+	public List<Annonce> getReservationsByPassager(@RequestParam("encours") Boolean isEnCours) {
+		List<Annonce> listReservations = new ArrayList<>();
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		if (isEnCours) {
+			listReservations = annonceService.getReservationsEncoursByPassager(email);
+		} else {
+			listReservations = annonceService.getReservationsHistoriqueByPassager(email);
+
+		}
+
+		return listReservations;
+	}
+
+	@GetMapping("self/annonces")
+	public List<Annonce> getAnnoncesByResponsable(@RequestParam("encours") Boolean isEnCours) {
+		List<Annonce> listAnnonces = new ArrayList<>();
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		if (isEnCours) {
+			listAnnonces = annonceService.getAnnoncesEncoursByResponsable(email);
+		} else {
+			listAnnonces = annonceService.getAnnoncesHistoriqueByResponsable(email);
+
+		}
+
+		return listAnnonces;
+	}
+
+	@GetMapping("annonces")
+	public List<Annonce> getAnnoncesEnCours() {
+		List<Annonce> listAnnonces = new ArrayList<>();
+		listAnnonces = annonceService.getAllAnnoncesEnCours();
+
+		return listAnnonces;
 	}
 }

@@ -281,16 +281,18 @@ public class StartupListener {
 		this.annonceRepo.save(annonce8);
 
 		Annonce annonce9 = new Annonce();
-		annonce8.setItineraire(new Itineraire(LocalDateTime.of(2021, 05, 30, 00, 00),
+		annonce9.setItineraire(new Itineraire(LocalDateTime.of(2021, 05, 30, 00, 00),
 				LocalDateTime.of(2021, 05, 31, 00, 00), "tatouin", "Mustafar", 1000, 10000D));
-		annonce8.setResponsable(col2);
-		annonce8.setImmatriculation("JD-666-JD");
-		annonce8.setMarque("faucon millenium");
-		annonce8.setModele("1100KK");
-		annonce8.setNbPlace(2);
-		annonce8.setStatut(StatutAnnonce.STATUT_EN_COURS);
+
+		annonce9.setResponsable(col2);
+		annonce9.setImmatriculation("JD-666-JD");
+		annonce9.setMarque("faucon millenium");
+		annonce9.setModele("1100KK");
+		annonce9.setNbPlace(2);
+		annonce9.setStatut(StatutAnnonce. STATUT_EN_COURS);
+
 		List<Collegue> listPassagersfutur = Arrays.asList(col1, col2, col3);
-		annonce8.setListPassagers(listPassagersfutur);
+		annonce9.setListPassagers(listPassagersfutur);
 		this.annonceRepo.save(annonce9);
 
 		// Annonce
