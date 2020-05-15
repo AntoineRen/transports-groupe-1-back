@@ -27,7 +27,7 @@ public class testdesEmail {
                           .put("Name", "GDTEntreprise"))
                       .put(Emailv31.Message.TO, new JSONArray()
                           .put(new JSONObject()
-                              .put("Email", "gdttransportentreprise@gmail.com")
+                              .put("Email", "jules.dupuis51@gmail.com")
                               .put("Name", "GDTEntreprise")))
                       .put(Emailv31.Message.TEMPLATEID, "1414181")
                       .put(Emailv31.Message.TEMPLATELANGUAGE, true)

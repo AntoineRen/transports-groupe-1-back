@@ -1,5 +1,6 @@
 package dev.service;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +99,7 @@ public class AnnonceService {
 	 */
 	public List<Annonce> getHistoriqueAnnonce(List<Annonce> listAnnonces) {
 		List<Annonce> annonceEncours = listAnnonces.stream().filter(
-				annonce -> annonce.getItineraire().getDateArrivee().isBefore(LocalDateTime.now().plusMinutes(5)))
+				annonce -> annonce.getItineraire().getDateDepart().isBefore(LocalDateTime.now().plusMinutes(5)))
 				.sorted((a, b) -> a.getItineraire().getDateDepart().compareTo((b.getItineraire().getDateDepart())))
 				.collect(Collectors.toList());
 		return annonceEncours;
@@ -119,18 +120,17 @@ public class AnnonceService {
 
 		return allAnnonce;
 	}
-	
 
 	/**
 	 * @return une liste de toute les reservation au statut en cours
 	 */
 	public List<Annonce> getAllAnnoncesEnCours() {
-		List<Annonce> allAnnonce = this.getAnnonceEnCours(this.annonceRepository.findAll());
+		List<Annonce> allAnnonce = this.getAnnonceEnCours(this.annonceRepository.findAllWithDateDepartAfter());
 		return allAnnonce;
 	}
 
 	@Transactional
-	public Annonce postAnnonce(String email ,@Valid AnnonceDto annonceDto) {
+	public Annonce postAnnonce(String email, @Valid AnnonceDto annonceDto) {
 		Annonce annonce = null;
 		// find collegue en tant que responsable
 		Optional<Collegue> responsable = this.collegueRepository.findOneByEmail(email);
@@ -141,7 +141,8 @@ public class AnnonceService {
 
 		if (responsable.isPresent()) {
 			annonce = new Annonce(itineraire, responsable.get(), annonceDto.getImmatriculation(),
-					annonceDto.getMarque(), annonceDto.getModele(), annonceDto.getNbPlace(), StatutAnnonce.STATUT_EN_COURS);
+					annonceDto.getMarque(), annonceDto.getModele(), annonceDto.getNbPlace(),
+					StatutAnnonce.STATUT_EN_COURS);
 			this.annonceRepository.save(annonce);
 
 			return annonce;
@@ -149,12 +150,12 @@ public class AnnonceService {
 			throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
 		}
 	}
-	
+
 	public Annonce annulerAnnonce(Long id) {
-		
-		//récuperer une annonce by son id
+
+		// récuperer une annonce by son id
 		Annonce annonce = this.getAnnonceById(id);
-		
+
 		annonce.setStatut(StatutAnnonce.STATUT_ANNULE);
 		this.annonceRepository.save(annonce);
 		return annonce;
@@ -194,9 +195,9 @@ public class AnnonceService {
 			annonceResa.setNbPlace(annonceResa.getNbPlace() - 1);
 			// ajout du passager dans l'annonce
 			annonceResa.getListPassagers().add(passager.get());
-			//update de la base de donnée
+			// update de la base de donnée
 			annonceRepository.save(annonceResa);
-			
+
 			return annonceResa;
 		} else {
 			// TODO creer exception adaptée
@@ -204,5 +205,35 @@ public class AnnonceService {
 		}
 
 	}
+
+	// New!!
+
+	public List<Annonce> getReservationsEncoursByPassager(String email) {
+		List<Annonce> listReservations = this.getAnnonceByPassager(email);
+		List<Annonce> listReservationsEncours = this.getAnnonceEnCours(listReservations);
+
+		return listReservationsEncours;
+	}
+
+	public List<Annonce> getReservationsHistoriqueByPassager(String email) {
+		List<Annonce> listReservations = this.getAnnonceByPassager(email);
+		List<Annonce> listReservationsHistorique = this.getHistoriqueAnnonce(listReservations);
+		return listReservationsHistorique;
+	}
+
+	public List<Annonce> getAnnoncesEncoursByResponsable(String email) {
+		List<Annonce> listAnnonces = this.getAnnoncesByResponcable(email);
+		List<Annonce> listAnnoncesEnCours = this.getAnnonceEnCours(listAnnonces);
+		return listAnnoncesEnCours;
+	}
+
+	public List<Annonce> getAnnoncesHistoriqueByResponsable(String email) {
+		List<Annonce> listAnnonces = this.getAnnoncesByResponcable(email);
+		List<Annonce> listAnnoncesHistorique = this.getHistoriqueAnnonce(listAnnonces);
+		return listAnnoncesHistorique;
+	}
+
+
+
 
 }
