@@ -4,7 +4,7 @@ package dev.exceptions;
  * @author Antoine Renou
  *
  */
-public class ReservationHoraireIncompatibleException extends RuntimeException {
+public class ReservationHoraireIncompatibleException extends ApplicationException {
 
 	/**
 	 * Constructor

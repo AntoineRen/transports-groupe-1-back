@@ -4,7 +4,7 @@ package dev.exceptions;
  * @author Antoine Renou
  *
  */
-public class ReservationNonTrouveException extends RuntimeException {
+public class ReservationNonTrouveException extends ApplicationException {
 
 	/**
 	 * Constructor

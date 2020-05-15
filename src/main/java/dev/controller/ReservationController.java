@@ -10,15 +10,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.entites.Reservation;
 import dev.entites.dto.ReservationDto;
-import dev.exceptions.CollegueNonTrouveException;
-import dev.exceptions.ReservationHoraireIncompatibleException;
-import dev.exceptions.VehiculeNonTrouveException;
+import dev.exceptions.ApplicationException;
 import dev.service.ReservationService;
 
 @RestController
@@ -87,43 +87,57 @@ public class ReservationController {
 	}
 
 	/**
-	 * Catche l'exception throw par le service si aucun collègue n'a été trouvé et
-	 * renvoie une ResponseEntity avec le statut 404 et le message de l'exception
+	 * Réceptionne une requete get sur l'url back_url/reservation/chauffeur" et
+	 * renvoie la liste des réservations dont le collègue connecté est le chauffeur
 	 * 
-	 * @param e
-	 * @return ResponseEntity<String>
+	 * @return List<Reservation>
 	 */
-	@ExceptionHandler(CollegueNonTrouveException.class)
-	public ResponseEntity<String> onCollegueNonTrouveException(CollegueNonTrouveException e) {
+	@GetMapping("chauffeur")
+	public List<Reservation> getReservationsByChauffeur() {
 
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		return this.reservationService.getReservationsByChauffeur(email);
 	}
 
 	/**
-	 * Catche l'exception throw par le service si aucun véchicule n'a été trouvé et
-	 * renvoie une ResponseEntity avec le statut 404 et le message de l'exception
+	 * Réceptionne une requete get sur l'url back_url/reservation/enattente" et
+	 * renvoie la liste des réservations en attente d'un chauffeur
 	 * 
-	 * @param e
-	 * @return ResponseEntity<String>
+	 * @return List<Reservation>
 	 */
-	@ExceptionHandler(VehiculeNonTrouveException.class)
-	public ResponseEntity<String> onVehiculeNonTrouveException(VehiculeNonTrouveException e) {
+	@GetMapping("enattente")
+	public List<Reservation> getReservationsEnAttentes() {
 
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		return this.reservationService.getReservationsEnAttentes();
 	}
 
 	/**
-	 * Catche l'exception throw par le service si les horaires de la réservation à
-	 * crée sont incompatibles avec les reservations présentes en base de données et
-	 * renvoie une ResponseEntity avec le statut 404 et le message de l'exception
+	 * Réceptionne une requete get sur l'url back_url/reservation/?id=" modifie une
+	 * reservation en attente de chauffeur avec le statut avec_chauffeur et lui
+	 * ajoute le chauffeur courant
+	 * 
+	 * @param id
+	 * @return Reservation
+	 */
+	@PutMapping(params = "id")
+	public Reservation AcceptReservation(@RequestParam String id) {
+
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		return this.reservationService.AcceptReservation(email, id);
+	}
+
+	/**
+	 * Catch les exceptions throw par le service et renvoie une responseEntity avec
+	 * le statut not found et le message d'erreur
 	 * 
 	 * @param e
 	 * @return ResponseEntity<String>
 	 */
-	@ExceptionHandler(ReservationHoraireIncompatibleException.class)
-	public ResponseEntity<String> onReservationHoraireIncompatibleException(ReservationHoraireIncompatibleException e) {
+	@ExceptionHandler(ApplicationException.class)
+	public ResponseEntity<String> onNonChauffeurException(ApplicationException e) {
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	}
-
 }
