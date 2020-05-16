@@ -19,5 +19,14 @@ public enum Categorie {
 	public String getDetail() {
 		return detail;
 	};
+	public static Categorie getName(String nom) {
 
+        for(Categorie c : Categorie.values()) {
+
+            if(c.getDetail().equals(nom)) {
+                return c;
+            }
+        }
+        return null; //TODO throw une exception
+    }
 }

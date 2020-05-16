@@ -54,8 +54,8 @@ public class VehiculeSocieteService {
 		// TODO verification doublons
 
 		VehiculeSociete vehicule = new VehiculeSociete(vehiculeDto.getImmatriculation(), vehiculeDto.getMarque(),
-				vehiculeDto.getModele(), Categorie.valueOf(vehiculeDto.getCategorie()), vehiculeDto.getNbPlace(),
-				StatutVehiculeSociete.EN_SERVICE, null);
+				vehiculeDto.getModele(), Categorie.getName(vehiculeDto.getCategorie()), vehiculeDto.getNbPlace(),
+				StatutVehiculeSociete.EN_SERVICE, vehiculeDto.getPhotoUrl());
 
 		this.vehiculeRepository.save(vehicule);
 
