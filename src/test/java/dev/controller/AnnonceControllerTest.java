@@ -100,62 +100,62 @@ class AnnonceControllerTest {
 		
 	}
 
-	@Test
-	@WithMockUser(username = "testResponsable@test.fr")
-	void testgetAnnoncesByResponsableEmail() throws Exception {
-
-		when(this.annonceService.getAnnonceEnCours(listAnnoncesResponsable)).thenReturn(listAnnoncesResponsable);
-		when(this.annonceService.getAnnoncesByResponcable(emailResponsableTest)).thenReturn(listAnnoncesResponsable);
-
-		mockMvc.perform(get(baseUrl + "/listAnnonceByResponsable")).andExpect(status().is(200))
-				.andExpect(jsonPath("$[0].responsable.nom").value("MonsieurResponcebleTest"))
-				.andExpect(jsonPath("$[0].itineraire.distance").value(100))
-				.andExpect(jsonPath("$[0].immatriculation").value("TT-666-TT"));
-	}
-
-	@Test
-	@WithMockUser(username = "testPassager@test.fr")
-	void testgetAnnoncesByPassagerEmail() throws Exception {
-		when(this.annonceService.getAnnonceByPassager(emailPassagerTest)).thenReturn(listAnnoncesPassager);
-		when(this.annonceService.getAnnonceEnCours(listAnnoncesPassager)).thenReturn(listAnnoncesPassager);
-
-		mockMvc.perform(get(baseUrl + "/listAnnonceByPassager")).andExpect(status().is(200))
-				.andExpect(jsonPath("$[0].responsable.nom").value("MonsieurPassagerTest"))
-				.andExpect(jsonPath("$[0].itineraire.distance").value(100))
-				.andExpect(jsonPath("$[0].immatriculation").value("TT-666-TT"));
-	}
-
-	@Test
-	@WithMockUser(username = "testPassager@test.fr")
-	void testgetFutureAnnoncesByCollegue() throws Exception {
-		when(this.annonceService.getAnnonceEnCours(listAnnoncesPassager)).thenReturn(listAnnoncesPassager);
-		when(this.annonceService.getAllAnnoncesByCollegue(emailPassagerTest)).thenReturn(listAnnoncesPassager);
-
-		mockMvc.perform(get(baseUrl + "/listAnnonceEnCours")).andExpect(status().is(200));
-//				.andExpect(LocalDate.parse(jsonPath("$[0].itineraire.dateDepart").toString()).isAfter(LocalDate.now())); 
-
-	}
-
-	@Test
-	@WithMockUser(username = "testPassager@test.fr")
-	void testgetHistoriqueAnnoncesByCollegue() throws Exception {
-		when(this.annonceService.getHistoriqueAnnonce(listAnnoncesPassager)).thenReturn(listAnnoncesPassager);
-		when(this.annonceService.getAllAnnoncesByCollegue(emailPassagerTest)).thenReturn(listAnnoncesPassager);
-
-		mockMvc.perform(get(baseUrl + "/listAnnonceHistorique")).andExpect(status().is(200))
-				.andExpect(jsonPath("$[0].responsable.nom").value("MonsieurPassagerTest"))
-				.andExpect(jsonPath("$[0].itineraire.distance").value(100))
-				.andExpect(jsonPath("$[0].immatriculation").value("TT-666-TT"));
-	}
-	@Test
-	@WithMockUser(username = "testPassager@test.fr")
-	void testgetAllAnnoncesEnCours() throws Exception {
-		when(this.annonceService.getAllAnnoncesEnCours()).thenReturn(listAnnonceEnCours);
-		
-
-		mockMvc.perform(get(baseUrl + "/listAllAnnonce")).andExpect(status().is(200));
-//				.andExpect(jsonPath("$[0].itineraire.da").value(100));
+//	@Test
+//	@WithMockUser(username = "testResponsable@test.fr")
+//	void testgetAnnoncesByResponsableEmail() throws Exception {
+//
+//		when(this.annonceService.getAnnonceEnCours(listAnnoncesResponsable)).thenReturn(listAnnoncesResponsable);
+//		when(this.annonceService.getAnnoncesByResponcable(emailResponsableTest)).thenReturn(listAnnoncesResponsable);
+//
+//		mockMvc.perform(get(baseUrl + "/listAnnonceByResponsable")).andExpect(status().is(200))
+//				.andExpect(jsonPath("$[0].responsable.nom").value("MonsieurResponcebleTest"))
+//				.andExpect(jsonPath("$[0].itineraire.distance").value(100))
 //				.andExpect(jsonPath("$[0].immatriculation").value("TT-666-TT"));
-	}
+//	}
+//
+//	@Test
+//	@WithMockUser(username = "testPassager@test.fr")
+//	void testgetAnnoncesByPassagerEmail() throws Exception {
+//		when(this.annonceService.getAnnonceByPassager(emailPassagerTest)).thenReturn(listAnnoncesPassager);
+//		when(this.annonceService.getAnnonceEnCours(listAnnoncesPassager)).thenReturn(listAnnoncesPassager);
+//
+//		mockMvc.perform(get(baseUrl + "/listAnnonceByPassager")).andExpect(status().is(200))
+//				.andExpect(jsonPath("$[0].responsable.nom").value("MonsieurPassagerTest"))
+//				.andExpect(jsonPath("$[0].itineraire.distance").value(100))
+//				.andExpect(jsonPath("$[0].immatriculation").value("TT-666-TT"));
+//	}
+//
+//	@Test
+//	@WithMockUser(username = "testPassager@test.fr")
+//	void testgetFutureAnnoncesByCollegue() throws Exception {
+//		when(this.annonceService.getAnnonceEnCours(listAnnoncesPassager)).thenReturn(listAnnoncesPassager);
+//		when(this.annonceService.getAllAnnoncesByCollegue(emailPassagerTest)).thenReturn(listAnnoncesPassager);
+//
+//		mockMvc.perform(get(baseUrl + "/listAnnonceEnCours")).andExpect(status().is(200));
+////				.andExpect(LocalDate.parse(jsonPath("$[0].itineraire.dateDepart").toString()).isAfter(LocalDate.now())); 
+//
+//	}
+//
+//	@Test
+//	@WithMockUser(username = "testPassager@test.fr")
+//	void testgetHistoriqueAnnoncesByCollegue() throws Exception {
+//		when(this.annonceService.getHistoriqueAnnonce(listAnnoncesPassager)).thenReturn(listAnnoncesPassager);
+//		when(this.annonceService.getAllAnnoncesByCollegue(emailPassagerTest)).thenReturn(listAnnoncesPassager);
+//
+//		mockMvc.perform(get(baseUrl + "/listAnnonceHistorique")).andExpect(status().is(200))
+//				.andExpect(jsonPath("$[0].responsable.nom").value("MonsieurPassagerTest"))
+//				.andExpect(jsonPath("$[0].itineraire.distance").value(100))
+//				.andExpect(jsonPath("$[0].immatriculation").value("TT-666-TT"));
+//	}
+//	@Test
+//	@WithMockUser(username = "testPassager@test.fr")
+//	void testgetAllAnnoncesEnCours() throws Exception {
+//		when(this.annonceService.getAllAnnoncesEnCours()).thenReturn(listAnnonceEnCours);
+//		
+//
+//		mockMvc.perform(get(baseUrl + "/listAllAnnonce")).andExpect(status().is(200));
+////				.andExpect(jsonPath("$[0].itineraire.da").value(100));
+////				.andExpect(jsonPath("$[0].immatriculation").value("TT-666-TT"));
+//	}
 
 }

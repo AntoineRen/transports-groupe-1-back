@@ -3,11 +3,13 @@ package dev.service;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -22,7 +24,9 @@ import dev.entites.Itineraire;
 import dev.entites.dto.AnnonceDto;
 import dev.entites.utiles.StatutAnnonce;
 import dev.exceptions.AnnonceNonTrouveException;
+import dev.exceptions.AnnonceNotDeletedException;
 import dev.exceptions.CollegueNonTrouveException;
+import dev.exceptions.ReservationNotDeletedException;
 import dev.repository.AnnonceRepository;
 import dev.repository.CollegueRepository;
 import net.bytebuddy.implementation.bytecode.Throw;
@@ -36,6 +40,7 @@ public class AnnonceService {
 
 	private AnnonceRepository annonceRepository;
 	private CollegueRepository collegueRepository;
+	private EnvoiMailService envoiMailService;
 
 	/**
 	 * Constructor
@@ -43,9 +48,11 @@ public class AnnonceService {
 	 * @param annonceRepository
 	 * @param collegueRepository
 	 */
-	public AnnonceService(AnnonceRepository annonceRepository, CollegueRepository collegueRepository) {
+	public AnnonceService(AnnonceRepository annonceRepository, CollegueRepository collegueRepository,
+			EnvoiMailService envoiMailService) {
 		this.annonceRepository = annonceRepository;
 		this.collegueRepository = collegueRepository;
+		this.envoiMailService = envoiMailService;
 	}
 
 	/**
@@ -98,8 +105,8 @@ public class AnnonceService {
 	 *            actuel, utilisé en historique
 	 */
 	public List<Annonce> getHistoriqueAnnonce(List<Annonce> listAnnonces) {
-		List<Annonce> annonceEncours = listAnnonces.stream().filter(
-				annonce -> annonce.getItineraire().getDateDepart().isBefore(LocalDateTime.now().plusMinutes(5)))
+		List<Annonce> annonceEncours = listAnnonces.stream()
+				.filter(annonce -> annonce.getItineraire().getDateDepart().isBefore(LocalDateTime.now().plusMinutes(5)))
 				.sorted((a, b) -> a.getItineraire().getDateDepart().compareTo((b.getItineraire().getDateDepart())))
 				.collect(Collectors.toList());
 		return annonceEncours;
@@ -157,8 +164,60 @@ public class AnnonceService {
 		Annonce annonce = this.getAnnonceById(id);
 
 		annonce.setStatut(StatutAnnonce.STATUT_ANNULE);
-		this.annonceRepository.save(annonce);
-		return annonce;
+		//si la transaction echoue l'annonce passe a null
+		annonce = this.annonceRepository.save(annonce);
+		// si la transation a eu lieu, envoie un mail de comfirmation au responcavle et
+		// aux different passager
+		if (annonce != null) {
+			this.envoiMailService.envoyerMailAnnulationAnnonce(annonce);
+			return annonce;
+		} else {
+			throw new AnnonceNotDeletedException("L'annonce n'a pas pu etre annulé");
+		}
+
+	}
+
+	public Annonce annulerReservation(Long id, String emailPassager) {
+
+		// récuperer une annonce by son id
+		Annonce annonce = this.getAnnonceById(id);
+		//réccupere le passager avec son mail 
+		Optional<Collegue> collegue = collegueRepository.findOneByEmail(emailPassager);
+		if (collegue.isPresent()) {
+			Collegue passager = collegue.get(); 
+			//Liberation d'une place dans l'annonce 
+			Integer nbPlaceAnnonce =annonce.getNbPlace()+1; 
+			annonce.setNbPlace(nbPlaceAnnonce);
+			
+			// retrouve collégue dans la liste et supression du collégue
+			List<Collegue> listPassager = annonce.getListPassagers();
+			
+	        Iterator<Collegue> itr = listPassager.iterator();
+	        while(itr.hasNext()){
+	            if(emailPassager.equals(itr.next().getEmail())){
+	                itr.remove();
+	            }
+	        }
+
+			
+			//si la transaction echoue l'annonce passe a null
+			annonce = this.annonceRepository.save(annonce);
+
+			// si la transation a eu lieu, envoie un mail de comfirmation au responcavle et
+			// aux different passager
+			if (annonce != null) {
+				this.envoiMailService.envoyerMailAnnulationReservation(annonce, passager);
+				return annonce;
+				
+			} else {
+				throw new ReservationNotDeletedException("La reservation n'a pas pu etre annulé");
+			}
+			
+		} else {
+			// TODO creer exception adaptée
+			throw new CollegueNonTrouveException("Aucun passager trouvé avec cet email : " + emailPassager);
+		}
+
 	}
 
 	/**
@@ -232,8 +291,5 @@ public class AnnonceService {
 		List<Annonce> listAnnoncesHistorique = this.getHistoriqueAnnonce(listAnnonces);
 		return listAnnoncesHistorique;
 	}
-
-
-
 
 }
