@@ -24,7 +24,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
 	List<Reservation> findAllByStatutDemandeChauffeur(StatutDemandeChauffeur enAttente);
 
-	@Query("select r from Reservation r where ( r.dateDepart between :debut and :fin ) or (r.dateArrivee between :debut and :fin)")
-	List<Reservation> findAllInPeriode(@Param("debut") LocalDateTime debut, @Param("fin") LocalDateTime fin);
+	@Query("select r from Reservation r where (r.chauffeur = :chauffeur) and not (r.dateArrivee < :debut or r.dateDepart > :fin)")
+	List<Reservation> findAllInPeriodeByChauffeur(@Param("debut") LocalDateTime debut, @Param("fin") LocalDateTime fin,
+			@Param("chauffeur") Collegue chauffeur);
 
 }

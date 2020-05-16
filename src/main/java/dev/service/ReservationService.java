@@ -270,11 +270,13 @@ public class ReservationService {
 
 		Optional<Collegue> chauffeur = this.collegueRepository.findOneByEmail(email);
 		List<Reservation> reservations = null;
+		LocalDateTime debutPeriode = LocalDateTime.parse(debut + "T00:00:00");
+		LocalDateTime finPeriode = LocalDateTime.parse(fin + "T23:59:59");
 
 		if (chauffeur.isPresent() && chauffeur.get().isChauffeur()) {
 
-			reservations = this.reservationRepository.findAllInPeriode(LocalDateTime.parse(debut + "T00:00:00"),
-					LocalDateTime.parse(fin + "T23:59:59")); // TODO a améliorer
+			reservations = this.reservationRepository.findAllInPeriodeByChauffeur(debutPeriode, finPeriode,
+					chauffeur.get());
 
 			return reservations;
 
