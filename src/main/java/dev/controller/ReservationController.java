@@ -36,12 +36,6 @@ public class ReservationController {
 		this.reservationService = reservationService;
 	}
 
-	@GetMapping
-	public List<Reservation> getAllReservations() {
-
-		return this.reservationService.getAllReservations();
-	}
-
 	/**
 	 * Réceptionne une requète post sur l'url back_url/reservation contenant les
 	 * informations nécessaires a la création d'une reservation et la renvoie si la
@@ -113,8 +107,8 @@ public class ReservationController {
 	}
 
 	/**
-	 * Réceptionne une requete get sur l'url back_url/reservation/?id=" modifie une
-	 * reservation en attente de chauffeur avec le statut avec_chauffeur et lui
+	 * Réceptionne une requete get sur l'url back_url/reservation/?id='...'" modifie
+	 * une reservation en attente de chauffeur avec le statut avec_chauffeur et lui
 	 * ajoute le chauffeur courant
 	 * 
 	 * @param id
@@ -129,6 +123,23 @@ public class ReservationController {
 	}
 
 	/**
+	 * Réceptionne une requete sur l'url back_url/reservation/?debut='...'&fin='...'
+	 * et renvoie la liste de réservations du chauffeur connecté comprisent dans la
+	 * période demandée
+	 * 
+	 * @param debut
+	 * @param fin
+	 * @return List<Reservation>
+	 */
+	@GetMapping(params = { "debut", "fin" })
+	public List<Reservation> getReservationsByPeriode(@RequestParam String debut, @RequestParam String fin) {
+
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		return this.reservationService.getReservationsByPeriode(email, debut, fin);
+	}
+
+	/**
 	 * Catch les exceptions throw par le service et renvoie une responseEntity avec
 	 * le statut not found et le message d'erreur
 	 * 
@@ -136,7 +147,7 @@ public class ReservationController {
 	 * @return ResponseEntity<String>
 	 */
 	@ExceptionHandler(ApplicationException.class)
-	public ResponseEntity<String> onNonChauffeurException(ApplicationException e) {
+	public ResponseEntity<String> onApplicationException(ApplicationException e) {
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	}
