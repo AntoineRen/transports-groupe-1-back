@@ -97,64 +97,64 @@ class ReservationControllerTest {
 		jsonResaDto = "{\"dateDepart\":\"2020-05-12T12:00\",\"dateArrivee\":\"2020-05-12T12:00\",\"vehiculeId\":1,\"avecChauffeur\":false}";
 	}
 
-//	@Test
-//	@WithMockUser(username = "test@test.fr")
-//	void testGetReservationByEmailEnCours() throws Exception {
+	@Test
+	@WithMockUser(username = "test@test.fr")
+	void testGetReservationByEmailEnCours() throws Exception {
 
-//		when(this.reservationService.getReservationByEmailEnCours(emailTest)).thenReturn(reservationsEnCoursTest);
-//
-//		mockMvc.perform(get(baseUrl + "/current/")).andExpect(status().is(200))
-//				.andExpect(jsonPath("$[0].responsable.nom").value("test"))
-//				.andExpect(jsonPath("$[0].vehicule.immatriculation").value("immatriculationTest1"));
-//
-//	}
-//
-//	@Test
-//	@WithMockUser(username = "test@test.fr")
-//	void testGetReservationByEmailEnCoursCollegueNonTrouve() throws Exception {
-//
-//		when(this.reservationService.getReservationByEmailEnCours(emailTest))
-//				.thenThrow(new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : test@test.fr"));
-//
-//		mockMvc.perform(get(baseUrl + "/current/")).andExpect(status().is(404))
-//				.andExpect(jsonPath("$").value("Aucun collègue trouvé avec cet email : test@test.fr"));
-//
-//	}
-//
-//	@Test
-//	@WithMockUser(username = "test@test.fr")
-//	void testGetReservationByEmailHisto() throws Exception {
-//
-//		when(this.reservationService.getReservationByEmailHisto(emailTest)).thenReturn(reservationsHistoTest);
-//
-//		mockMvc.perform(get(baseUrl + "/histo/")).andExpect(status().is(200))
-//				.andExpect(jsonPath("$[0].responsable.nom").value("test"))
-//				.andExpect(jsonPath("$[0].vehicule.immatriculation").value("immatriculationTest2"));
-//
-//	}
-//
-//	@Test
-//	@WithMockUser(username = "test@test.fr")
-//	void testGetReservationByEmailHistoCollegueNonTrouve() throws Exception {
-//
-//		when(this.reservationService.getReservationByEmailHisto(emailTest))
-//				.thenThrow(new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : test@test.fr"));
-//
-//		mockMvc.perform(get(baseUrl + "/histo/")).andExpect(status().is(404))
-//				.andExpect(jsonPath("$").value("Aucun collègue trouvé avec cet email : test@test.fr"));
-//
-//	}
-//
-//	@Test
-//	@WithMockUser(username = "test@test.fr")
-//	void testPostReservation() throws Exception {
-//
-//		when(this.reservationService.postReservation(anyString(), any())).thenReturn(reservationEnCoursTest);
-//
-//		mockMvc.perform(post(baseUrl).contentType(APPLICATION_JSON_UTF8).content(jsonResaDto))
-//				.andExpect(status().is(200)).andExpect(jsonPath("$.responsable.nom").value("test"))
-//				.andExpect(jsonPath("$.vehicule.immatriculation").value("immatriculationTest1"));
-//
-//	}
+		when(this.reservationService.getReservationByEmailEnCours(emailTest)).thenReturn(reservationsEnCoursTest);
+
+		mockMvc.perform(get(baseUrl + "/current/")).andExpect(status().is(200))
+				.andExpect(jsonPath("$[0].responsable.nom").value("test"))
+				.andExpect(jsonPath("$[0].vehicule.immatriculation").value("immatriculationTest1"));
+
+	}
+
+	@Test
+	@WithMockUser(username = "test@test.fr")
+	void testGetReservationByEmailEnCoursCollegueNonTrouve() throws Exception {
+
+		when(this.reservationService.getReservationByEmailEnCours(emailTest))
+				.thenThrow(new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : test@test.fr"));
+
+		mockMvc.perform(get(baseUrl + "/current/")).andExpect(status().is(404))
+				.andExpect(jsonPath("$").value("Aucun collègue trouvé avec cet email : test@test.fr"));
+
+	}
+
+	@Test
+	@WithMockUser(username = "test@test.fr")
+	void testGetReservationByEmailHisto() throws Exception {
+
+		when(this.reservationService.getReservationByEmailHisto(emailTest)).thenReturn(reservationsHistoTest);
+
+		mockMvc.perform(get(baseUrl + "/histo/")).andExpect(status().is(200))
+				.andExpect(jsonPath("$[0].responsable.nom").value("test"))
+				.andExpect(jsonPath("$[0].vehicule.immatriculation").value("immatriculationTest2"));
+
+	}
+
+	@Test
+	@WithMockUser(username = "test@test.fr")
+	void testGetReservationByEmailHistoCollegueNonTrouve() throws Exception {
+
+		when(this.reservationService.getReservationByEmailHisto(emailTest))
+				.thenThrow(new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : test@test.fr"));
+
+		mockMvc.perform(get(baseUrl + "/histo/")).andExpect(status().is(404))
+				.andExpect(jsonPath("$").value("Aucun collègue trouvé avec cet email : test@test.fr"));
+
+	}
+
+	@Test
+	@WithMockUser(username = "test@test.fr")
+	void testPostReservation() throws Exception {
+
+		when(this.reservationService.postReservation(anyString(), any())).thenReturn(reservationEnCoursTest);
+
+		mockMvc.perform(post(baseUrl).contentType(APPLICATION_JSON_UTF8).content(jsonResaDto))
+				.andExpect(status().is(200)).andExpect(jsonPath("$.responsable.nom").value("test"))
+				.andExpect(jsonPath("$.vehicule.immatriculation").value("immatriculationTest1"));
+
+	}
 
 }
