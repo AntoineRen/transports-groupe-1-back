@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.entites.Annonce;
 import dev.entites.dto.AnnonceDto;
+import dev.exceptions.ApplicationException;
 import dev.exceptions.CollegueNonTrouveException;
 import dev.service.AnnonceService;
 
@@ -87,8 +88,14 @@ public class AnnonceController {
 
 	@PutMapping("annuler")
 	public Annonce annulerAnnonce(@RequestBody @Valid Long id) {
-
 		return this.annonceService.annulerAnnonce(id);
+	}
+
+	@PutMapping("self/reservation/annulation")
+	public Annonce annulerReservation(@RequestBody @Valid Long id) {
+		String emailPassager = SecurityContextHolder.getContext().getAuthentication().getName();
+		return this.annonceService.annulerReservation(id, emailPassager);
+
 	}
 
 	@PutMapping("reservationCovoit")
@@ -99,14 +106,15 @@ public class AnnonceController {
 	}
 
 	/**
-	 * Catche l'exception throw par le service si aucun collègue n'a été trouvé a et
-	 * renvoie une ResponseEntity avec le statut 404 et le message de lexception
+	 * Catch l'exception throw par le service si une annumalie s'est produite dans
+	 * le service annonce et renvoie une ResponseEntity avec le statut 404 et le
+	 * message de lexception
 	 * 
 	 * @param e
 	 * @return ResponseEntity<String>
 	 */
-	@ExceptionHandler(CollegueNonTrouveException.class)
-	public ResponseEntity<String> onCollegueNonTrouveException(CollegueNonTrouveException e) {
+	@ExceptionHandler(ApplicationException.class)
+	public ResponseEntity<String> onAnnonceException(ApplicationException e) {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	}
 

@@ -94,6 +94,28 @@ public class StartupListener {
 				new RoleCollegue(col3, Role.ROLE_CHAUFFEUR)));
 		this.collegueRepo.save(col3);
 
+		//collegue jules
+		Collegue col4 = new Collegue();
+		col4.setNom("Dupuis");
+		col4.setPrenom("Jules");
+		col4.setEmail("jules.dupuis51@gmail.com");
+		col4.setMotDePasse(passwordEncoder.encode("braacken"));
+		col4.setRoles(Arrays.asList(new RoleCollegue(col4, Role.ROLE_COLLABORATEUR)));
+		this.collegueRepo.save(col4);
+		
+		//AdminGDT-Transport
+		Collegue col5 = new Collegue();
+		col5.setNom("GDT-Transport");
+		col5.setPrenom("DEV");
+		col5.setEmail("gdttransportentreprise@gmail.com");
+		//mdp mail : GDTTransport_44
+		col5.setMotDePasse(passwordEncoder.encode("superpass"));
+		col5.setRoles(Arrays.asList(new RoleCollegue(col5, Role.ROLE_ADMINISTRATEUR),
+				new RoleCollegue(col5, Role.ROLE_CHAUFFEUR), new RoleCollegue(col5, Role.ROLE_COLLABORATEUR)));
+		this.collegueRepo.save(col5);
+
+
+		
 		// Création de 3 véhicule
 		VehiculeSociete vehi1 = new VehiculeSociete("AA-000-AA", "Dolorean", "DMC-12", Categorie.CATEGORIE_CP, 2,
 				StatutVehiculeSociete.EN_SERVICE,
@@ -283,7 +305,6 @@ public class StartupListener {
 		Annonce annonce9 = new Annonce();
 		annonce9.setItineraire(new Itineraire(LocalDateTime.of(2021, 05, 30, 00, 00),
 				LocalDateTime.of(2021, 05, 31, 00, 00), "tatouin", "Mustafar", 1000, 10000D));
-
 		annonce9.setResponsable(col2);
 		annonce9.setImmatriculation("JD-666-JD");
 		annonce9.setMarque("faucon millenium");

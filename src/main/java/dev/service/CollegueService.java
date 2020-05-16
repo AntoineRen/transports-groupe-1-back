@@ -1,6 +1,7 @@
 package dev.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -31,6 +32,8 @@ public class CollegueService {
 
 		return this.collegueRepository.findAll();
 	}
+	
+
 
 	@Transactional
 	public Collegue postCollegue(CollegueDto collegueDto) {
