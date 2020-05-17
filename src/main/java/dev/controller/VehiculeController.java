@@ -39,9 +39,9 @@ public class VehiculeController {
 	}
 	
 	@GetMapping(params = { "immatriculation" })
-	public VehiculeSociete getAllVehicules(@RequestParam String immatriculation) {
+	public VehiculeSocieteDto getAllVehicules(@RequestParam String immatriculation) {
 
-		return this.vehiculeService.getVehiculeByImmatriculation(immatriculation);
+		return new VehiculeSocieteDto(this.vehiculeService.getVehiculeByImmatriculation(immatriculation));
 	}
 
 	@PostMapping
