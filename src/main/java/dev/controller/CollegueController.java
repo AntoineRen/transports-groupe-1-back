@@ -67,7 +67,7 @@ public class CollegueController {
 		return this.collegueService.ajouterChauffeur(email);
 	}
 	
-	@GetMapping("allChauffeurs")
+	@GetMapping("chauffeurs")
 	public List<Collegue> getChauffeurs() {
 		return this.collegueService.getAllChauffeur();
 	}
