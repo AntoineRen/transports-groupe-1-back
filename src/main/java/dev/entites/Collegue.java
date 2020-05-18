@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -17,10 +16,8 @@ import dev.entites.utiles.Role;
 @Entity
 public class Collegue extends BaseEntite {
 
-	@NotBlank
 	private String nom;
 
-	@NotBlank
 	private String prenom;
 
 	private String email;
@@ -31,7 +28,6 @@ public class Collegue extends BaseEntite {
 	
 	private String permis;
 	
-	@NotBlank
 	private String matricule;
 	
 	private String photoUrl;
