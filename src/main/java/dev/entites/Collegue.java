@@ -26,6 +26,10 @@ public class Collegue extends BaseEntite {
 
 	private String numTelephone;
 
+	private String permis;
+
+	private String matricule;
+
 	private String photoUrl;
 
 	@JsonManagedReference
@@ -59,7 +63,7 @@ public class Collegue extends BaseEntite {
 	 * @param listReservationRA
 	 */
 	public Collegue(String nom, String prenom, String email, String motDePasse, String numTelephone,
-			List<RoleCollegue> roles, String photoUrl) {
+			List<RoleCollegue> roles, String permis, String matricule, String photoUrl) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
@@ -67,6 +71,8 @@ public class Collegue extends BaseEntite {
 		this.motDePasse = motDePasse;
 		this.numTelephone = numTelephone;
 		this.roles = roles;
+		this.permis = permis;
+		this.matricule = matricule;
 		this.photoUrl = photoUrl;
 	}
 
@@ -166,6 +172,14 @@ public class Collegue extends BaseEntite {
 		return roles;
 	}
 
+	public String getMatricule() {
+		return matricule;
+	}
+
+	public void setPermis(String permis) {
+		this.permis = permis;
+	}
+
 	/**
 	 * Setter
 	 * 
@@ -254,6 +268,14 @@ public class Collegue extends BaseEntite {
 	 */
 	public void setListCovoiturageAnnonces(List<Annonce> listCovoiturageAnnonces) {
 		this.listCovoiturageAnnonces = listCovoiturageAnnonces;
+	}
+
+	public void setMatricule(String matricule) {
+		this.matricule = matricule;
+	}
+
+	public String getPermis() {
+		return permis;
 	}
 
 }

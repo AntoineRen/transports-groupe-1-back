@@ -75,6 +75,8 @@ public class StartupListener {
 		col1.setRoles(Arrays.asList(new RoleCollegue(col1, Role.ROLE_ADMINISTRATEUR),
 				new RoleCollegue(col1, Role.ROLE_CHAUFFEUR), new RoleCollegue(col1, Role.ROLE_COLLABORATEUR)));
 		col1.setPhotoUrl("https://randomuser.me/api/portraits/women/17.jpg");
+		col1.setPermis("B");
+		col1.setMatricule("M01");
 		this.collegueRepo.save(col1);
 
 		Collegue col2 = new Collegue();
@@ -85,6 +87,8 @@ public class StartupListener {
 		col2.setMotDePasse(passwordEncoder.encode("superpass"));
 		col2.setRoles(Arrays.asList(new RoleCollegue(col2, Role.ROLE_COLLABORATEUR)));
 		col2.setPhotoUrl("https://randomuser.me/api/portraits/men/2.jpg");
+		col2.setPermis("B");
+		col2.setMatricule("M02");
 		this.collegueRepo.save(col2);
 
 		Collegue col3 = new Collegue();
@@ -95,6 +99,8 @@ public class StartupListener {
 		col3.setRoles(Arrays.asList(new RoleCollegue(col3, Role.ROLE_COLLABORATEUR),
 				new RoleCollegue(col3, Role.ROLE_CHAUFFEUR)));
 		col3.setPhotoUrl("https://randomuser.me/api/portraits/men/1.jpg");
+		col3.setPermis("B");
+		col3.setMatricule("M03");
 		this.collegueRepo.save(col3);
 
 		// collegue jules
@@ -103,7 +109,11 @@ public class StartupListener {
 		col4.setPrenom("Jules");
 		col4.setEmail("jules.dupuis51@gmail.com");
 		col4.setMotDePasse(passwordEncoder.encode("braacken"));
-		col4.setRoles(Arrays.asList(new RoleCollegue(col4, Role.ROLE_COLLABORATEUR)));
+		col4.setRoles(Arrays.asList(new RoleCollegue(col4, Role.ROLE_COLLABORATEUR),
+				new RoleCollegue(col4, Role.ROLE_CHAUFFEUR)));
+		col4.setPermis("B");
+		col4.setMatricule("M04");
+		col4.setPhotoUrl("https://www.dahaboo.com/upload/i/2019-09/chauffeur-experimente-94011.jpg");
 		this.collegueRepo.save(col4);
 
 		// AdminGDT-Transport
@@ -115,6 +125,9 @@ public class StartupListener {
 		col5.setMotDePasse(passwordEncoder.encode("superpass"));
 		col5.setRoles(Arrays.asList(new RoleCollegue(col5, Role.ROLE_ADMINISTRATEUR),
 				new RoleCollegue(col5, Role.ROLE_CHAUFFEUR), new RoleCollegue(col5, Role.ROLE_COLLABORATEUR)));
+		col5.setPermis("B");
+		col5.setMatricule("M05");
+		col5.setPhotoUrl("https://www.chauffeur-prive-jadriver.fr/images/stories/chauffeur-vtc-Yvelines.jpg");
 		this.collegueRepo.save(col5);
 
 		// Création de 3 véhicule
