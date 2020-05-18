@@ -280,6 +280,8 @@ public class EnvoiMailService {
 						.put(Emailv31.Message.CUSTOMID, "AppGettingStartedTest")));
 		try {
 			response = client.post(request);
+			System.out.println(sujet);
+
 			System.out.println(response.getStatus());
 			System.out.println(response.getData());
 		} catch (MailjetException | MailjetSocketTimeoutException e) {

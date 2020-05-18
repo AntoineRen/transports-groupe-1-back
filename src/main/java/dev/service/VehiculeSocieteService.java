@@ -31,7 +31,6 @@ public class VehiculeSocieteService {
 
 	private VehiculeSocieteRepository vehiculeRepository;
 	private ReservationRepository reservationRepository;
-	private ReservationService reservationService;
 	private EnvoiMailService envoiMailService;
 
 	/**
@@ -43,7 +42,6 @@ public class VehiculeSocieteService {
 			ReservationRepository reservationRepository, EnvoiMailService envoiMailService) {
 		this.vehiculeRepository = vehiculeRepository;
 		this.reservationRepository = reservationRepository;
-		this.reservationService = reservationService;
 		this.envoiMailService = envoiMailService;
 	}
 
@@ -156,10 +154,11 @@ public class VehiculeSocieteService {
 		VehiculeSociete vehicule = new VehiculeSociete();
 		if (vehiculeOptional.isPresent()) {
 			vehicule = vehiculeOptional.get();
+			return vehicule;
 		} else {
 			throw new VehiculeNonTrouveException("Aucun véhicule trouvé avec immatriculation : " + immatriculation);
 		}
-		return vehicule;
+		
 	}
 
 	/**
@@ -175,7 +174,7 @@ public class VehiculeSocieteService {
 	 */
 	public VehiculeSociete putStatutVehiculeService(String statut, String immat) {
 		VehiculeSociete vehicule = this.getVehiculeByImmatriculation(immat);
-		List<Reservation> listReservation = this.reservationService.getReservationEncoursByVehicule(immat);
+		List<Reservation> listReservation = this.reservationRepository.findAllByVehiculeWithDateDepartAfter(vehicule);
 
 		switch (statut) {
 
@@ -185,7 +184,7 @@ public class VehiculeSocieteService {
 			// change le statut de toutes les reservation en cours
 			for (Reservation courante : listReservation) {
 				courante.setVehicule(vehicule);
-				this.reservationService.putReservation(courante);
+				this.reservationRepository.save(courante);
 
 				// envoi mail a tout les collab concerné pour une réservation , chauffeur et
 				// responsable
@@ -199,7 +198,7 @@ public class VehiculeSocieteService {
 			// change le statut de toutes les reservation en cours
 			for (Reservation courante : listReservation) {
 				courante.setVehicule(vehicule);
-				this.reservationService.putReservation(courante);
+				this.reservationRepository.save(courante);
 
 				// envoi mail a tout les collab concerné pour une réservation , chauffeur et
 				// responsable
