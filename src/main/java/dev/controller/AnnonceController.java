@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.entites.Annonce;
 import dev.entites.dto.AnnonceDto;
 import dev.exceptions.ApplicationException;
-import dev.exceptions.CollegueNonTrouveException;
 import dev.service.AnnonceService;
 
 @RestController
