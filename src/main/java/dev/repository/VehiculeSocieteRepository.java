@@ -1,6 +1,7 @@
 package dev.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,6 @@ import dev.entites.VehiculeSociete;
 public interface VehiculeSocieteRepository extends JpaRepository<VehiculeSociete, Long> {
 
 
-	VehiculeSociete findOneByImmatriculation(String immatriculation);
+	Optional<VehiculeSociete> findOneByImmatriculation(String immatriculation);
 	
 }
