@@ -4,6 +4,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import dev.entites.VehiculeSociete;
+import dev.entites.utiles.StatutVehiculeSociete;
 
 public class VehiculeSocieteDto {
 
@@ -20,6 +21,8 @@ public class VehiculeSocieteDto {
 	private Integer nbPlace;
 
 	private String photoUrl;
+	
+	private String statut;
 
 	/**
 	 * Constructor
@@ -33,7 +36,7 @@ public class VehiculeSocieteDto {
 	 * @param photoUrl
 	 */
 	public VehiculeSocieteDto(Long id, @NotBlank String immatriculation, @NotBlank String marque,
-			@NotBlank String modele, @NotBlank String categorie, @NotNull Integer nbPlace, String photoUrl) {
+			@NotBlank String modele, @NotBlank String categorie, @NotNull Integer nbPlace, String photoUrl, String statut) {
 		super();
 		this.id = id;
 		this.immatriculation = immatriculation;
@@ -42,6 +45,7 @@ public class VehiculeSocieteDto {
 		this.categorie = categorie;
 		this.nbPlace = nbPlace;
 		this.photoUrl = photoUrl;
+		this.statut = statut;
 	}
 
 	public VehiculeSocieteDto(VehiculeSociete vehicule) {
@@ -52,6 +56,7 @@ public class VehiculeSocieteDto {
 		this.categorie = vehicule.getCategorie().getDetail();
 		this.nbPlace = vehicule.getNbPlace();
 		this.photoUrl = vehicule.getPhotoUrl();
+		this.statut = vehicule.getStatut().getDetail();
 	}
 
 	/**
@@ -178,6 +183,14 @@ public class VehiculeSocieteDto {
 	 */
 	public void setPhotoUrl(String photoUrl) {
 		this.photoUrl = photoUrl;
+	}
+
+	public String getStatut() {
+		return statut;
+	}
+
+	public void setStatut(String statut) {
+		this.statut = statut;
 	}
 
 }

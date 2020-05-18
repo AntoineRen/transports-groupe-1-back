@@ -1,6 +1,7 @@
 package dev.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -287,6 +288,26 @@ public class ReservationService {
 				throw new NonChauffeurException("Vous n'avez pas le role de chauffeur.");
 			}
 		}
+	}
+
+	/**
+	 * @param immatriculation
+	 * @return une liste de réservation encours pour un vehicule retrouver avec son
+	 *         immatriculation
+	 */
+	public List<Reservation> getReservationEncoursByVehicule(String immatriculation) {
+		VehiculeSociete vehiculeSociete = this.vehiculeRepository.findOneByImmatriculation(immatriculation);
+		return this.reservationRepository.findAllByVehiculeWithDateDepartAfter(vehiculeSociete);
+	}
+
+	/**
+	 * @param immatriculation
+	 * @return une liste de réservation historique pour un vehicule retrouver avec son
+	 *         immatriculation
+	 */
+	public List<Reservation> getAnnoncesHistoriqueByVehicule(String immatriculation) {
+		VehiculeSociete vehiculeSociete = this.vehiculeRepository.findOneByImmatriculation(immatriculation);
+		return this.reservationRepository.findAllByVehiculeWithdateArriveeBerore(vehiculeSociete);
 	}
 
 }

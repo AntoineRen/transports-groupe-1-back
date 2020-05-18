@@ -1,5 +1,6 @@
 package dev.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -16,16 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.entites.Annonce;
 import dev.entites.Reservation;
 import dev.entites.dto.ReservationDto;
 import dev.exceptions.ApplicationException;
 import dev.service.ReservationService;
+import dev.service.VehiculeSocieteService;
 
 @RestController
 @RequestMapping("reservation")
 public class ReservationController {
 
 	private ReservationService reservationService;
+
 
 	/**
 	 * Constructor
@@ -34,6 +38,7 @@ public class ReservationController {
 	 */
 	public ReservationController(ReservationService reservationService) {
 		this.reservationService = reservationService;
+
 	}
 
 	/**
@@ -140,6 +145,27 @@ public class ReservationController {
 	}
 
 	/**
+	 * @param isEnCours 
+	 * @param immatriculation du vehicule
+	 * @return Liste de reservation encours ou historique pour un vehicule 
+	 */
+	
+	@GetMapping("vehicule")
+	public List<Reservation> getReservationByVehicule(@RequestParam("encours") Boolean isEnCours,
+			@RequestParam("immat")String immatriculation) {
+		
+		List<Reservation> listReservations = new ArrayList<>();
+		if (isEnCours) {
+			listReservations = reservationService.getReservationEncoursByVehicule(immatriculation);
+		} else {
+			listReservations = reservationService.getAnnoncesHistoriqueByVehicule(immatriculation);
+
+		}
+		System.out.println(listReservations);
+		return listReservations;
+	}
+
+	/**
 	 * Catch les exceptions throw par le service et renvoie une responseEntity avec
 	 * le statut not found et le message d'erreur
 	 * 
@@ -151,4 +177,5 @@ public class ReservationController {
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	}
+
 }
