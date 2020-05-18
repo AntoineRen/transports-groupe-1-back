@@ -2,21 +2,17 @@ package dev.service;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-import org.aspectj.weaver.patterns.ThrowsPattern;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 
 import dev.entites.Annonce;
 import dev.entites.Collegue;
@@ -29,7 +25,6 @@ import dev.exceptions.CollegueNonTrouveException;
 import dev.exceptions.ReservationNotDeletedException;
 import dev.repository.AnnonceRepository;
 import dev.repository.CollegueRepository;
-import net.bytebuddy.implementation.bytecode.Throw;
 
 /**
  * @author jules
@@ -188,6 +183,9 @@ public class AnnonceService {
 			//Liberation d'une place dans l'annonce 
 			Integer nbPlaceAnnonce =annonce.getNbPlace()+1; 
 			annonce.setNbPlace(nbPlaceAnnonce);
+			
+			//La réservation passe en statut annulé
+			annonce.setStatut(StatutAnnonce.STATUT_ANNULE);
 			
 			// retrouve collégue dans la liste et supression du collégue
 			List<Collegue> listPassager = annonce.getListPassagers();

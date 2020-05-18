@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -16,8 +17,10 @@ import dev.entites.utiles.Role;
 @Entity
 public class Collegue extends BaseEntite {
 
+	@NotBlank
 	private String nom;
 
+	@NotBlank
 	private String prenom;
 
 	private String email;
@@ -25,6 +28,13 @@ public class Collegue extends BaseEntite {
 	private String motDePasse;
 
 	private String numTelephone;
+	
+	private String permis;
+	
+	@NotBlank
+	private String matricule;
+	
+	private String photoUrl;
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "collegue", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
@@ -57,7 +67,7 @@ public class Collegue extends BaseEntite {
 	 * @param listReservationRA
 	 */
 	public Collegue(String nom, String prenom, String email, String motDePasse, String numTelephone,
-			List<RoleCollegue> roles) {
+			List<RoleCollegue> roles, String permis, String matricule, String photoUrl) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
@@ -65,6 +75,9 @@ public class Collegue extends BaseEntite {
 		this.motDePasse = motDePasse;
 		this.numTelephone = numTelephone;
 		this.roles = roles;
+		this.permis = permis;
+		this.matricule = matricule;
+		this.photoUrl = photoUrl;
 	}
 
 	/**
@@ -161,6 +174,19 @@ public class Collegue extends BaseEntite {
 	public List<RoleCollegue> getRoles() {
 		return roles;
 	}
+	
+	public String getPhotoUrl() {
+		return photoUrl;
+	}
+	
+	public String getMatricule() {
+		return matricule;
+	}
+	
+
+	public void setPermis(String permis) {
+		this.permis = permis;
+	}
 
 	/**
 	 * Setter
@@ -214,6 +240,23 @@ public class Collegue extends BaseEntite {
 	 */
 	public void setRoles(List<RoleCollegue> roles) {
 		this.roles = roles;
+	}
+
+
+
+	public void setMatricule(String matricule) {
+		this.matricule = matricule;
+	}
+
+
+
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
+	}
+	
+
+	public String getPermis() {
+		return permis;
 	}
 
 }
