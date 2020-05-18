@@ -59,4 +59,11 @@ public class RoleCollegue {
 	public void setCollegue(Collegue collegue) {
 		this.collegue = collegue;
 	}
+
+	@Override
+	public String toString() {
+		return ""+ getRole() ;
+	}
+
+	
 }
