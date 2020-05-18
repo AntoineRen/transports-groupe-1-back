@@ -26,6 +26,8 @@ public class Collegue extends BaseEntite {
 
 	private String numTelephone;
 
+	private String photoUrl;
+
 	@JsonManagedReference
 	@OneToMany(mappedBy = "collegue", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private List<RoleCollegue> roles;
@@ -57,7 +59,7 @@ public class Collegue extends BaseEntite {
 	 * @param listReservationRA
 	 */
 	public Collegue(String nom, String prenom, String email, String motDePasse, String numTelephone,
-			List<RoleCollegue> roles) {
+			List<RoleCollegue> roles, String photoUrl) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
@@ -65,6 +67,7 @@ public class Collegue extends BaseEntite {
 		this.motDePasse = motDePasse;
 		this.numTelephone = numTelephone;
 		this.roles = roles;
+		this.photoUrl = photoUrl;
 	}
 
 	/**
@@ -81,7 +84,7 @@ public class Collegue extends BaseEntite {
 	 * @param listReservationC
 	 * @param listReservationRA
 	 */
-	public Collegue(String nom, String prenom, String email, String motDePasse, String numTelephone) {
+	public Collegue(String nom, String prenom, String email, String motDePasse, String numTelephone, String photoUrl) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
@@ -89,6 +92,7 @@ public class Collegue extends BaseEntite {
 		this.motDePasse = motDePasse;
 		this.numTelephone = numTelephone;
 		this.roles = new ArrayList<>();
+		this.photoUrl = photoUrl;
 	}
 
 	/**
@@ -214,6 +218,42 @@ public class Collegue extends BaseEntite {
 	 */
 	public void setRoles(List<RoleCollegue> roles) {
 		this.roles = roles;
+	}
+
+	/**
+	 * Getter
+	 *
+	 * @return the photoUrl
+	 */
+	public String getPhotoUrl() {
+		return photoUrl;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param photoUrl the photoUrl to set
+	 */
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
+	}
+
+	/**
+	 * Getter
+	 *
+	 * @return the listCovoiturageAnnonces
+	 */
+	public List<Annonce> getListCovoiturageAnnonces() {
+		return listCovoiturageAnnonces;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param listCovoiturageAnnonces the listCovoiturageAnnonces to set
+	 */
+	public void setListCovoiturageAnnonces(List<Annonce> listCovoiturageAnnonces) {
+		this.listCovoiturageAnnonces = listCovoiturageAnnonces;
 	}
 
 }

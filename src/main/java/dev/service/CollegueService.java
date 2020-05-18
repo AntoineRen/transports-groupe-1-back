@@ -1,7 +1,6 @@
 package dev.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -32,15 +31,12 @@ public class CollegueService {
 
 		return this.collegueRepository.findAll();
 	}
-	
-
 
 	@Transactional
 	public Collegue postCollegue(CollegueDto collegueDto) {
 
 		Collegue collegue = new Collegue(collegueDto.getNom(), collegueDto.getPrenom(), collegueDto.getEmail(),
-				passwordEncoder.encode(collegueDto.getMotDePasse()),
-				collegueDto.getNumTelephone());
+				passwordEncoder.encode(collegueDto.getMotDePasse()), collegueDto.getNumTelephone(), "photoUrl");
 
 		this.collegueRepository.save(collegue);
 
