@@ -126,4 +126,9 @@ public class VehiculeSocieteService {
 		return true;
 	}
 
+	public VehiculeSociete getVehiculeByImmatriculation(String immatriculation) {
+		
+		return vehiculeRepository.findOneByImmatriculation(immatriculation);
+	}
+
 }

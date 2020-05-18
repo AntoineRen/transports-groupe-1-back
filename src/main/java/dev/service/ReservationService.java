@@ -1,6 +1,7 @@
 package dev.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -79,12 +80,10 @@ public class ReservationService {
 				// si demande de chauffeur
 				if (reservationDto.getAvecChauffeur()) {
 					reservation = new Reservation(reservationDto.getDateDepart(), reservationDto.getDateArrivee(),
-							responsable.get(), null, vehicule.get(),
-							StatutDemandeChauffeur.EN_ATTENTE);
+							responsable.get(), null, vehicule.get(), StatutDemandeChauffeur.EN_ATTENTE);
 				} else {
 					reservation = new Reservation(reservationDto.getDateDepart(), reservationDto.getDateArrivee(),
-							responsable.get(), null, vehicule.get(),
-							StatutDemandeChauffeur.SANS_CHAUFFEUR);
+							responsable.get(), null, vehicule.get(), StatutDemandeChauffeur.SANS_CHAUFFEUR);
 				}
 
 			} else {
@@ -257,6 +256,58 @@ public class ReservationService {
 				throw new NonChauffeurException("Vous n'avez pas le role de chauffeur.");
 			}
 		}
+	}
+
+	/**
+	 * Vérifie que le collègue connecté est un chauffeur et lui renvoie sa liste de
+	 * réservations de la période indiquée
+	 * 
+	 * @param email
+	 * @param debut
+	 * @param fin
+	 * @return List<Reservation>
+	 */
+	public List<Reservation> getReservationsByPeriode(String email, String debut, String fin) {
+
+		Optional<Collegue> chauffeur = this.collegueRepository.findOneByEmail(email);
+		List<Reservation> reservations = null;
+		LocalDateTime debutPeriode = LocalDateTime.parse(debut + "T00:00:00");
+		LocalDateTime finPeriode = LocalDateTime.parse(fin + "T23:59:59");
+
+		if (chauffeur.isPresent() && chauffeur.get().isChauffeur()) {
+
+			reservations = this.reservationRepository.findAllInPeriodeByChauffeur(debutPeriode, finPeriode,
+					chauffeur.get());
+
+			return reservations;
+
+		} else {
+			if (!chauffeur.isPresent()) {
+				throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
+			} else {
+				throw new NonChauffeurException("Vous n'avez pas le role de chauffeur.");
+			}
+		}
+	}
+
+	/**
+	 * @param immatriculation
+	 * @return une liste de réservation encours pour un vehicule retrouver avec son
+	 *         immatriculation
+	 */
+	public List<Reservation> getReservationEncoursByVehicule(String immatriculation) {
+		VehiculeSociete vehiculeSociete = this.vehiculeRepository.findOneByImmatriculation(immatriculation);
+		return this.reservationRepository.findAllByVehiculeWithDateDepartAfter(vehiculeSociete);
+	}
+
+	/**
+	 * @param immatriculation
+	 * @return une liste de réservation historique pour un vehicule retrouver avec son
+	 *         immatriculation
+	 */
+	public List<Reservation> getAnnoncesHistoriqueByVehicule(String immatriculation) {
+		VehiculeSociete vehiculeSociete = this.vehiculeRepository.findOneByImmatriculation(immatriculation);
+		return this.reservationRepository.findAllByVehiculeWithdateArriveeBerore(vehiculeSociete);
 	}
 
 }

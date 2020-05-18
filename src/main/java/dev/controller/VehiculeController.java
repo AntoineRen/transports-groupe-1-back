@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.entites.VehiculeSociete;
@@ -28,7 +29,6 @@ public class VehiculeController {
 	 * @param vehiculeService
 	 */
 	public VehiculeController(VehiculeSocieteService vehiculeService) {
-		super();
 		this.vehiculeService = vehiculeService;
 	}
 
@@ -36,6 +36,12 @@ public class VehiculeController {
 	public List<VehiculeSocieteDto> getAllVehicules() {
 
 		return this.vehiculeService.getAllVehicules();
+	}
+	
+	@GetMapping(params = { "immatriculation" })
+	public VehiculeSocieteDto getAllVehicules(@RequestParam String immatriculation) {
+
+		return new VehiculeSocieteDto(this.vehiculeService.getVehiculeByImmatriculation(immatriculation));
 	}
 
 	@PostMapping

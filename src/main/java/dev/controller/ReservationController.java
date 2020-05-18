@@ -1,5 +1,6 @@
 package dev.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -16,16 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.entites.Annonce;
 import dev.entites.Reservation;
 import dev.entites.dto.ReservationDto;
 import dev.exceptions.ApplicationException;
 import dev.service.ReservationService;
+import dev.service.VehiculeSocieteService;
 
 @RestController
 @RequestMapping("reservation")
 public class ReservationController {
 
 	private ReservationService reservationService;
+
 
 	/**
 	 * Constructor
@@ -34,12 +38,7 @@ public class ReservationController {
 	 */
 	public ReservationController(ReservationService reservationService) {
 		this.reservationService = reservationService;
-	}
 
-	@GetMapping
-	public List<Reservation> getAllReservations() {
-
-		return this.reservationService.getAllReservations();
 	}
 
 	/**
@@ -113,8 +112,8 @@ public class ReservationController {
 	}
 
 	/**
-	 * Réceptionne une requete get sur l'url back_url/reservation/?id=" modifie une
-	 * reservation en attente de chauffeur avec le statut avec_chauffeur et lui
+	 * Réceptionne une requete get sur l'url back_url/reservation/?id='...'" modifie
+	 * une reservation en attente de chauffeur avec le statut avec_chauffeur et lui
 	 * ajoute le chauffeur courant
 	 * 
 	 * @param id
@@ -129,6 +128,44 @@ public class ReservationController {
 	}
 
 	/**
+	 * Réceptionne une requete sur l'url back_url/reservation/?debut='...'&fin='...'
+	 * et renvoie la liste de réservations du chauffeur connecté comprisent dans la
+	 * période demandée
+	 * 
+	 * @param debut
+	 * @param fin
+	 * @return List<Reservation>
+	 */
+	@GetMapping(params = { "debut", "fin" })
+	public List<Reservation> getReservationsByPeriode(@RequestParam String debut, @RequestParam String fin) {
+
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		return this.reservationService.getReservationsByPeriode(email, debut, fin);
+	}
+
+	/**
+	 * @param isEnCours 
+	 * @param immatriculation du vehicule
+	 * @return Liste de reservation encours ou historique pour un vehicule 
+	 */
+	
+	@GetMapping("vehicule")
+	public List<Reservation> getReservationByVehicule(@RequestParam("encours") Boolean isEnCours,
+			@RequestParam("immat")String immatriculation) {
+		
+		List<Reservation> listReservations = new ArrayList<>();
+		if (isEnCours) {
+			listReservations = reservationService.getReservationEncoursByVehicule(immatriculation);
+		} else {
+			listReservations = reservationService.getAnnoncesHistoriqueByVehicule(immatriculation);
+
+		}
+		System.out.println(listReservations);
+		return listReservations;
+	}
+
+	/**
 	 * Catch les exceptions throw par le service et renvoie une responseEntity avec
 	 * le statut not found et le message d'erreur
 	 * 
@@ -136,8 +173,9 @@ public class ReservationController {
 	 * @return ResponseEntity<String>
 	 */
 	@ExceptionHandler(ApplicationException.class)
-	public ResponseEntity<String> onNonChauffeurException(ApplicationException e) {
+	public ResponseEntity<String> onApplicationException(ApplicationException e) {
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	}
+
 }
