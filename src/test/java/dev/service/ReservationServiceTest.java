@@ -36,6 +36,9 @@ class ReservationServiceTest {
 	// Mock
 	@Autowired
 	ReservationService reservationService;
+	
+	@MockBean
+	VehiculeSocieteService vehiculeSocieteService;
 
 	@MockBean
 	ReservationRepository reservationRepository;

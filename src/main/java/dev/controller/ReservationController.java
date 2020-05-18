@@ -161,7 +161,7 @@ public class ReservationController {
 			listReservations = reservationService.getAnnoncesHistoriqueByVehicule(immatriculation);
 
 		}
-		System.out.println(listReservations);
+
 		return listReservations;
 	}
 
