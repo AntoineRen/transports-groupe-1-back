@@ -23,6 +23,10 @@ public class VehiculeSocieteDto {
 
 	private String statut;
 
+	private Double latitude;
+
+	private Double longitude;
+
 	/**
 	 * Constructor
 	 *
@@ -57,6 +61,38 @@ public class VehiculeSocieteDto {
 		this.nbPlace = vehicule.getNbPlace();
 		this.photoUrl = vehicule.getPhotoUrl();
 		this.statut = vehicule.getStatut().getDetail();
+		this.latitude = vehicule.getLatitude();
+		this.longitude = vehicule.getLongitude();
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @param id
+	 * @param immatriculation
+	 * @param marque
+	 * @param modele
+	 * @param categorie
+	 * @param nbPlace
+	 * @param photoUrl
+	 * @param statut
+	 * @param latitude
+	 * @param longitude
+	 */
+	public VehiculeSocieteDto(Long id, @NotBlank String immatriculation, @NotBlank String marque,
+			@NotBlank String modele, @NotBlank String categorie, @NotNull Integer nbPlace, String photoUrl,
+			String statut, Double latitude, Double longitude) {
+		super();
+		this.id = id;
+		this.immatriculation = immatriculation;
+		this.marque = marque;
+		this.modele = modele;
+		this.categorie = categorie;
+		this.nbPlace = nbPlace;
+		this.photoUrl = photoUrl;
+		this.statut = statut;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	/**
@@ -191,6 +227,42 @@ public class VehiculeSocieteDto {
 
 	public void setStatut(String statut) {
 		this.statut = statut;
+	}
+
+	/**
+	 * Getter
+	 *
+	 * @return the latitude
+	 */
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param latitude the latitude to set
+	 */
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	/**
+	 * Getter
+	 *
+	 * @return the longitude
+	 */
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param longitude the longitude to set
+	 */
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
 	}
 
 }
