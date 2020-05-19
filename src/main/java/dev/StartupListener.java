@@ -133,7 +133,8 @@ public class StartupListener {
 		// Création de 3 véhicule
 		VehiculeSociete vehi1 = new VehiculeSociete("AA-000-AA", "Dolorean", "DMC-12", Categorie.CATEGORIE_CP, 2,
 				StatutVehiculeSociete.EN_SERVICE,
-				"https://images.unsplash.com/photo-1515853191710-4db39aa5fe54?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1376&q=80");
+				"https://images.unsplash.com/photo-1515853191710-4db39aa5fe54?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1376&q=80",
+				48.114535, -1.679013);
 		this.vehiculeRepo.save(vehi1);
 
 		VehiculeSociete vehi2 = new VehiculeSociete("BB-000-BB", "Le Bus magique", "Confinement version",
@@ -143,7 +144,8 @@ public class StartupListener {
 
 		VehiculeSociete vehi3 = new VehiculeSociete("CC-000-CC", "Platypus", "Vroum Vroum", Categorie.CATEGORIE_BTL, 5,
 				StatutVehiculeSociete.EN_REPARATION,
-				"https://images.unsplash.com/photo-1579571274591-51ace815723a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1367&q=80");
+				"https://images.unsplash.com/photo-1579571274591-51ace815723a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1367&q=80",
+				43.304368, 5.394269);
 		this.vehiculeRepo.save(vehi3);
 
 		// Reservation Test Planning

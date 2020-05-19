@@ -2,7 +2,6 @@ package dev.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,7 +19,6 @@ import dev.entites.dto.VehiculeSocieteDto;
 import dev.entites.utiles.Categorie;
 import dev.entites.utiles.StatutVehiculeSociete;
 import dev.exceptions.ApplicationException;
-import dev.exceptions.ReservationNotSavedException;
 import dev.exceptions.VehiculeNonTrouveException;
 import dev.exceptions.VehiculeNotSavedException;
 import dev.repository.ReservationRepository;
@@ -71,13 +69,12 @@ public class VehiculeSocieteService {
 	}
 
 	public VehiculeSociete postVehiculeSociete(VehiculeSociete vehicule) {
-		 vehicule= vehiculeRepository.save(vehicule); 
-		if(vehicule!=null) {
+		vehicule = vehiculeRepository.save(vehicule);
+		if (vehicule != null) {
 			return vehicule;
-		}else {
-			throw new VehiculeNotSavedException("Impossible de sauver le vehicule : "+vehicule.getId()); 
+		} else {
+			throw new VehiculeNotSavedException("Impossible de sauver le vehicule : " + vehicule.getId());
 		}
-
 
 	}
 
@@ -158,7 +155,7 @@ public class VehiculeSocieteService {
 		} else {
 			throw new VehiculeNonTrouveException("Aucun véhicule trouvé avec immatriculation : " + immatriculation);
 		}
-		
+
 	}
 
 	/**
@@ -207,7 +204,7 @@ public class VehiculeSocieteService {
 			break;
 
 		case "enService":
-			//mise en service du vehicule, sauvegarde en base de donée
+			// mise en service du vehicule, sauvegarde en base de donée
 			vehicule.setStatut(StatutVehiculeSociete.EN_SERVICE);
 			vehicule = postVehiculeSociete(vehicule);
 
@@ -218,6 +215,21 @@ public class VehiculeSocieteService {
 		}
 
 		return vehicule;
+	}
+
+	@Transactional
+	public List<VehiculeSocieteDto> getVehiculesSimultaion() {
+
+		List<VehiculeSociete> vehicules = this.vehiculeRepository.findAll();
+
+		for (VehiculeSociete vehicule : vehicules) {
+
+			vehicule.setLatitude(vehicule.getLatitude() + 0.001);
+			vehicule.setLongitude(vehicule.getLongitude() + 0.001);
+			this.vehiculeRepository.save(vehicule);
+		}
+
+		return vehicules.stream().map((v) -> new VehiculeSocieteDto(v)).collect(Collectors.toList());
 	}
 
 }

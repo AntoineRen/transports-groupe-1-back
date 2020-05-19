@@ -108,7 +108,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessHandler((req, resp, auth) -> resp.setStatus(HttpServletResponse.SC_OK))
 				.deleteCookies(TOKEN_COOKIE)
 
-		// suppression du cookie d'authentification .deleteCookies(TOKEN_COOKIE);
+		// suppression du cookie d'authentification .deleteCookies(TOKEN_COOKIE)
 
 		//
 

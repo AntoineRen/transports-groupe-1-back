@@ -19,6 +19,8 @@ public class VehiculeSociete extends BaseEntite {
 	@Enumerated(EnumType.STRING)
 	private StatutVehiculeSociete statut;
 	private String photoUrl;
+	private Double latitude;
+	private Double longitude;
 
 	/**
 	 * Constructeur
@@ -49,6 +51,35 @@ public class VehiculeSociete extends BaseEntite {
 		this.nbPlace = nbPlace;
 		this.statut = statut;
 		this.photoUrl = photoUrl;
+		this.latitude = 47.233177;
+		this.longitude = -1.63190;
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @param immatriculation
+	 * @param marque
+	 * @param modele
+	 * @param categorie
+	 * @param nbPlace
+	 * @param statut
+	 * @param photoUrl
+	 * @param latitude
+	 * @param longitude
+	 */
+	public VehiculeSociete(String immatriculation, String marque, String modele, Categorie categorie, Integer nbPlace,
+			StatutVehiculeSociete statut, String photoUrl, Double latitude, Double longitude) {
+		super();
+		this.immatriculation = immatriculation;
+		this.marque = marque;
+		this.modele = modele;
+		this.categorie = categorie;
+		this.nbPlace = nbPlace;
+		this.statut = statut;
+		this.photoUrl = photoUrl;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	/**
@@ -175,6 +206,42 @@ public class VehiculeSociete extends BaseEntite {
 	 */
 	public void setPhotoUrl(String photoUrl) {
 		this.photoUrl = photoUrl;
+	}
+
+	/**
+	 * Getter
+	 *
+	 * @return the latitude
+	 */
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param latitude the latitude to set
+	 */
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	/**
+	 * Getter
+	 *
+	 * @return the longitude
+	 */
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	/**
+	 * Setter
+	 *
+	 * @param longitude the longitude to set
+	 */
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
 	}
 
 }
