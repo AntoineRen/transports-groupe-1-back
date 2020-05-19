@@ -4,7 +4,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import dev.entites.VehiculeSociete;
-import dev.entites.utiles.StatutVehiculeSociete;
 
 public class VehiculeSocieteDto {
 
@@ -21,7 +20,7 @@ public class VehiculeSocieteDto {
 	private Integer nbPlace;
 
 	private String photoUrl;
-	
+
 	private String statut;
 
 	/**
@@ -36,7 +35,8 @@ public class VehiculeSocieteDto {
 	 * @param photoUrl
 	 */
 	public VehiculeSocieteDto(Long id, @NotBlank String immatriculation, @NotBlank String marque,
-			@NotBlank String modele, @NotBlank String categorie, @NotNull Integer nbPlace, String photoUrl, String statut) {
+			@NotBlank String modele, @NotBlank String categorie, @NotNull Integer nbPlace, String photoUrl,
+			String statut) {
 		super();
 		this.id = id;
 		this.immatriculation = immatriculation;

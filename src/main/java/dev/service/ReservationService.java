@@ -20,6 +20,7 @@ import dev.exceptions.CollegueNonTrouveException;
 import dev.exceptions.NonChauffeurException;
 import dev.exceptions.ReservationHoraireIncompatibleException;
 import dev.exceptions.ReservationNonTrouveException;
+import dev.exceptions.ReservationNotSavedException;
 import dev.exceptions.VehiculeNonTrouveException;
 import dev.repository.CollegueRepository;
 import dev.repository.ReservationRepository;
@@ -31,6 +32,7 @@ public class ReservationService {
 	private ReservationRepository reservationRepository;
 	private CollegueRepository collegueRepository;
 	private VehiculeSocieteRepository vehiculeRepository;
+	private VehiculeSocieteService vehiculeSocieteService;
 
 	/**
 	 * Constructor
@@ -38,10 +40,11 @@ public class ReservationService {
 	 * @param reservationRepository
 	 */
 	public ReservationService(ReservationRepository reservationRepository, CollegueRepository collegueRepository,
-			VehiculeSocieteRepository vehiculeRepository) {
+			VehiculeSocieteRepository vehiculeRepository, VehiculeSocieteService vehiculeSocieteService) {
 		this.reservationRepository = reservationRepository;
 		this.collegueRepository = collegueRepository;
 		this.vehiculeRepository = vehiculeRepository;
+		this.vehiculeSocieteService = vehiculeSocieteService;
 	}
 
 	public List<Reservation> getAllReservations() {
@@ -296,7 +299,7 @@ public class ReservationService {
 	 *         immatriculation
 	 */
 	public List<Reservation> getReservationEncoursByVehicule(String immatriculation) {
-		VehiculeSociete vehiculeSociete = this.vehiculeRepository.findOneByImmatriculation(immatriculation);
+		VehiculeSociete vehiculeSociete = this.vehiculeSocieteService.getVehiculeByImmatriculation(immatriculation);
 		return this.reservationRepository.findAllByVehiculeWithDateDepartAfter(vehiculeSociete);
 	}
 
@@ -306,7 +309,7 @@ public class ReservationService {
 	 *         son immatriculation
 	 */
 	public List<Reservation> getAnnoncesHistoriqueByVehicule(String immatriculation) {
-		VehiculeSociete vehiculeSociete = this.vehiculeRepository.findOneByImmatriculation(immatriculation);
+		VehiculeSociete vehiculeSociete = this.vehiculeSocieteService.getVehiculeByImmatriculation(immatriculation);
 		return this.reservationRepository.findAllByVehiculeWithdateArriveeBerore(vehiculeSociete);
 	}
 
@@ -333,6 +336,24 @@ public class ReservationService {
 
 			throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
 		}
+	}
+
+	/**
+	 * Permet d'enregister une réservation, renvoi une exception si echec du save
+	 * 
+	 * @param reservation
+	 * @return
+	 */
+	@Transactional
+	public Reservation putReservation(Reservation reservation) {
+		Reservation res = reservationRepository.save(reservation);
+		if (res != null) {
+			return res;
+		} else {
+			throw new ReservationNotSavedException(
+					"Impossible de sauvegarder cette reservation : " + reservation.getId());
+		}
+
 	}
 
 }
