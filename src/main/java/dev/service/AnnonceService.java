@@ -106,21 +106,6 @@ public class AnnonceService {
 		return annonceEncours;
 	}
 
-	/**
-	 * TODO soit disparaitre
-	 * 
-	 * @param email
-	 * @return Liste d'annonces en tant que passager ou responcable grace à son mail
-	 *         si l'email ne correspond a aucun collegue renvois une exception
-	 */
-	public List<Annonce> getAllAnnoncesByCollegue(String email) {
-		List<Annonce> allAnnonceResponcable = this.getAnnoncesByResponcable(email);
-		List<Annonce> allAnnoncePassager = this.getAnnonceByPassager(email);
-		List<Annonce> allAnnonce = Stream.concat(allAnnonceResponcable.stream(), allAnnoncePassager.stream())
-				.collect(Collectors.toList());
-
-		return allAnnonce;
-	}
 
 	/**
 	 * @return une liste de toute les reservation au statut en cours
@@ -183,8 +168,6 @@ public class AnnonceService {
 			Integer nbPlaceAnnonce = annonce.getNbPlace() + 1;
 			annonce.setNbPlace(nbPlaceAnnonce);
 
-			// La réservation passe en statut annulé
-			annonce.setStatut(StatutAnnonce.STATUT_ANNULE);
 
 			// retrouve collégue dans la liste et supression du collégue
 			List<Collegue> listPassager = annonce.getListPassagers();
