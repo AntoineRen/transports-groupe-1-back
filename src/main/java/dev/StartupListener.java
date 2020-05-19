@@ -74,9 +74,9 @@ public class StartupListener {
 		col1.setMotDePasse(passwordEncoder.encode("superpass"));
 		col1.setRoles(Arrays.asList(new RoleCollegue(col1, Role.ROLE_ADMINISTRATEUR),
 				new RoleCollegue(col1, Role.ROLE_CHAUFFEUR), new RoleCollegue(col1, Role.ROLE_COLLABORATEUR)));
+		col1.setPhotoUrl("https://randomuser.me/api/portraits/women/17.jpg");
 		col1.setPermis("B");
 		col1.setMatricule("M01");
-		col1.setPhotoUrl("https://www.chauffeur-prive-jadriver.fr/images/stories/chauffeur-vtc-Yvelines.jpg");
 		this.collegueRepo.save(col1);
 
 		Collegue col2 = new Collegue();
@@ -86,9 +86,9 @@ public class StartupListener {
 		col2.setEmail("collaborateur@dev.fr");
 		col2.setMotDePasse(passwordEncoder.encode("superpass"));
 		col2.setRoles(Arrays.asList(new RoleCollegue(col2, Role.ROLE_COLLABORATEUR)));
+		col2.setPhotoUrl("https://randomuser.me/api/portraits/men/2.jpg");
 		col2.setPermis("B");
 		col2.setMatricule("M02");
-		col2.setPhotoUrl("https://www.petiterepublique.com/wp-content/uploads/2019/06/chauffeur-vtc-800x533_c.jpg");
 		this.collegueRepo.save(col2);
 
 		Collegue col3 = new Collegue();
@@ -98,29 +98,30 @@ public class StartupListener {
 		col3.setMotDePasse(passwordEncoder.encode("superpass"));
 		col3.setRoles(Arrays.asList(new RoleCollegue(col3, Role.ROLE_COLLABORATEUR),
 				new RoleCollegue(col3, Role.ROLE_CHAUFFEUR)));
+		col3.setPhotoUrl("https://randomuser.me/api/portraits/men/1.jpg");
 		col3.setPermis("B");
 		col3.setMatricule("M03");
-		col3.setPhotoUrl("https://saintcloud.ufcquechoisir.fr/wp-content/uploads/sites/67/2020/01/vtc.jpg");
 		this.collegueRepo.save(col3);
 
-		//collegue jules
+		// collegue jules
 		Collegue col4 = new Collegue();
 		col4.setNom("Dupuis");
 		col4.setPrenom("Jules");
 		col4.setEmail("jules.dupuis51@gmail.com");
 		col4.setMotDePasse(passwordEncoder.encode("braacken"));
-		col4.setRoles(Arrays.asList(new RoleCollegue(col4, Role.ROLE_COLLABORATEUR),new RoleCollegue(col4, Role.ROLE_CHAUFFEUR)));
+		col4.setRoles(Arrays.asList(new RoleCollegue(col4, Role.ROLE_COLLABORATEUR),
+				new RoleCollegue(col4, Role.ROLE_CHAUFFEUR)));
 		col4.setPermis("B");
 		col4.setMatricule("M04");
 		col4.setPhotoUrl("https://www.dahaboo.com/upload/i/2019-09/chauffeur-experimente-94011.jpg");
 		this.collegueRepo.save(col4);
-		
-		//AdminGDT-Transport
+
+		// AdminGDT-Transport
 		Collegue col5 = new Collegue();
 		col5.setNom("GDT-Transport");
 		col5.setPrenom("DEV");
 		col5.setEmail("gdttransportentreprise@gmail.com");
-		//mdp mail : GDTTransport_44
+		// mdp mail : GDTTransport_44
 		col5.setMotDePasse(passwordEncoder.encode("superpass"));
 		col5.setRoles(Arrays.asList(new RoleCollegue(col5, Role.ROLE_ADMINISTRATEUR),
 				new RoleCollegue(col5, Role.ROLE_CHAUFFEUR), new RoleCollegue(col5, Role.ROLE_COLLABORATEUR)));
@@ -129,8 +130,6 @@ public class StartupListener {
 		col5.setPhotoUrl("https://www.chauffeur-prive-jadriver.fr/images/stories/chauffeur-vtc-Yvelines.jpg");
 		this.collegueRepo.save(col5);
 
-
-		
 		// Création de 3 véhicule
 		VehiculeSociete vehi1 = new VehiculeSociete("AA-000-AA", "Dolorean", "DMC-12", Categorie.CATEGORIE_CP, 2,
 				StatutVehiculeSociete.EN_SERVICE,
@@ -325,7 +324,7 @@ public class StartupListener {
 		annonce9.setMarque("faucon millenium");
 		annonce9.setModele("1100KK");
 		annonce9.setNbPlace(2);
-		annonce9.setStatut(StatutAnnonce. STATUT_EN_COURS);
+		annonce9.setStatut(StatutAnnonce.STATUT_EN_COURS);
 
 		List<Collegue> listPassagersfutur = Arrays.asList(col1, col2, col3);
 		annonce9.setListPassagers(listPassagersfutur);

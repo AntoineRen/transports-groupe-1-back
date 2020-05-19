@@ -1,7 +1,6 @@
 package dev.service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,6 +14,7 @@ import dev.entites.Collegue;
 import dev.entites.Reservation;
 import dev.entites.VehiculeSociete;
 import dev.entites.dto.ReservationDto;
+import dev.entites.dto.StatistiquesDto;
 import dev.entites.utiles.StatutDemandeChauffeur;
 import dev.exceptions.CollegueNonTrouveException;
 import dev.exceptions.NonChauffeurException;
@@ -314,20 +314,46 @@ public class ReservationService {
 	}
 
 	/**
+	 * Calcul le nombre de covoiturages en cours, terminé et totale d'un collegue
+	 * par rapport a son email
+	 * 
+	 * @param email
+	 * @return StatistiquesDto
+	 */
+	public StatistiquesDto getStatistiques(String email) {
+
+		Optional<Collegue> collegue = this.collegueRepository.findOneByEmail(email);
+
+		if (collegue.isPresent()) {
+
+			int total = this.reservationRepository.countByResponsable(collegue.get());
+
+			int termine = this.reservationRepository.countByResponsableTermine(collegue.get());
+
+			return new StatistiquesDto(total - termine, termine, total);
+
+		} else {
+
+			throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
+		}
+	}
+
+	/**
 	 * Permet d'enregister une réservation, renvoi une exception si echec du save
+	 * 
 	 * @param reservation
 	 * @return
 	 */
 	@Transactional
 	public Reservation putReservation(Reservation reservation) {
-		Reservation res= reservationRepository.save(reservation); 
-		if(res!=null) {
+		Reservation res = reservationRepository.save(reservation);
+		if (res != null) {
 			return res;
-		}else {
-			throw new ReservationNotSavedException("Impossible de sauvegarder cette reservation : "+reservation.getId()); 
+		} else {
+			throw new ReservationNotSavedException(
+					"Impossible de sauvegarder cette reservation : " + reservation.getId());
 		}
-		
-		
+
 	}
 
 }

@@ -1,17 +1,10 @@
 package dev.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -20,7 +13,6 @@ import dev.entites.Annonce;
 import dev.entites.Collegue;
 import dev.entites.Itineraire;
 import dev.entites.utiles.StatutAnnonce;
-import dev.exceptions.CollegueNonTrouveException;
 import dev.repository.AnnonceRepository;
 import dev.repository.CollegueRepository;
 
@@ -55,12 +47,13 @@ class AnnonceServiceTest {
 
 		// Valorisation Collegue
 
-		passagerTest = new Collegue("MonsieurPassagerTest", "test", "testPassager@test.fr", "Mdptest", "00000000");
+		passagerTest = new Collegue("MonsieurPassagerTest", "test", "testPassager@test.fr", "Mdptest", "00000000",
+				"photoUrl");
 
 		responcableTest = new Collegue("MonsieurResponcebleTest", "ResponcableTest", "testResponsable@test.fr",
-				"MdpResponcabletest", "00000000");
+				"MdpResponcabletest", "00000000", "photoUrl");
 		passagerTest = new Collegue("MonsieurPassagerTest", "PassagerTest", "testpassager@test.fr", "MdpPassagertest",
-				"00000000");
+				"00000000", "photoUrl");
 
 		annonceTest = new Annonce(
 				new Itineraire(LocalDateTime.now(), LocalDateTime.now().plusDays(5), "test", "test", 100, 100D),
@@ -87,14 +80,20 @@ class AnnonceServiceTest {
 
 		// Valorosation Annonce
 		annoncePast = new Annonce(new Itineraire(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1),
-				"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4, StatutAnnonce.STATUT_EN_COURS);
+				"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4,
+				StatutAnnonce.STATUT_EN_COURS);
 		annonceFuture = new Annonce(new Itineraire(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1),
-				"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4, StatutAnnonce.STATUT_EN_COURS);
+				"test", "test", 100, 100D), passagerTest, "TT-666-TT", "Test", "test", 4,
+				StatutAnnonce.STATUT_EN_COURS);
 
-		listAnnoncesTime.add(new Annonce(itinerairePast, passagerTest, "TT-666-TT", "Test", "test", 4,StatutAnnonce.STATUT_EN_COURS));
-		listAnnoncesTime.add(new Annonce(itineraireProxPast, passagerTest, "TT-666-TT", "Test", "test", 4,StatutAnnonce.STATUT_EN_COURS));
-		listAnnoncesTime.add(new Annonce(itineraireProxFuture, passagerTest, "TT-666-TT", "Test", "test", 4,StatutAnnonce.STATUT_EN_COURS));
-		listAnnoncesTime.add(new Annonce(itineraireFuture, passagerTest, "TT-666-TT", "Test", "test", 4,StatutAnnonce.STATUT_EN_COURS));
+		listAnnoncesTime.add(new Annonce(itinerairePast, passagerTest, "TT-666-TT", "Test", "test", 4,
+				StatutAnnonce.STATUT_EN_COURS));
+		listAnnoncesTime.add(new Annonce(itineraireProxPast, passagerTest, "TT-666-TT", "Test", "test", 4,
+				StatutAnnonce.STATUT_EN_COURS));
+		listAnnoncesTime.add(new Annonce(itineraireProxFuture, passagerTest, "TT-666-TT", "Test", "test", 4,
+				StatutAnnonce.STATUT_EN_COURS));
+		listAnnoncesTime.add(new Annonce(itineraireFuture, passagerTest, "TT-666-TT", "Test", "test", 4,
+				StatutAnnonce.STATUT_EN_COURS));
 
 	}
 //

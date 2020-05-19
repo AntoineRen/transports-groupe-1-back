@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.entites.Annonce;
 import dev.entites.dto.AnnonceDto;
+import dev.entites.dto.StatistiquesDto;
 import dev.exceptions.ApplicationException;
 import dev.service.AnnonceService;
 
@@ -153,5 +154,19 @@ public class AnnonceController {
 		listAnnonces = annonceService.getAllAnnoncesEnCours();
 
 		return listAnnonces;
+	}
+
+	/**
+	 * Réceptionne une requete sur l'url back_url/annonce/self/statistiques les
+	 * statistiques des covoiturages du collegue connecté
+	 * 
+	 * @return StatistiquesDto
+	 */
+	@GetMapping("self/statistiques")
+	public StatistiquesDto getStatistiques() {
+
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		return this.annonceService.getStatistiques(email);
 	}
 }
