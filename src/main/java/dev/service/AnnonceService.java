@@ -1,6 +1,5 @@
 package dev.service;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
@@ -13,11 +12,11 @@ import javax.validation.Valid;
 
 import org.springframework.stereotype.Service;
 
-
 import dev.entites.Annonce;
 import dev.entites.Collegue;
 import dev.entites.Itineraire;
 import dev.entites.dto.AnnonceDto;
+import dev.entites.dto.StatistiquesDto;
 import dev.entites.utiles.StatutAnnonce;
 import dev.exceptions.AnnonceNonTrouveException;
 import dev.exceptions.AnnonceNotDeletedException;
@@ -159,7 +158,7 @@ public class AnnonceService {
 		Annonce annonce = this.getAnnonceById(id);
 
 		annonce.setStatut(StatutAnnonce.STATUT_ANNULE);
-		//si la transaction echoue l'annonce passe a null
+		// si la transaction echoue l'annonce passe a null
 		annonce = this.annonceRepository.save(annonce);
 		// si la transation a eu lieu, envoie un mail de comfirmation au responcavle et
 		// aux different passager
@@ -176,29 +175,28 @@ public class AnnonceService {
 
 		// récuperer une annonce by son id
 		Annonce annonce = this.getAnnonceById(id);
-		//réccupere le passager avec son mail 
+		// réccupere le passager avec son mail
 		Optional<Collegue> collegue = collegueRepository.findOneByEmail(emailPassager);
 		if (collegue.isPresent()) {
-			Collegue passager = collegue.get(); 
-			//Liberation d'une place dans l'annonce 
-			Integer nbPlaceAnnonce =annonce.getNbPlace()+1; 
+			Collegue passager = collegue.get();
+			// Liberation d'une place dans l'annonce
+			Integer nbPlaceAnnonce = annonce.getNbPlace() + 1;
 			annonce.setNbPlace(nbPlaceAnnonce);
-			
-			//La réservation passe en statut annulé
+
+			// La réservation passe en statut annulé
 			annonce.setStatut(StatutAnnonce.STATUT_ANNULE);
-			
+
 			// retrouve collégue dans la liste et supression du collégue
 			List<Collegue> listPassager = annonce.getListPassagers();
-			
-	        Iterator<Collegue> itr = listPassager.iterator();
-	        while(itr.hasNext()){
-	            if(emailPassager.equals(itr.next().getEmail())){
-	                itr.remove();
-	            }
-	        }
 
-			
-			//si la transaction echoue l'annonce passe a null
+			Iterator<Collegue> itr = listPassager.iterator();
+			while (itr.hasNext()) {
+				if (emailPassager.equals(itr.next().getEmail())) {
+					itr.remove();
+				}
+			}
+
+			// si la transaction echoue l'annonce passe a null
 			annonce = this.annonceRepository.save(annonce);
 
 			// si la transation a eu lieu, envoie un mail de comfirmation au responcavle et
@@ -206,11 +204,11 @@ public class AnnonceService {
 			if (annonce != null) {
 				this.envoiMailService.envoyerMailAnnulationReservation(annonce, passager);
 				return annonce;
-				
+
 			} else {
 				throw new ReservationNotDeletedException("La reservation n'a pas pu etre annulé");
 			}
-			
+
 		} else {
 			// TODO creer exception adaptée
 			throw new CollegueNonTrouveException("Aucun passager trouvé avec cet email : " + emailPassager);
@@ -288,6 +286,35 @@ public class AnnonceService {
 		List<Annonce> listAnnonces = this.getAnnoncesByResponcable(email);
 		List<Annonce> listAnnoncesHistorique = this.getHistoriqueAnnonce(listAnnonces);
 		return listAnnoncesHistorique;
+	}
+
+	/**
+	 * Calcul le nombre de covoiturages en cours, terminé et totale d'un collegue
+	 * par rapport a son email
+	 * 
+	 * @param email
+	 * @return StatistiquesDto
+	 */
+	public StatistiquesDto getStatistiques(String email) {
+
+		Optional<Collegue> collegue = this.collegueRepository.findOneByEmail(email);
+
+		if (collegue.isPresent()) {
+
+			int total = this.annonceRepository.countBylistPassagers(collegue.get())
+					+ this.annonceRepository.countByResponsable(collegue.get());
+
+			int termine = (int) (this.annonceRepository.findAllBylistPassagers(collegue.get()).stream()
+					.filter(a -> a.getItineraire().getDateArrivee().isBefore(LocalDateTime.now())).count()
+					+ this.annonceRepository.findAllByResponsable(collegue.get()).stream()
+							.filter(a -> a.getItineraire().getDateArrivee().isBefore(LocalDateTime.now())).count());
+
+			return new StatistiquesDto(total - termine, termine, total);
+
+		} else {
+
+			throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
+		}
 	}
 
 }

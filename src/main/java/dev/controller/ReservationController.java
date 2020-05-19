@@ -17,19 +17,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.entites.Annonce;
 import dev.entites.Reservation;
 import dev.entites.dto.ReservationDto;
+import dev.entites.dto.StatistiquesDto;
 import dev.exceptions.ApplicationException;
 import dev.service.ReservationService;
-import dev.service.VehiculeSocieteService;
 
 @RestController
 @RequestMapping("reservation")
 public class ReservationController {
 
 	private ReservationService reservationService;
-
 
 	/**
 	 * Constructor
@@ -145,15 +143,15 @@ public class ReservationController {
 	}
 
 	/**
-	 * @param isEnCours 
+	 * @param isEnCours
 	 * @param immatriculation du vehicule
-	 * @return Liste de reservation encours ou historique pour un vehicule 
+	 * @return Liste de reservation encours ou historique pour un vehicule
 	 */
-	
+
 	@GetMapping("vehicule")
 	public List<Reservation> getReservationByVehicule(@RequestParam("encours") Boolean isEnCours,
-			@RequestParam("immat")String immatriculation) {
-		
+			@RequestParam("immat") String immatriculation) {
+
 		List<Reservation> listReservations = new ArrayList<>();
 		if (isEnCours) {
 			listReservations = reservationService.getReservationEncoursByVehicule(immatriculation);
@@ -178,4 +176,17 @@ public class ReservationController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	}
 
+	/**
+	 * Réceptionne une requete sur l'url back_url/annonce/self/statistiques les
+	 * statistiques des covoiturages du collegue connecté
+	 * 
+	 * @return StatistiquesDto
+	 */
+	@GetMapping("self/statistiques")
+	public StatistiquesDto getStatistiques() {
+
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		return this.reservationService.getStatistiques(email);
+	}
 }

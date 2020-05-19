@@ -63,15 +63,13 @@ class ReservationServiceTest {
 	@BeforeEach
 	public void init() {
 
-		collegueTest = new Collegue("test", "test", "test@test.fr", "test", "00000000");
+		collegueTest = new Collegue("test", "test", "test@test.fr", "test", "00000000", "photoUrl");
 		vehiculeTest = new VehiculeSociete("immatriculationTest", "marqueTest", "modeleTest", Categorie.CATEGORIE_BTL,
 				5, StatutVehiculeSociete.EN_SERVICE, null);
 		reservationEnCoursTest = new Reservation(LocalDateTime.now().plusDays(5), LocalDateTime.now().plusDays(5),
-				collegueTest, null, vehiculeTest,
-				StatutDemandeChauffeur.SANS_CHAUFFEUR);
+				collegueTest, null, vehiculeTest, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 		reservationHistoTest = new Reservation(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(5),
-				collegueTest, null, vehiculeTest,
-				StatutDemandeChauffeur.SANS_CHAUFFEUR);
+				collegueTest, null, vehiculeTest, StatutDemandeChauffeur.SANS_CHAUFFEUR);
 
 		reservations = new ArrayList<>();
 		reservations.add(reservationEnCoursTest);
