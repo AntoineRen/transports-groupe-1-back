@@ -1,7 +1,6 @@
 package dev.service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,6 +14,7 @@ import dev.entites.Collegue;
 import dev.entites.Reservation;
 import dev.entites.VehiculeSociete;
 import dev.entites.dto.ReservationDto;
+import dev.entites.dto.StatistiquesDto;
 import dev.entites.utiles.StatutDemandeChauffeur;
 import dev.exceptions.CollegueNonTrouveException;
 import dev.exceptions.NonChauffeurException;
@@ -302,12 +302,37 @@ public class ReservationService {
 
 	/**
 	 * @param immatriculation
-	 * @return une liste de réservation historique pour un vehicule retrouver avec son
-	 *         immatriculation
+	 * @return une liste de réservation historique pour un vehicule retrouver avec
+	 *         son immatriculation
 	 */
 	public List<Reservation> getAnnoncesHistoriqueByVehicule(String immatriculation) {
 		VehiculeSociete vehiculeSociete = this.vehiculeRepository.findOneByImmatriculation(immatriculation);
 		return this.reservationRepository.findAllByVehiculeWithdateArriveeBerore(vehiculeSociete);
+	}
+
+	/**
+	 * Calcul le nombre de covoiturages en cours, terminé et totale d'un collegue
+	 * par rapport a son email
+	 * 
+	 * @param email
+	 * @return StatistiquesDto
+	 */
+	public StatistiquesDto getStatistiques(String email) {
+
+		Optional<Collegue> collegue = this.collegueRepository.findOneByEmail(email);
+
+		if (collegue.isPresent()) {
+
+			int total = this.reservationRepository.countByResponsable(collegue.get());
+
+			int termine = this.reservationRepository.countByResponsableTermine(collegue.get());
+
+			return new StatistiquesDto(total - termine, termine, total);
+
+		} else {
+
+			throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
+		}
 	}
 
 }

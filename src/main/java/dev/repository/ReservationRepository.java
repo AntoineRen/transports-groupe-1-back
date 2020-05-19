@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import dev.entites.Annonce;
 import dev.entites.Collegue;
 import dev.entites.Reservation;
 import dev.entites.VehiculeSociete;
@@ -30,8 +29,13 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 			@Param("chauffeur") Collegue chauffeur);
 
 	@Query("select r from Reservation r where  (r.vehicule= :vehicule) and (r.dateDepart < current_date())  ")
-	List <Reservation> findAllByVehiculeWithDateDepartAfter(@Param("vehicule") VehiculeSociete vehicule);
-	
+	List<Reservation> findAllByVehiculeWithDateDepartAfter(@Param("vehicule") VehiculeSociete vehicule);
+
 	@Query("select r from Reservation r where  (r.vehicule= :vehicule) and (r.dateArrivee < current_date())  ")
-	List <Reservation> findAllByVehiculeWithdateArriveeBerore(@Param("vehicule") VehiculeSociete vehicule);
+	List<Reservation> findAllByVehiculeWithdateArriveeBerore(@Param("vehicule") VehiculeSociete vehicule);
+
+	int countByResponsable(Collegue collegue);
+
+	@Query("select count(*) from Reservation r where r.responsable = :collegue and r.dateArrivee < current_date()")
+	int countByResponsableTermine(@Param("collegue") Collegue collegue);
 }
