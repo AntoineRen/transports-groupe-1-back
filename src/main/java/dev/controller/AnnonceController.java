@@ -33,52 +33,8 @@ public class AnnonceController {
 		this.annonceService = annonceService;
 	}
 
-	@GetMapping("listAnnonceByResponsable")
-	public List<Annonce> getAnnoncesByResponsableEmail() {
-		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		List<Annonce> listAnnonceCollegue = annonceService
-				.getAnnonceEnCours(annonceService.getAnnoncesByResponcable(email));
-		return listAnnonceCollegue;
-	}
 
-	@GetMapping("listAnnonceByPassager")
-	public List<Annonce> getAnnoncesByPassagerEmail() {
-		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		List<Annonce> listAnnonceCollegue = annonceService
-				.getAnnonceEnCours(annonceService.getAnnonceByPassager(email));
-		return listAnnonceCollegue;
-	}
-
-	@GetMapping("listAnnonceEnCours")
-	public List<Annonce> getFutureAnnoncesByCollegue() {
-		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		List<Annonce> listAnnonceCollegue = annonceService
-				.getAnnonceEnCours(annonceService.getAllAnnoncesByCollegue(email));
-		return listAnnonceCollegue;
-	}
-
-	@GetMapping("listAnnonceHistorique")
-	public List<Annonce> getHistoriqueAnnoncesByCollegue() {
-		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		List<Annonce> listAnnonceCollegue = annonceService
-				.getHistoriqueAnnonce(annonceService.getAllAnnoncesByCollegue(email));
-		return listAnnonceCollegue;
-	}
-
-	@GetMapping("listAnnonceByResponsableHistorique")
-	public List<Annonce> getHistoriqueAnnoncesByResponsableEmail() {
-		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		List<Annonce> listAnnonceCollegue = annonceService
-				.getHistoriqueAnnonce(annonceService.getAnnoncesByResponcable(email));
-		return listAnnonceCollegue;
-	}
-
-	@GetMapping("listAllAnnonce")
-	public List<Annonce> getAllAnnoncesEnCours() {
-		List<Annonce> listAnnonceCollegue = annonceService.getAllAnnoncesEnCours();
-		return listAnnonceCollegue;
-
-	}
+	
 
 	@PostMapping
 	public Annonce postAnnonce(@RequestBody @Valid AnnonceDto annonceDto) {
