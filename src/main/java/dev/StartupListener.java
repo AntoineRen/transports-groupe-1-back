@@ -94,7 +94,7 @@ public class StartupListener {
 		Collegue col3 = new Collegue();
 		col3.setNom("Chauffeur");
 		col3.setPrenom("DEV");
-		col3.setEmail("gdttransportentreprise@gmail.com");
+		col3.setEmail("chauffeur@dev.fr");
 		col3.setMotDePasse(passwordEncoder.encode("superpass"));
 		col3.setRoles(Arrays.asList(new RoleCollegue(col3, Role.ROLE_COLLABORATEUR),
 				new RoleCollegue(col3, Role.ROLE_CHAUFFEUR)));
