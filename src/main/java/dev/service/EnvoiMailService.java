@@ -240,7 +240,7 @@ public class EnvoiMailService {
 		Collegue responsable = reservation.getResponsable();
 		Collegue chauffeur = reservation.getChauffeur();
 		VehiculeSociete vehicule = reservation.getVehicule();
-
+System.out.println("getMailTemplateAnnulationReservationVehiculeChauffeur");
 		return "<h4>Bonjour " + chauffeur.getNom() + " " + chauffeur.getPrenom() + ",</h4>" + "Votre trajet avec "
 				+ responsable.getNom() + " " + responsable.getPrenom() + " à la date du " + reservation.getDateDepart()
 				+ " au " + reservation.getDateArrivee() + " pour le vehicule : " + vehicule.getMarque() + " - "
@@ -280,6 +280,8 @@ public class EnvoiMailService {
 						.put(Emailv31.Message.CUSTOMID, "AppGettingStartedTest")));
 		try {
 			response = client.post(request);
+			System.out.println(sujet);
+
 			System.out.println(response.getStatus());
 			System.out.println(response.getData());
 		} catch (MailjetException | MailjetSocketTimeoutException e) {

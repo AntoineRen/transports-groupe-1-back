@@ -80,8 +80,8 @@ public class VehiculeController {
 	 * @throws Exception
 	 */
 	@PutMapping(params = {"statut","immat"})
-	public VehiculeSociete putStatusVehicule(@RequestParam String statut,@RequestParam String immat){
-		return this.vehiculeService.putStatutVehiculeService(statut, immat);
+	public VehiculeSocieteDto putStatusVehicule(@RequestParam String statut,@RequestParam String immat){
+		return new VehiculeSocieteDto(this.vehiculeService.putStatutVehiculeService(statut, immat));
 	}
 	/**
 	 * Catch les exceptions throw par le service et renvoie une responseEntity avec
