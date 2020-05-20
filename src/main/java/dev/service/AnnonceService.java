@@ -1,6 +1,7 @@
 package dev.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -106,7 +107,6 @@ public class AnnonceService {
 		return annonceEncours;
 	}
 
-
 	/**
 	 * @return une liste de toute les reservation au statut en cours
 	 */
@@ -167,7 +167,6 @@ public class AnnonceService {
 			// Liberation d'une place dans l'annonce
 			Integer nbPlaceAnnonce = annonce.getNbPlace() + 1;
 			annonce.setNbPlace(nbPlaceAnnonce);
-
 
 			// retrouve collégue dans la liste et supression du collégue
 			List<Collegue> listPassager = annonce.getListPassagers();
@@ -255,7 +254,11 @@ public class AnnonceService {
 
 	public List<Annonce> getReservationsHistoriqueByPassager(String email) {
 		List<Annonce> listReservations = this.getAnnonceByPassager(email);
+		List<Annonce> listReservationsHistoriqueAnnulation = this.getReservationsAnnulationsByCollegue(email);
+		listReservationsHistoriqueAnnulation.addAll(listReservations);
 		List<Annonce> listReservationsHistorique = this.getHistoriqueAnnonce(listReservations);
+
+
 		return listReservationsHistorique;
 	}
 
@@ -298,6 +301,23 @@ public class AnnonceService {
 
 			throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
 		}
+	}
+
+	public List<Annonce> getReservationsAnnulationsByCollegue(String email) {
+		Optional<Collegue> passager = collegueRepository.findOneByEmail(email);
+		List<Annonce> listAnnulation = new ArrayList<>();
+		if (passager.isPresent()) {
+			listAnnulation = annonceRepository.findAllByListPassagers(passager.get());
+			for (Annonce courante : listAnnulation) {
+				courante.setStatut(StatutAnnonce.STATUT_ANNULE);
+			}
+		} else {
+
+			throw new CollegueNonTrouveException("Aucun collègue trouvé avec cet email : " + email);
+		}
+
+		return listAnnulation;
+
 	}
 
 }

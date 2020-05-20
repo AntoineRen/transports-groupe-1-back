@@ -20,5 +20,7 @@ public interface AnnonceRepository extends JpaRepository<Annonce, Long> {
 	int countBylistPassagers(Collegue collegue);
 
 	int countByResponsable(Collegue collegue);
+	
+	List<Annonce> findAllByListPassagers(Collegue collegue); 
 
 }
