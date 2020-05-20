@@ -74,7 +74,6 @@ public class AnnonceController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	}
 
-	// NEEEWWW!!!!
 
 	@GetMapping("self/reservations")
 	public List<Annonce> getReservationsByPassager(@RequestParam("encours") Boolean isEnCours) {

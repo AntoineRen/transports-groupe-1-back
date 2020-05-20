@@ -148,7 +148,7 @@ public class EnvoiMailService {
 	 */
 	private String getMailTemplateAnnulationAnnonceForPassager(Collegue passager, Itineraire itinr) {
 		return "Bonjour " + passager.getNom() + " " + passager.getPrenom() + ",<br><br>" + ""
-				+ "Votre Covoiturage au depart de " + itinr.getLieuDepart() + ", à destination de "
+				+ "Votre covoiturage au depart de " + itinr.getLieuDepart() + ", à destination de "
 				+ itinr.getLieuDestination() + " prévu le " + this.getDateFormater(itinr.getDateDepart())
 				+ ", à été annulé. " + "<br><br><br>"
 				+ "<img src=\"https://cdn.discordapp.com/attachments/705412725098020906/707149807038496778/logo.png\" alt=\"logo\"style=\"width:100px;height:100px;\">"
@@ -163,8 +163,8 @@ public class EnvoiMailService {
 	 *         annulation au prés du responcable
 	 */
 	private String getMailTemplateAnnulationAnnonceForResponsable(Collegue responsable, Itineraire itinr) {
-		return "<h4>Bonjour " + responsable.getNom() + " " + responsable.getPrenom() + ",<br><br>"
-				+ "Votre Covoiturage au depart de " + itinr.getLieuDepart() + ", à destination de "
+		return "Bonjour " + responsable.getNom() + " " + responsable.getPrenom() + ",<br><br>"
+				+ "Votre covoiturage au départ de " + itinr.getLieuDepart() + ", à destination de "
 				+ itinr.getLieuDestination() + " prévu le " + this.getDateFormater(itinr.getDateDepart())
 				+ " à bien été annulé. <br>" + "Vos passagers ont été prévenus" + "<br><br><br>"
 				+ "<img src=\"https://cdn.discordapp.com/attachments/705412725098020906/707149807038496778/logo.png\" alt=\"logo\"style=\"width:100px;height:100px;\">"
@@ -179,7 +179,7 @@ public class EnvoiMailService {
 	 */
 	private String getMailTemplateAnnulationReservationForPassager(Collegue passager, Itineraire itinr) {
 		return "Bonjour " + passager.getNom() + " " + passager.getPrenom() + ",</h4>"
-				+ "Votre Covoiturage au depart de " + itinr.getLieuDepart() + ", à destination de "
+				+ "Votre Covoiturage au départ de " + itinr.getLieuDepart() + ", à destination de "
 				+ itinr.getLieuDestination() + " prévu le " + this.getDateFormater(itinr.getDateDepart())
 				+ ", à bien été annulé. <br>" + "Le conducteur a bien été prévenu" + "<br><br><br>"
 				+ "<img src=\"https://cdn.discordapp.com/attachments/705412725098020906/707149807038496778/logo.png\" alt=\"logo\"style=\"width:100px;height:100px;\">"
@@ -201,7 +201,7 @@ public class EnvoiMailService {
 				+ "Votre réservation à la date du " + this.getDateFormater(reservation.getDateDepart()) + " au "
 				+ this.getDateFormater(reservation.getDateArrivee()) + " pour le vehicule : " + vehicule.getMarque() + " - "
 				+ vehicule.getModele() + " immatriculé " + vehicule.getImmatriculation()
-				+ " est malheureusment annuler. Ce vehicule est hors service." + "<br><br><br>"
+				+ " est malheureusement annuler. Ce vehicule est hors service." + "<br><br><br>"
 				+ "<img src=\"https://cdn.discordapp.com/attachments/705412725098020906/707149807038496778/logo.png\" alt=\"logo\"style=\"width:100px;height:100px;\">"
 				+ "   L'equipe de GDT-Transport";
 	}
@@ -240,7 +240,7 @@ public class EnvoiMailService {
 				+ this.getDateFormater(reservation.getDateDepart()) + " au "
 				+ this.getDateFormater(reservation.getDateArrivee()) + " pour le vehicule : " + vehicule.getMarque()
 				+ " - " + vehicule.getModele() + " immatriculé " + vehicule.getImmatriculation()
-				+ " est malheureusement annulé. Ce vehicule est hors service. Votre Passager à été prévenu."
+				+ " est malheureusement annulé. Ce vehicule est hors service. Votre passager a été prévenu."
 				+ "<br><br><br>"
 				+ "<img src=\"https://cdn.discordapp.com/attachments/705412725098020906/707149807038496778/logo.png\" alt=\"logo\"style=\"width:100px;height:100px;\">"
 				+ "   L'equipe de GDT-Transport";
