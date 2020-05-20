@@ -28,6 +28,8 @@ public class Annonce extends BaseEntite {
 	private Integer nbPlace;
 	@Enumerated(EnumType.STRING)
 	private StatutAnnonce statut;
+	@ManyToMany
+	private List<Collegue> listAnnulations; 
 
 	/**
 	 * Constructeur
@@ -202,5 +204,13 @@ public class Annonce extends BaseEntite {
 	 */
 	public void setStatut(StatutAnnonce statut) {
 		this.statut = statut;
+	}
+
+	public List<Collegue> getListAnnulations() {
+		return listAnnulations;
+	}
+
+	public void setListAnnulations(List<Collegue> listAnnulations) {
+		this.listAnnulations = listAnnulations;
 	}
 }
