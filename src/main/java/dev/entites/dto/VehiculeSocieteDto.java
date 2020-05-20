@@ -30,6 +30,14 @@ public class VehiculeSocieteDto {
 	/**
 	 * Constructor
 	 *
+	 */
+	public VehiculeSocieteDto() {
+		super();
+	}
+
+	/**
+	 * Constructor
+	 *
 	 * @param id
 	 * @param immatriculation
 	 * @param marque
