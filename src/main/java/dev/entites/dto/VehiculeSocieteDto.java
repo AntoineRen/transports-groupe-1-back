@@ -101,6 +101,7 @@ public class VehiculeSocieteDto {
 		this.statut = statut;
 		this.latitude = latitude;
 		this.longitude = longitude;
+
 	}
 
 	/**
