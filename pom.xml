@@ -135,6 +135,7 @@
 				</dependency>
 			</dependencies>
 		</profile>
+		<!--
 		<profile>
 			<id>prod</id>
 			<properties>
@@ -155,7 +156,26 @@
 				</dependency>
 			</dependencies>
 		</profile>
-
+	-->
+	<profile>
+		<id>prod</id>
+		<properties>
+				<jdbc.driver>org.h2.Driver</jdbc.driver>
+				<jdbc.url>jdbc:h2:mem:db</jdbc.url>
+				<jdbc.user>sa</jdbc.user>
+				<jdbc.pass></jdbc.pass>
+				<jpa.hibernate.ddl>create-drop</jpa.hibernate.ddl>
+				<jdbc.dialect>org.hibernate.dialect.H2Dialect</jdbc.dialect>
+				<jdbc.connections.max.active>5</jdbc.connections.max.active>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.h2database</groupId>
+					<artifactId>h2</artifactId>
+					<scope>runtime</scope>
+				</dependency>
+			</dependencies>
+	</profile>
 	</profiles>
 
 
